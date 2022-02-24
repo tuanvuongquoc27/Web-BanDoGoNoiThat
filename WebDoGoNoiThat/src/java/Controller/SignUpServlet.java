@@ -8,8 +8,6 @@ package Controller;
 import DAO.AccountDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
-import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -20,7 +18,7 @@ import model.Account;
  *
  * @author Admin
  */
-public class LoginServlet extends HttpServlet {
+public class SignUpServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -35,30 +33,21 @@ public class LoginServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            AccountDAO accd = new AccountDAO();
             String username = request.getParameter("input-username");
             String password = request.getParameter("input-password");
-            Account acc = new Account(username, password);
-            if(checkAccount(acc)){
-                out.println("login successful");
-            }else{
-                out.println("login fail");
-            }
+            String email = request.getParameter("input-email");
+            String password_again = request.getParameter("input-password-2");
+            AccountDAO accd = new AccountDAO();
             
-        }
-    }
-    
-    private boolean checkAccount(Account acc){
-        AccountDAO accd = new AccountDAO();
-        ArrayList<Account> list = accd.getAllAccount();
-        for(int i=0;i<list.size();i++){
-            String username=list.get(i).getUserName();
-            String password=list.get(i).getPassword();
-            if(acc.getUserName().equals(username)&&acc.getPassword().equals(password)){
-                return true;
+            if(password.equals(password_again)){
+                Account acc = accd.getAccount(username, password, email);
+                if(acc==null){
+                    accd.signupAccount(username, password,email);
+                }else{
+                    response.sendRedirect("SignUp.html");
+                }
             }
         }
-        return false;
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -89,6 +78,7 @@ public class LoginServlet extends HttpServlet {
             throws ServletException, IOException {
         processRequest(request, response);
     }
+
     /**
      * Returns a short description of the servlet.
      *

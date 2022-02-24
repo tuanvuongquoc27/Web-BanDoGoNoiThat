@@ -6,31 +6,39 @@ and open the template in the editor.
 -->
 <html>
 
-<head>
-    <title>Login</title>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-</head>
+    <head>
+        <title>Login</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="/web/assets/css/login.css">
+    </head>
 
-<body>
-    <div>
-        <form action="LoginServlet" method="post">
-            <table>
-                <tr>
-                    <td>Username</td>
-                    <td><input type="text" placeholder="Enter your name" value="" name="input-username"></td>
-                </tr>
-                <tr>
-                    <td>Password</td>
-                    <td><input type="password" placeholder="Enter your password" value="" name="input-password"></td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td><input type="submit" name="Login"></td>
-                </tr>
-            </table>
-        </form>
-    </div>
-</body>
+    <body>
+        <div class="container">
+            <div class="login-section">
+                <form method="post" action="LoginServlet" id="login-form">
+                    <table>
+                        <tr>
+                            <td colspan="2"><input type="text" placeholder="Username" value="" name="input-username" class="account"></td>
+                        </tr>
+                        <tr>
+                            <td colspan="2"><input type="password" placeholder="Password" value="" name="input-password" class="account"></td>
+                        </tr>
+                        <tr>
+                            <td><input type="submit" value="Login"/></td>
+                            <td><a href="SignUp.html">Sign Up</a></td>
+                        </tr>
+                        <tr>
+                            <td><a href="ForgotPass.html">Forgot Password?</a></td>
+                        </tr>
+                    </table>
+                </form>
+            </div>
+            <div class="bg-login">
+                <img src="/web/assets/image/login-img.jpg" alt="ảnh bàn ghê">
+            </div>
+        </div>
+           
+    </body>
 
 </html>

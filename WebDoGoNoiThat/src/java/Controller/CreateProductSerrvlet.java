@@ -5,22 +5,18 @@
  */
 package Controller;
 
-import DAO.AccountDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
-import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import model.Account;
 
 /**
  *
  * @author Admin
  */
-public class LoginServlet extends HttpServlet {
+public class CreateProductSerrvlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -35,30 +31,17 @@ public class LoginServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            AccountDAO accd = new AccountDAO();
-            String username = request.getParameter("input-username");
-            String password = request.getParameter("input-password");
-            Account acc = new Account(username, password);
-            if(checkAccount(acc)){
-                out.println("login successful");
-            }else{
-                out.println("login fail");
-            }
-            
+            /* TODO output your page here. You may use following sample code. */
+            out.println("<!DOCTYPE html>");
+            out.println("<html>");
+            out.println("<head>");
+            out.println("<title>Servlet CreateProductSerrvlet</title>");            
+            out.println("</head>");
+            out.println("<body>");
+            out.println("<h1>Servlet CreateProductSerrvlet at " + request.getContextPath() + "</h1>");
+            out.println("</body>");
+            out.println("</html>");
         }
-    }
-    
-    private boolean checkAccount(Account acc){
-        AccountDAO accd = new AccountDAO();
-        ArrayList<Account> list = accd.getAllAccount();
-        for(int i=0;i<list.size();i++){
-            String username=list.get(i).getUserName();
-            String password=list.get(i).getPassword();
-            if(acc.getUserName().equals(username)&&acc.getPassword().equals(password)){
-                return true;
-            }
-        }
-        return false;
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -89,6 +72,7 @@ public class LoginServlet extends HttpServlet {
             throws ServletException, IOException {
         processRequest(request, response);
     }
+
     /**
      * Returns a short description of the servlet.
      *

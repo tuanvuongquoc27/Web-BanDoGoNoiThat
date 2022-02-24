@@ -20,11 +20,12 @@ public class BaseDAO {
     public static Connection open() {
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            return DriverManager.getConnection("jdbc:ssqlserver://localhost:1433;databaseName=DoGoNoiThat", "sa", "123456");
+            return DriverManager.getConnection("jdbc:sqlserver://localhost:1433;databaseName=DoGoNoiThat", "sa", "123456");
         } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(BaseDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
     }
+
 
 }
