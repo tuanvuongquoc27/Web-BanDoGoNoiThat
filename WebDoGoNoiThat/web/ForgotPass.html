@@ -9,23 +9,19 @@ and open the template in the editor.
         <title>TODO supply a title</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="login.css">
     </head>
     <body>
-        <div>
-            <form action="ForgotPassServlet" method="post">
-                <table>
-                    <tr>
-                        <td colspan="2"><input type="text" placeholder="Enter username" name="username"></td>
-                    </tr>
-                    <tr>
-                        <td colspan="2"><input type="email" placeholder="Enter email" name="email"></td>
-                    </tr>
-                    <tr>
-                        <td><input type="submit" value="Reset"></td>
-                        <td><a href="login.html">Back</a></td>
-                    </tr>
-                </table>
-            </form>
+        <div class="container">
+            <div class="section">
+                <header>Reset Password</header>
+                <form action="ForgotPassServlet" method="post">
+                    <input type="text" placeholder="Enter username" name="input-username" class="input-infor-acc" required><br>
+                    <input type="password" placeholder="Enter email" name="input-password" class="input-infor-acc" required><br>
+                    <input type="submit" value="Reset" class="btn"><br>
+                </form>
+                <a href="login.html">Back</a>
+            </div>
         </div>
     </body>
 </html>

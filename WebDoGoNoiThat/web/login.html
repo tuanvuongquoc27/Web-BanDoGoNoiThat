@@ -10,32 +10,20 @@ and open the template in the editor.
         <title>Login</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="/web/assets/css/login.css">
+        <link rel="stylesheet" href="login.css">
     </head>
 
     <body>
         <div class="container">
-            <div class="login-section">
-                <form method="post" action="LoginServlet" id="login-form">
-                    <table>
-                        <tr>
-                            <td colspan="2"><input type="text" placeholder="Username" value="" name="input-username" class="account"></td>
-                        </tr>
-                        <tr>
-                            <td colspan="2"><input type="password" placeholder="Password" value="" name="input-password" class="account"></td>
-                        </tr>
-                        <tr>
-                            <td><input type="submit" value="Login"/></td>
-                            <td><a href="SignUp.html">Sign Up</a></td>
-                        </tr>
-                        <tr>
-                            <td><a href="ForgotPass.html">Forgot Password?</a></td>
-                        </tr>
-                    </table>
+            <div class="section">
+                <header>Login</header>
+                <form action="LoginServlet" method="post">
+                    <input type="text" placeholder="Enter username" name="input-username" class="input-infor-acc" required><br>
+                    <input type="password" placeholder="Enter password" name="input-password" class="input-infor-acc" required><br>
+                    <input type="submit" value="Login" class="btn"><br>
                 </form>
-            </div>
-            <div class="bg-login">
-                <img src="/web/assets/image/login-img.jpg" alt="ảnh bàn ghê">
+                <a href="SignUp.html">Sign Up</a><br>
+                <a href="ForgotPass.html">Forgot Password</a><br>
             </div>
         </div>
            

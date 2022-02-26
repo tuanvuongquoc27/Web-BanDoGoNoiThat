@@ -6,34 +6,30 @@ and open the template in the editor.
 -->
 <html>
     <head>
-        <title>TODO supply a title</title>
+        <title>Sign Up</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="login.css">
     </head>
     <body>
-        <div>
-            <form action="SignUpServlet" method="post">
-                <table>
-                    <tr>
-                        <td colspan="2"><input type="text" placeholder="UserName" name="input-username"></td>
-                    </tr>
-                    <tr>
-                        <td colspan="2"><input type="password" placeholder="Password" name="input-password"></td>
-                    </tr>
-                    <tr>
-                        <td colspan="2"><input type="password" placeholder="Enter Password again" name="input-password-2"></td>
-                    </tr>
-                    <tr>
-                        <td colspan="2"><input type="email" placeholder="Enter email" name="input-email"></td>
-                    </tr>
-                    <tr>
-                        <td><input type="submit"  value="Sign Up"></td>
-                        <td><a href="login.html">Back</a></td>
-                    </tr>
-                </table>
-            </form>
-            
-            
+        <div class="container">
+            <div class="section">
+                <header>Sign Up</header>
+                <form action="SignUpServlet" method="post">
+                    <input type="text" placeholder="Enter username" name="input-username" class="input-infor-acc" required><br>
+                    <input type="password" placeholder="Enter password" name="input-password" class="input-infor-acc" required><br>
+                    <input type="password" placeholder="Enter Password again" name="input-password-2" class="input-infor-acc" required><br>
+                    <input type="email" placeholder="Enter email" name="input-email" class="input-infor-acc">
+                    <input type="submit" value="Sign Up" class="btn"><br>
+                </form>
+                <a href="login.html">Back</a>
+            </div>
         </div>
+
+
+
+
+
+        
     </body>
 </html>
