@@ -1,18 +1,17 @@
-<!DOCTYPE html>
-<!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
--->
-<html>
+<%-- 
+    Document   : Login.jsp
+    Created on : Feb 28, 2022, 1:04:14 AM
+    Author     : Admin
+--%>
 
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
     <head>
-        <title>Login</title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>JSP Page</title>
         <link rel="stylesheet" href="css/Login.css">
     </head>
-
     <body>
         <div class="container">
             <div class="section">
@@ -25,11 +24,10 @@ and open the template in the editor.
                     <div style="clear: both;"></div>
                 </form>
                 
-                <a href="SignUp.html">Sign Up</a><br>
-                <a href="ForgotPass.html">Forgot Password</a><br>
+                <a href="SignUp.jsp">Sign Up</a><br>
+                <a href="ForgotPass.jsp">Forgot Password</a><br>
             </div>
         </div>
            
     </body>
-
 </html>

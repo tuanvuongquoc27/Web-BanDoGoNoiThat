@@ -1,18 +1,18 @@
+<%-- 
+    Document   : ForgotPass
+    Created on : Feb 28, 2022, 1:04:40 AM
+    Author     : Admin
+--%>
+
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
--->
 <html>
     <head>
-        <title>TODO supply a title</title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="css/login.css">
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>JSP Page</title>
+        <link rel="stylesheet" href="css/Login.css">
     </head>
-    <body>
-        <div class="container">
+   <div class="container">
             <div class="section">
                 <header>Reset Password</header>
                 <form action="ForgotPassServlet" method="post">
@@ -20,8 +20,7 @@ and open the template in the editor.
                     <input type="password" placeholder="Enter email" name="input-password" class="input-infor-acc" required><br>
                     <input type="submit" value="Reset" class="btn"><br>
                 </form>
-                <a href="login.html">Back</a>
+                <a href="Login.jsp">Back</a>
             </div>
         </div>
-    </body>
 </html>

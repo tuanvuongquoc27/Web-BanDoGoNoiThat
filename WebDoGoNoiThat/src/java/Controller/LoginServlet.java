@@ -40,7 +40,8 @@ public class LoginServlet extends HttpServlet {
             String password = request.getParameter("input-password");
             Account acc = new Account(username, password);
             if(checkAccount(acc)){
-                out.println("login successful");
+                request.getRequestDispatcher("Home.html").forward(request, response);
+                response.sendRedirect("Home.html");
             }else{
                 out.println("login fail");
             }

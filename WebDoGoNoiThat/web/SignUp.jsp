@@ -1,14 +1,15 @@
+<%-- 
+    Document   : SignUp
+    Created on : Feb 28, 2022, 1:04:28 AM
+    Author     : Admin
+--%>
+
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
--->
 <html>
     <head>
-        <title>Sign Up</title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>JSP Page</title>
         <link rel="stylesheet" href="css/Login.css">
     </head>
     <body>
@@ -22,7 +23,7 @@ and open the template in the editor.
                     <input type="email" placeholder="Enter email" name="input-email" class="input-infor-acc">
                     <input type="submit" value="Sign Up" class="btn"><br>
                 </form>
-                <a href="login.html">Back</a>
+                <a href="Login.jsp">Back</a>
             </div>
         </div>
 

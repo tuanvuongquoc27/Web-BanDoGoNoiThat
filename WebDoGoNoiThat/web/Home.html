@@ -5,66 +5,43 @@ To change this template file, choose Tools | Templates
 and open the template in the editor.
 -->
 <html>
-    <head>
-        <title>TODO supply a title</title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="/web/assets/css/header.css">
-        <link rel="stylesheet" href="/web/assets/fonts/fontawesome-free-6.0.0-web/css/all.css">
-    </head>
-    <body>
-        <div class="main">
-            <div class="header">
-                <nav class="header_navbar">
-                    <ul class="header_navbar-list">
-                        <li class="header_navbar-item">
-                            <a href="" class="header_navbar-item-link"><i class="fa-solid fa-bell bell-icon" ></i>Notification</a>
+
+<head>
+    <title>TODO supply a title</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/header.css">
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="fonts/fontawesome-free-6.0.0-web/css/all.css">
+</head>
+
+<body>
+    <div class="main">
+        <div class="header">
+            <div class="grid">
+                <!-- header navbar -->
+                <nav class="header__navbar">
+                    <ul class="header__navbar-list">
+                        <li class="header__navbar-item">Xin chào......</li>
+                    </ul>
+                    <ul class="header__navbar-list"> 
+                        <li class="header__navbar-item header__navbar-item-has-notify ">
+                            <a href="" class="header__navbar-item-link"><i
+                                    class="fa-solid fa-bell bell-icon"></i>Notification</a>
+                                    <!-- Notification -->
                             <div class="header__notify">
                                 <header class="header__notify-header">
                                     <h3>New notification</h3>
-                                </header>
+                                </header> 
                                 <ul class="header__notify-list">
-                                    <li class="header__notify-item header__notify-item--viewed" >
+                                    <li class="header__notify-item header__notify-item--viewed">
                                         <a href="#" class="header__notify-link">
-                                            <img src="/web/assets/image/login-img.jpg" alt="" class="header__notify-img">
+                                            <img src="image/login-img.jpg" alt="" class="header__notify-img">
                                             <div class="header__notify-infor">
-                                                <span class="header__notify-name" >information</span>
-                                                <span class="header__notify-description">description</span>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li class="header__notify-item">
-                                        <a href="#" class="header__notify-link">
-                                            <img src="/web/assets/image/login-img.jpg" alt="" class="header__notify-img">
-                                            <div class="header__notify-infor">
-                                                <span class="header__notify-name" >information</span>
-                                                <span class="header__notify-description">description</span>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li class="header__notify-item">
-                                        <a href="#" class="header__notify-link">
-                                            <img src="/web/assets/image/login-img.jpg" alt="" class="header__notify-img">
-                                            <div class="header__notify-infor">
-                                                <span class="header__notify-name" >information</span>
-                                                <span class="header__notify-description">description</span>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li class="header__notify-item">
-                                        <a href="#" class="header__notify-link">
-                                            <img src="/web/assets/image/login-img.jpg" alt="" class="header__notify-img">
-                                            <div class="header__notify-infor">
-                                                <span class="header__notify-name" >information</span>
-                                                <span class="header__notify-description">description</span>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li class="header__notify-item">
-                                        <a href="#" class="header__notify-link">
-                                            <img src="/web/assets/image/login-img.jpg" alt="" class="header__notify-img">
-                                            <div class="header__notify-infor">
-                                                <span class="header__notify-name" >information</span>
+                                                <span class="header__notify-name">information</span>
                                                 <span class="header__notify-description">description</span>
                                             </div>
                                         </a>
@@ -75,27 +52,45 @@ and open the template in the editor.
                                 </footer>
                             </div>
                         </li>
-                        <li class="header_navbar-item header_navbar-item--strong">
-                            <a href="login.html" class="header_navbar-item-link">Login</a>
+                        <li class="header__navbar-item header__navbar-item--strong">
+                            <a href="/WebDoGoNoiThat/Login.jsp" class="header__navbar-item-link">Login</a>
                         </li>
-                        <li class="header_navbar-item header_navbar-item--strong">
-                            <a href="SignUp.html" class="header_navbar-item-link">Sign Up</a>
+                        <li class="header__navbar-item header__navbar-item--strong">
+                            <a href="/WebDoGoNoiThat/SignUp.jsp" class="header__navbar-item-link">Sign Up</a>
                         </li>
-                    </ul> 
+                    </ul>
                 </nav>
+                <!-- header with search -->
+                <div class="header-with-search">
+                    <div class="header__search">
+                        <input type="text" class="header__search-input" placeholder="Enter to search"></input>
+                        <button type="submit" formaction="LoginServlet.java" class="header__search-btn">
+                            <i class="header__search-btn-icon fa-solid fa-magnifying-glass"></i> 
+                        </button>
+                        
+                    </div>
+                    <div class="header__cart">
+                        <i class="header__cart-icon  fa-solid fa-cart-shopping"></i>
+
+                    </div>
+                </div>
             </div>
 
-            <div class="container">
 
-
-
-            </div>
-
-
-
-            <div class="footer">
-
-            </div>
         </div>
-    </body>
+
+        <div class="container">
+
+
+
+        </div>
+
+
+
+        <div class="footer">
+
+        </div>
+    </div>
+</body>
+
 </html>
