@@ -27,15 +27,15 @@ and open the template in the editor.
                     <ul class="header__navbar-list">
                         <li class="header__navbar-item">Xin chào......</li>
                     </ul>
-                    <ul class="header__navbar-list"> 
+                    <ul class="header__navbar-list">
                         <li class="header__navbar-item header__navbar-item-has-notify ">
                             <a href="" class="header__navbar-item-link"><i
                                     class="fa-solid fa-bell bell-icon"></i>Notification</a>
-                                    <!-- Notification -->
+                            <!-- Notification -->
                             <div class="header__notify">
                                 <header class="header__notify-header">
                                     <h3>New notification</h3>
-                                </header> 
+                                </header>
                                 <ul class="header__notify-list">
                                     <li class="header__notify-item header__notify-item--viewed">
                                         <a href="#" class="header__notify-link">
@@ -65,13 +65,82 @@ and open the template in the editor.
                     <div class="header__search">
                         <input type="text" class="header__search-input" placeholder="Enter to search"></input>
                         <button type="submit" formaction="LoginServlet.java" class="header__search-btn">
-                            <i class="header__search-btn-icon fa-solid fa-magnifying-glass"></i> 
+                            <i class="header__search-btn-icon fa-solid fa-magnifying-glass"></i>
                         </button>
-                        
-                    </div>
-                    <div class="header__cart">
-                        <i class="header__cart-icon  fa-solid fa-cart-shopping"></i>
 
+                    </div>
+                    <!-- header cart  -->
+                    <div class="header__cart">
+                        <div class="header__cart-wrap">
+                            <i class="header__cart-icon  fa-solid fa-cart-shopping"></i>
+                            <span class="header__cart-number">3</span>
+                            <!-- no cart : header__cart-list--no-cart  -->
+                            <div class="header__cart-list header__cart-list--no-cart">
+                                <img src="image/cart-empty.png" alt="" class="header__cart-list--no-cart-img" />
+                                <p class="header__cart-list--no-cart-message">No product</p>
+
+                                <h4 class="header__cart-heading">Product</h4>
+                                <ul class="header__cart-list-item">
+                                    <!-- cart item -->
+                                    <li class="header__cart-item">
+                                        <img src="image/login-img.jpg" alt="" class="header__cart-img">
+                                        <div class="header__cart-item-infor">
+                                            <div class="header__cart-item-head">
+                                                <h5 class="header__cart-item-name">Bộ kem đặc trị vùng mắt</h5>
+                                                <div class="header__cart-item-pricewrap">
+                                                    <span class="header__cart-item-price">2.000.000đ</span>
+                                                    <span class="header__cart-item-ope">x</span>
+                                                    <span class="header__cart-item-quantity">1</span>
+                                                </div>
+
+                                            </div>
+                                            <div class="header__cart-item-body">
+                                                <span class="header__cart-item-description">phân loại</span>
+                                                <span class="header__cart-item-delete">Xóa</span>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="header__cart-item">
+                                        <img src="image/login-img.jpg" alt="" class="header__cart-img">
+                                        <div class="header__cart-item-infor">
+                                            <div class="header__cart-item-head">
+                                                <h5 class="header__cart-item-name">Bộ kem đặc trị vùng mắt</h5>
+                                                <div class="header__cart-item-pricewrap">
+                                                    <span class="header__cart-item-price">2.000.000đ</span>
+                                                    <span class="header__cart-item-ope">x</span>
+                                                    <span class="header__cart-item-quantity">1</span>
+                                                </div>
+
+                                            </div>
+                                            <div class="header__cart-item-body">
+                                                <span class="header__cart-item-description">phân loại</span>
+                                                <span class="header__cart-item-delete">Xóa</span>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="header__cart-item">
+                                        <img src="image/login-img.jpg" alt="" class="header__cart-img">
+                                        <div class="header__cart-item-infor">
+                                            <div class="header__cart-item-head">
+                                                <h5 class="header__cart-item-name">Bộ kem đặc trị vùng mắt</h5>
+                                                <div class="header__cart-item-pricewrap">
+                                                    <span class="header__cart-item-price">2.000.000đ</span>
+                                                    <span class="header__cart-item-ope">x</span>
+                                                    <span class="header__cart-item-quantity">1</span>
+                                                </div>
+
+                                            </div>
+                                            <div class="header__cart-item-body">
+                                                <span class="header__cart-item-description">phân loại</span>
+                                                <span class="header__cart-item-delete">Xóa</span>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                                <a href="#" class="btn-order">Watch order</a>
+                            </div>
+                            <!--  cart : header cart list no cart  -->
+                        </div>
                     </div>
                 </div>
             </div>
