@@ -174,7 +174,7 @@
 
 /* header with search */
 .header-with-search {
-    height: 70px;
+    height: 58px;
     display: flex;
     align-items: center;
     
@@ -423,5 +423,126 @@ content: "";
     opacity: 0.6;
     cursor: pointer;
 }
+
+/* navbar */ 
+.category{
+    width: 100%;
+}
+
+.category__list {
+    background-color: #83d481;
+    box-shadow: 0 1px 3.125rem  rgba(0,0,0,0.3);
+    
+}
+
+.nav {
+
+}
+.category__list-item-link--child.nav-link,
+.dropdown-toggle.nav-link.category__list-item--link{
+    color: var(--white-color);
+}
+
+.category__list-item-link--child.nav-link:hover{
+    color: #25da1f;
+}
+
+.category__list-item--header,
+.category__list-item {
+    font-size: 1.6rem;
+    /* background-color: #D3D3D3; */
+    padding: 5px 24px;
+}
+
+.dropdown-menu.category__list-child {
+    display: none;
+    box-shadow: 0 1px 3.125rem  rgba(0,0,0,0.3);
+}
+
+.category__list-item:hover .dropdown-menu.category__list-child {
+    display:block;
+}
+
+.dropdown-item.category__list-item--child {
+    background-color: #47c243;
+    font-weight: 400;
+}
+
+.dropdown-menu.category__list-child {
+    margin: 5px;
+    padding: 0;
+    border: 0;
+}
+
+.dropdown-item.category__list-item--child {
+    min-width: 165px;
+    font-size: 1.4rem;
+    color: #000;
+    border-bottom: 1px solid #25da1f;
+    margin: 0px;
+}
+
+/* container */
+.container-fluid{
+    background-color: #F5F5F5;
+}
+
+.product {
+    background-color: var(--white-color);
+    margin: 15px 7.5px 0 ;
+    margin-right: 7.5px;
+    margin-left: 7.5px;
+}
+
+.product__header {
+    padding: 10px;
+    font-size: 1.6rem;
+}
+
+.product__header-icon{
+    font-size: 1.2rem;
+    font-weight: 300;
+    margin-right: 3px;
+}
+
+.dropdown-menu.product__list-child {
+    display: none;
+    box-shadow: 0 1px 3.125rem  rgba(0,0,0,0.3);
+}
+
+.product__list-item:hover .dropdown-menu.product__list-child {
+    display:block;
+}
+
+.product__list-item.nav-item{
+    background-color: #25da1f;
+    margin-bottom: 20px;
+    margin-right: 20px;
+    margin-left: 20px;
+    padding: 5px;
+}
+
+.product__list-item--link.nav-link{
+    color: var(--white-color);
+    font-size: 1.3rem;
+    font-weight: 400;
+}
+
+
+
+
+
+
+/* footer */
+.message__icon{
+    padding-top: 10px;
+    padding-bottom: auto;
+}
+
+.message__header{
+    font-weight: 300;
+    margin-bottom: 20px;
+}
+
 
 

@@ -16,10 +16,15 @@ and open the template in the editor.
     <link rel="stylesheet" href="css/header.css">
     <link rel="stylesheet" href="css/base.css">
     <link rel="stylesheet" href="fonts/fontawesome-free-6.0.0-web/css/all.css">
+    <!-- Latest compiled and minified CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 
 <body>
     <div class="main">
+
+        <!-- header -->
         <div class="header">
             <div class="grid">
                 <!-- header navbar -->
@@ -148,16 +153,184 @@ and open the template in the editor.
 
         </div>
 
-        <div class="container">
+        <!-- nav bar -->
+        <div class="nav-bar">
+            <!-- category  -->
+            <div class="category">
+                <div class="d-flex justify-content-between category__list">
+                    <div class="dropdown category__list-item ">
+                        <a href="#" data-bs-toggle="dropdown"
+                            class="dropdown-toggle nav-link category__list-item--link"><i
+                                class="fa-solid fa-list-ul"></i></a>
+                        <ul class="dropdown-menu category__list-child">
+                            <li class="dropdown-item category__list-item--child "><a href="#"
+                                    class="category__list-item-link--child nav-link">Quản lí tài khoản</a>
+                            </li>
+                            <li class="dropdown-item category__list-item--child "><a href="#"
+                                    class="category__list-item-link--child nav-link">Quản lý cửa hàng</a>
+                            </li>
+                            <li class="dropdown-item category__list-item--child "><a href="#"
+                                    class="category__list-item-link--child nav-link">Thêm sản phẩm</a></li>
+                            <li class="dropdown-item category__list-item--child "><a href="#"
+                                    class="category__list-item-link--child nav-link">Sửa sản phẩm</a>
+                            </li>
+                            <li class="dropdown-item category__list-item--child "><a href="#"
+                                    class="category__list-item-link--child nav-link">Xóa sản phẩm</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="category__list-item--header">
+                        <a href="#" class="nav-link">Trang chủ</a>
+                    </div>
+                    <div class="dropdown category__list-item ">
+                        <a href="#" data-bs-toggle="dropdown"
+                            class="dropdown-toggle nav-link category__list-item--link">Nội thất phòng ngủ</a>
+                        <ul class="dropdown-menu category__list-child">
+                            <li class="dropdown-item category__list-item--child "><a href="#"
+                                    class="category__list-item-link--child nav-link">Giường</a>
+                            </li>
+                            <li class="dropdown-item category__list-item--child "><a href="#"
+                                    class="category__list-item-link--child nav-link">Bàn trang
+                                    điểm</a></li>
+                            <li class="dropdown-item category__list-item--child "><a href="#"
+                                    class="category__list-item-link--child nav-link">Tủ</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="dropdown category__list-item">
+                        <a href="#" data-bs-toggle="dropdown"
+                            class="dropdown-toggle nav-link category__list-item--link">Nội thất phònghọc</a>
+                        <ul class="dropdown-menu category__list-child">
+                            <li class="dropdown-item category__list-item--child "><a href="#"
+                                    class="category__list-item-link--child nav-link">Bàn học</a></li>
+                            <li class="dropdown-item category__list-item--child "><a href="#"
+                                    class="category__list-item-link--child nav-link">Giá sách</a></li>
+                            <li class="dropdown-item category__list-item--child "><a href="#"
+                                    class="category__list-item-link--child nav-link">Bàn máy tính</a></li>
+                        </ul>
+                    </div>
+                    <div class="dropdown category__list-item">
+                        <a href="#" data-bs-toggle="dropdown"
+                            class="dropdown-toggle nav-link category__list-item--link">Nội thất phòng khách</a>
+                        <ul class="dropdown-menu category__list-child">
+                            <li class="dropdown-item category__list-item--child "><a href="#"
+                                    class="category__list-item-link--child nav-link">Bàn</a> </li>
+                            <li class="dropdown-item category__list-item--child "><a href="#"
+                                    class="category__list-item-link--child nav-link">Ghế</a> </li>
+                            <li class="dropdown-item category__list-item--child "><a href="#"
+                                    class="category__list-item-link--child nav-link">Kệ tivi</a></li>
+                        </ul>
+                    </div>
+                    <div class="dropdown category__list-item">
+                        <a href="#" data-bs-toggle="dropdown"
+                            class=" dropdown-toggle nav-link category__list-item--link">Nội thất phòng bếp</a>
+                        <ul class="dropdown-menu category__list-child">
+                            <li class="dropdown-item category__list-item--child "><a href="#"
+                                    class="category__list-item-link--child nav-link">Tủ bếp</a></li>
+                            <li class="dropdown-item category__list-item--child "><a href="#"
+                                    class="category__list-item-link--child nav-link">Bàn ăn</a></li>
+                            <li class="dropdown-item category__list-item--child "><a href="#"
+                                    class="category__list-item-link--child nav-link">Ghế ăn</a></li>
+                        </ul>
+                    </div>
+                    <div class="dropdown category__list-item">
+                        <a href="#" data-bs-toggle="dropdown"
+                            class="dropdown-toggle nav-link category__list-item--link">Nội thất phòng làm việc</a>
+                        <ul class="dropdown-menu category__list-child">
+                            <li class="dropdown-item category__list-item--child "><a href="#"
+                                    class="category__list-item-link--child nav-link">Bàn làm việc</a></li>
+                            <li class="dropdown-item category__list-item--child "><a href="#"
+                                    class="category__list-item-link--child nav-link">Tủ đựng đồ</a></li>
+                            <li class="dropdown-item category__list-item--child "><a href="#"
+                                    class="category__list-item-link--child nav-link">Ghế </a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
 
+        <!-- container -->
+        <div class="container-fluid">
+            <!-- Product top -->
+            <div class="row">
+                <div class="col-sm-2">
+                    <div class="product">
+                        <h4 class="product__header"><i class="product__header-icon fa-solid fa-list"></i>Sản Phẩm
+                        </h4>
+                        <ul class="product__list nav flex-column">
+                            <li class="product__list-item nav-item">
+                                <a class="product__list-item--link nav-link" href="#">Sản phẩm mua nhiều nhất</a>
+                            </li>
+                            <li class="product__list-item nav-item">
+                                <a class="product__list-item--link nav-link" href="#">Sản phẩm giảm giá</a>
+                            </li>
+                            <li class="product__list-item nav-item">
+                                <div class="dropdown product__list-item">
+                                    <a href="#" data-bs-toggle="dropdown"
+                                        class="dropdown-toggle nav-link product__list-item--link">Giá</a>
+                                    <ul class="dropdown-menu product__list-child">
+                                        <li class="dropdown-item product__list-item--child "><a href="#"
+                                                class="product__list-item-link--child nav-link">200.000đ-300.00đ</a>
+                                        </li>
+                                        <li class="dropdown-item product__list-item--child "><a href="#"
+                                                class="product__list-item-link--child nav-link">300.000đ-400.00đ</a>
+                                        </li>
+                                        <li class="dropdown-item product__list-item--child "><a href="#"
+                                                class="product__list-item-link--child nav-link">400.000đ-500.00đ</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </li>
+                        </ul>
 
+                    </div>
+                </div>
+                <!-- product -->
+                <div class="col-sm-10">
 
+                </div>
+
+            </div>
         </div>
 
 
 
-        <div class="footer">
 
+
+
+        <div class="footer">
+            <div class="container">
+                <div class="row">
+                    <div class="message col-sm-4 row">
+                        <div class="message__icon col-sm-2">
+                            <img src="/web/image/footer3.png" alt="">
+                        </div>
+                        <div class="message__infor col-sm-10">
+                            <h3 class="message__header">Giao hàng tận nơi</h3>
+                            <p class="message__description">Giao hàng nhanh chóng, đảm bảo chất lượng trên toàn quốc</p>
+                        </div>
+                    </div>
+                    <div class="col-sm-4 row">
+                        <div class="message__icon col-sm-2">
+                            <img src="/web/image/footter1.png" alt="">
+                        </div>
+                        <div class="message__infor col-sm-10">
+                            <h3 class="message__header">Thanh toán khi nhận hàng </h3>
+                            <p class="message__description">Thanh toán khi nhận được hàng đảm bảo chất lượng.</p>
+                        </div>
+                    </div>
+                    <div class="col-sm-4 row">
+                        <div class="message__icon col-sm-2">
+                            <img src="/web/image/footer2.png" alt="">
+                        </div>
+                        <div class="message__infor col-sm-10">
+                            <h3 class="message__header">Cam kết chất lượng</h3>
+                            <p class="message__description">Chúng tôi cam kết chất lượng các mặt hàng bán ra , hoàn tiền
+                                nếu phát hiện hàng kém chất lượng</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </body>
