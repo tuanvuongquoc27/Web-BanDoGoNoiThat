@@ -545,4 +545,45 @@ content: "";
 }
 
 
+.first-footer.col-sm-3{
+    padding-left: 30px;
+}
+
+.last-footer.col-sm-3{
+    padding-right: 30px;
+}
+
+.footer__list{
+
+    list-style: none;
+    padding-left: 0;
+}
+.footer__list-item{
+
+}
+.footer-section.col-sm-2,
+.footer-section.col-sm-3{
+    margin-top: 30px;
+}
+
+.footer-section{
+    text-align: center;
+}
+
+.footer-main {
+    border-top: 3px solid #25da1f;
+}
+
+.footer__list-item--link.nav-link{
+    color: black;
+    font-size: 1.3rem;
+}
+
+.footer__list-item--icon{
+    color: #25da1f;
+    font-size: 1.6rem;
+    margin-right: 3px;
+}
+
+
 
