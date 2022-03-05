@@ -1,3 +1,10 @@
+<%-- 
+    Document   : HomePage
+    Created on : Mar 6, 2022, 1:05:15 AM
+    Author     : Admin
+--%>
+
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <!--
 To change this license header, choose License Headers in Project Properties.
@@ -8,6 +15,7 @@ and open the template in the editor.
 
 <head>
     <title>TODO supply a title</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -340,9 +348,9 @@ and open the template in the editor.
 
 
         <div class="footer">
-
-                <div class=" footer__header">
-                    <div class="message message-section row">
+            <div class="container">
+                <div class="row">
+                    <div class="message message-section col-sm-4 row">
                         <div class="message__icon col-sm-2">
                             <img src="/web/image/footer3.png" alt="">
                         </div>
@@ -351,25 +359,28 @@ and open the template in the editor.
                             <p class="message__description">Giao hàng nhanh chóng, đảm bảo chất lượng trên toàn quốc</p>
                         </div>
                     </div>
-                    <div class="message-section row">
+                    <div class="message-section col-sm-4 row">
                         <div class="message__icon col-sm-2">
-                            <img class="message__icon-img" src="/web/image/footter1.png" alt="">
+                            <img src="/web/image/footter1.png" alt="">
                         </div>
                         <div class="message__infor col-sm-10">
                             <h3 class="message__header">Thanh toán khi nhận hàng </h3>
                             <p class="message__description">Thanh toán khi nhận được hàng đảm bảo chất lượng.</p>
                         </div>
                     </div>
-                    <div class="message-section row">
+                    <div class="message-section col-sm-4 row">
                         <div class="message__icon col-sm-2">
-                            <img class="message__icon-img" src="/web/image/footer2.png" alt="">
+                            <img src="/web/image/footer2.png" alt="">
                         </div>
                         <div class="message__infor col-sm-10">
                             <h3 class="message__header">Cam kết chất lượng</h3>
-                            <p class="message__description">Chúng tôi cam kết chất lượng các mặt hàng bán ra</p>
+                            <p class="message__description">Chúng tôi cam kết chất lượng các mặt hàng bán ra , <br> hoàn
+                                tiền
+                                nếu phát hiện hàng kém chất lượng</p>
                         </div>
                     </div>
                 </div>
+            </div>
             <div class="row footer-main">
                 <div class="col-sm-3 first-footer footer-section">
                     <h3 class="footer__heading">Chăm sóc khách hàng</h3>
