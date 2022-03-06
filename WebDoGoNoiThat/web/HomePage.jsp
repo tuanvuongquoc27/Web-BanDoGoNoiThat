@@ -4,6 +4,7 @@
     Author     : Admin
 --%>
 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <!--
@@ -297,13 +298,14 @@ and open the template in the editor.
                 <div class="col-sm-10">
                     <div class="home-product">
                         <div class="row">
+                            <c:forEach items="${requestScope.productlist}" varStatus="loop" var = "s">
                             <div class="col-sm-3">
                                 <a href="#" class="home-product-item">
-                                    <div class="home-product-item__img" style="background-image: url('https://noithatnhadep.pro/images/stories/virtuemart/product/resized/ban-an-mat-da-toi-gian-phong-cach-y-van-may-den-trang-(1)_400x400.jpg');"></div>
-                                    <h5 class="home-product-item__name">Set dung trang Whoo dodng y hoang cung Gong Jinh Jnag</h5>
+                                    <div class="home-product-item__img" style="background-image: url('<c:out value="${s.getImg()}"/>');"></div>
+                                    <h5 class="home-product-item__name"><c:out value="${s.getName()}"/></h5>
                                     <div class="home-product-item__price">
                                         <span class="home-product-item__price-old">1.200.000đ</span>
-                                        <span class="home-product-item__price-current">999.999đ</span>
+                                        <span class="home-product-item__price-current"><c:out value="${s.getPrice()}"/></span>
                                     </div>
                                     <div class="home-product-item__action">
                                         <!-- home-product-item__like--liked -->
@@ -333,10 +335,44 @@ and open the template in the editor.
                                     </div>
                                 </a>
                             </div>
+                                </c:forEach>
                             
                             
                         </div>
                     </div>
+                    <ul class="pagination">
+                        <li class="pagination-item">
+                            <a href="" class="pagination-item__link">
+                                <i class="pagination-item__icon fa-solid fa-angle-left"></i>
+                            </a>
+                        </li>
+                        <li class="pagination-item pagination-item--active">
+                            <a href="" class="pagination-item__link">1</a>
+                        </li>
+                        <li class="pagination-item">
+                            <a href="" class="pagination-item__link">2</a>
+                        </li>
+                        <li class="pagination-item">
+                            <a href="" class="pagination-item__link">3</a>
+                        </li>
+                        <li class="pagination-item">
+                            <a href="" class="pagination-item__link">4</a>
+                        </li>
+                        <li class="pagination-item">
+                            <a href="" class="pagination-item__link">5</a>
+                        </li>
+                        <li class="pagination-item">
+                            <a href="" class="pagination-item__link">...</a>
+                        </li>
+                        <li class="pagination-item">
+                            <a href="" class="pagination-item__link">14</a>
+                        </li>
+                        <li class="pagination-item">
+                            <a href="" class="pagination-item__link">
+                                <i class="pagination-item__icon fa-solid fa-angle-right"></i>
+                            </a>
+                        </li>
+                    </ul>
                 </div>
 
             </div>
@@ -348,106 +384,103 @@ and open the template in the editor.
 
 
         <div class="footer">
-            <div class="container">
-                <div class="row">
-                    <div class="message message-section col-sm-4 row">
-                        <div class="message__icon col-sm-2">
-                            <img src="/web/image/footer3.png" alt="">
-                        </div>
-                        <div class="message__infor col-sm-10">
-                            <h3 class="message__header">Giao hàng tận nơi</h3>
-                            <p class="message__description">Giao hàng nhanh chóng, đảm bảo chất lượng trên toàn quốc</p>
-                        </div>
+
+            <div class=" footer__header">
+                <div class="message message-section row">
+                    <div class="message__icon col-sm-2">
+                        <img src="/web/image/footer3.png" alt="">
                     </div>
-                    <div class="message-section col-sm-4 row">
-                        <div class="message__icon col-sm-2">
-                            <img src="/web/image/footter1.png" alt="">
-                        </div>
-                        <div class="message__infor col-sm-10">
-                            <h3 class="message__header">Thanh toán khi nhận hàng </h3>
-                            <p class="message__description">Thanh toán khi nhận được hàng đảm bảo chất lượng.</p>
-                        </div>
+                    <div class="message__infor col-sm-10">
+                        <h3 class="message__header">Giao hàng tận nơi</h3>
+                        <p class="message__description">Giao hàng nhanh chóng, đảm bảo chất lượng trên toàn quốc</p>
                     </div>
-                    <div class="message-section col-sm-4 row">
-                        <div class="message__icon col-sm-2">
-                            <img src="/web/image/footer2.png" alt="">
-                        </div>
-                        <div class="message__infor col-sm-10">
-                            <h3 class="message__header">Cam kết chất lượng</h3>
-                            <p class="message__description">Chúng tôi cam kết chất lượng các mặt hàng bán ra , <br> hoàn
-                                tiền
-                                nếu phát hiện hàng kém chất lượng</p>
-                        </div>
+                </div>
+                <div class="message-section row">
+                    <div class="message__icon col-sm-2">
+                        <img class="message__icon-img" src="/web/image/footter1.png" alt="">
+                    </div>
+                    <div class="message__infor col-sm-10">
+                        <h3 class="message__header">Thanh toán khi nhận hàng </h3>
+                        <p class="message__description">Thanh toán khi nhận được hàng đảm bảo chất lượng.</p>
+                    </div>
+                </div>
+                <div class="message-section row">
+                    <div class="message__icon col-sm-2">
+                        <img class="message__icon-img" src="/web/image/footer2.png" alt="">
+                    </div>
+                    <div class="message__infor col-sm-10">
+                        <h3 class="message__header">Cam kết chất lượng</h3>
+                        <p class="message__description">Chúng tôi cam kết chất lượng các mặt hàng bán ra</p>
                     </div>
                 </div>
             </div>
-            <div class="row footer-main">
-                <div class="col-sm-3 first-footer footer-section">
-                    <h3 class="footer__heading">Chăm sóc khách hàng</h3>
-                    <ul class="footer__list">
-                        <li class="footer__list-item">
-                            <a href="#" class="footer__list-item--link nav-link">Trung tâm trợ giúp</a>
-                        </li>
-                        <li class="footer__list-item">
-                            <a href="#" class="footer__list-item--link nav-link">Mall</a>
-                        </li>
-                        <li class="footer__list-item">
-                            <a href="#" class="footer__list-item--link nav-link">Hướng dẫn mua hàng</a>
-                        </li>
-                    </ul>
-                </div>
-                <div class="col-sm-2 footer-section">
-                    <h3 class="footer__heading">Giới Thiệu</h3>
-                    <ul class="footer__list">
-                        <li class="footer__list-item">
-                            <a href="#" class="footer__list-item--link nav-link">Giới thiệu</a>
-                        </li>
-                        <li class="footer__list-item">
-                            <a href="#" class="footer__list-item--link nav-link">Tuyển dụng</a>
-                        </li>
-
-                        <li class="footer__list-item">
-                            <a href="#" class="footer__list-item--link nav-link">Điều khoản</a>
-                        </li>
-                    </ul>
-                </div>
-                <div class="col-sm-2 footer-section">
-                    <h3 class="footer__heading">Liên hệ</h3>
-                    <ul class="footer__list">
-                        <li class="footer__list-item">
-                            <a href="#" class="footer__list-item--link nav-link">Địa chỉ:Số XX, đường Nguyễn A, Hà nội</a>
-                        </li>
-                        <li class="footer__list-item">
-                            <a href="#" class="footer__list-item--link nav-link">Liên hệ : 098XXXXXXX</a>
-                        </li>
-
-                        <li class="footer__list-item">
-                            <a href="#" class="footer__list-item--link nav-link">Điều khoản</a>
-                        </li>
-                    </ul>
-                </div>
-                <div class="col-sm-2 footer-section">
-                    <h3 class="footer__heading">Theo dõi</h3>
-                    <ul class="footer__list">
-                        <li class="footer__list-item">
-                            <a href="#" class="footer__list-item--link nav-link"><i class="footer__list-item--icon fa-brands fa-facebook"></i>Facebook</a>
-                        </li>
-                        <li class="footer__list-item">
-                            <a href="#" class="footer__list-item--link nav-link"><i class="footer__list-item--icon fa-brands fa-instagram-square"></i>Instagram</a>
-                        </li>
-
-                        <li class="footer__list-item">
-                            <a href="#" class="footer__list-item--link nav-link"><i class="footer__list-item--icon fa-brands fa-linkedin"></i>Linkedin</a>
-                        </li>
-                    </ul>
-                </div>
-                <div class="col-sm-3 last-footer footer-section">
-                    <h3 class="footer__heading">Chăm sóc khách hàng</h3>
-
-                </div>
+        <div class="row footer-main">
+            <div class="col-sm-3 first-footer footer-section">
+                <h3 class="footer__heading">Chăm sóc khách hàng</h3>
+                <ul class="footer__list">
+                    <li class="footer__list-item">
+                        <a href="#" class="footer__list-item--link nav-link">Trung tâm trợ giúp</a>
+                    </li>
+                    <li class="footer__list-item">
+                        <a href="#" class="footer__list-item--link nav-link">Mall</a>
+                    </li>
+                    <li class="footer__list-item">
+                        <a href="#" class="footer__list-item--link nav-link">Hướng dẫn mua hàng</a>
+                    </li>
+                </ul>
             </div>
+            <div class="col-sm-2 footer-section">
+                <h3 class="footer__heading">Giới Thiệu</h3>
+                <ul class="footer__list">
+                    <li class="footer__list-item">
+                        <a href="#" class="footer__list-item--link nav-link">Giới thiệu</a>
+                    </li>
+                    <li class="footer__list-item">
+                        <a href="#" class="footer__list-item--link nav-link">Tuyển dụng</a>
+                    </li>
 
+                    <li class="footer__list-item">
+                        <a href="#" class="footer__list-item--link nav-link">Điều khoản</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-sm-2 footer-section">
+                <h3 class="footer__heading">Liên hệ</h3>
+                <ul class="footer__list">
+                    <li class="footer__list-item">
+                        <a href="#" class="footer__list-item--link nav-link">Địa chỉ:Số XX, đường Nguyễn A, Hà nội</a>
+                    </li>
+                    <li class="footer__list-item">
+                        <a href="#" class="footer__list-item--link nav-link">Liên hệ : 098XXXXXXX</a>
+                    </li>
+
+                    <li class="footer__list-item">
+                        <a href="#" class="footer__list-item--link nav-link">Điều khoản</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-sm-2 footer-section">
+                <h3 class="footer__heading">Theo dõi</h3>
+                <ul class="footer__list">
+                    <li class="footer__list-item">
+                        <a href="#" class="footer__list-item--link nav-link"><i class="footer__list-item--icon fa-brands fa-facebook"></i>Facebook</a>
+                    </li>
+                    <li class="footer__list-item">
+                        <a href="#" class="footer__list-item--link nav-link"><i class="footer__list-item--icon fa-brands fa-instagram-square"></i>Instagram</a>
+                    </li>
+
+                    <li class="footer__list-item">
+                        <a href="#" class="footer__list-item--link nav-link"><i class="footer__list-item--icon fa-brands fa-linkedin"></i>Linkedin</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-sm-3 last-footer footer-section">
+                <h3 class="footer__heading">Chăm sóc khách hàng</h3>
+
+            </div>
         </div>
+
+    </div>
     </div>
 </body>
 

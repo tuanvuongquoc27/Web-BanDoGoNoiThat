@@ -6,6 +6,7 @@
 package Controller;
 
 import DAO.AccountDAO;
+import DAO.ProductDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -15,6 +16,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import model.Account;
+import model.Product;
 
 /**
  *
@@ -36,12 +38,14 @@ public class LoginServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             AccountDAO accd = new AccountDAO();
+            ProductDAO prd = new ProductDAO();
+            ArrayList<Product> listproduct =prd.getAllProduct();
             String username = request.getParameter("input-username");
             String password = request.getParameter("input-password");
             Account acc = new Account(username, password);
             if(checkAccount(acc)){
-                request.getRequestDispatcher("Home.html").forward(request, response);
-                response.sendRedirect("Home.html");
+                request.setAttribute("productlist", listproduct);
+                request.getRequestDispatcher("HomePage.jsp").forward(request, response);
             }else{
                 out.println("login fail");
             }

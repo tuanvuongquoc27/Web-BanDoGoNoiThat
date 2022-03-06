@@ -13,23 +13,22 @@ public class Product {
     private int id;
     private String name;
     private String img;
-    private String description;
-    private int quantity;
-    private int type;
     private int price;
+    private int type;
+    
 
     public Product() {
     }
 
-    public Product(int id, String name, String img, String description, int quantity, int type, int price) {
+    public Product(int id, String name, String img, int price, int type) {
         this.id = id;
         this.name = name;
         this.img = img;
-        this.description = description;
-        this.quantity = quantity;
-        this.type = type;
         this.price = price;
+        this.type = type;
     }
+
+    
 
     public int getType() {
         return type;
@@ -61,22 +60,6 @@ public class Product {
 
     public void setImg(String img) {
         this.img = img;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public int getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
     }
 
     public int getPrice() {
