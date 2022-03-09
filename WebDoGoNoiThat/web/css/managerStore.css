@@ -1,0 +1,44 @@
+.container {
+    margin-top: 10px;
+}
+
+.store-infor {
+    text-align: center;
+    padding: 10px;
+}
+
+.product__list-item.nav-item {
+    margin-top: 35px;
+}
+
+td { 
+    border: 2px solid ;
+}
+
+tr td {
+    padding: 6px;
+    font-size: 1.5rem;
+    border: 1px solid #000;
+}
+
+.nav-link.store-manager{
+    color: #000;
+}
+
+.add__store {
+    margin: 10px 0;
+    width: 130px;
+}
+
+.add__store-link.nav-link {
+    padding: 10px;
+    background-color: rgb(86, 226, 21);
+    color: #000;
+    font-size: 1.5rem;
+    font-weight: 500;
+
+}
+
+.add__store-link.nav-link:hover {
+    opacity: 0.6;
+}

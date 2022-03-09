@@ -1,0 +1,55 @@
+.account-img {
+    width: 50px;
+    margin-right: 10px;
+}
+.account-name {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: rgb(240, 82, 9);
+}
+
+.account__infor{
+    margin-top: 30px;
+    padding-bottom: 30px;
+    border-bottom: 1px solid #ccc;
+    border-right: 1px solid #ccc;
+}
+
+.account-file,
+.account-change-pass,
+.account-history{
+    font-size: 1.6rem;
+    color: rgb(64, 245, 9);
+    text-decoration: none;
+}
+
+.account{
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+}
+
+h2 {
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+}
+
+td {
+    padding: 20px;
+    font-size: 1.6rem;
+}
+
+input {
+    padding-right: 30px;
+}
+
+.submit-btn {
+    background: rgb(136, 255, 0);
+    color: rgba(23, 34, 194, 0.74);
+    padding-left: 20px;
+}
+
+.submit-btn:hover {
+    opacity: 0.6;
+    color: #000;
+}
+
