@@ -174,7 +174,11 @@
                         <img class="account-img"
                             src="https://mpng.subpng.com/20180411/rzw/kisspng-user-profile-computer-icons-user-interface-mystique-5aceb0245aa097.2885333015234949483712.jpg"
                             alt="">
-                        <span class="account-name">TuanTienTi</span>
+                        <div>
+                            <span class="account-name">TuanTienTi</span>
+                            <span class="account-money">Số dư tài khoản:100.000đ</span>
+                        </div>
+
                     </div>
                     <div class="account">
                         <a href="" class="account-file">Thay đổi hồ sơ</a>
@@ -185,8 +189,12 @@
                     <div class="account">
                         <a href="" class="account-change-pass">Thay đổi mật khẩu</a>
                     </div>
+                    <div class="account">
+                        <a href="" class="account-get-money">Nạp tiền</a>
+                    </div>
 
                 </div>
+                <!-- Thay đổi hồ sơ thông tin -->
                 <!-- <div class="col-sm-9">
                     <h2>Hồ sơ của tôi </h2>
                     <form action="">
@@ -223,6 +231,7 @@
                     </form>
 
                 </div> -->
+                <!-- Thay đổi mật khẩu -->
                 <!-- <div class="col-sm-9">
                     <div class="change-password">
                         <h2>Thay đổi mật khẩu</h2>
@@ -248,6 +257,39 @@
                         </form>
                     </div>
                 </div> -->
+                <!-- Nạp tiền -->
+                <div class="col-sm-9 dis-play">
+                    <div class="change-password">
+                        <h2>Nạp tiền vào tài khoản</h2>
+                        <form action="">
+                            <table>
+                                <tr>
+                                    <td>Mệnh giá nạp tiền</td>
+                                    <td><select id="card-money" name="money">
+                                        <option value="volvo">20.000đ</option>
+                                        <option value="saab">50.000đ</option>
+                                        <option value="fiat">100.000đ</option>
+                                        <option value="audi">200.000d</option>
+                                        <option value="audi">500.000đ</option>
+                                      </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Nhập mật khẩu để xác nhận</td>
+                                    <td><input type="password"></td>
+                                </tr>
+                                <tr>
+                                    <td>Nhập lại mật khẩu</td>
+                                    <td><input type="password"></td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td><input class="submit-btn" type="Submit" value="Nạp tiền"></td>
+                                </tr>
+                            </table>
+                        </form>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

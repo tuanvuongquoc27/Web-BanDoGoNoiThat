@@ -13,8 +13,16 @@
     padding-bottom: 30px;
     border-bottom: 1px solid #ccc;
     border-right: 1px solid #ccc;
+    display: flex;
 }
 
+.account-money{
+    display: block;
+    font-size: 1.6rem;
+    color: rgb(245, 23, 7);
+}
+
+.account-get-money,
 .account-file,
 .account-change-pass,
 .account-history{
@@ -51,5 +59,13 @@ input {
 .submit-btn:hover {
     opacity: 0.6;
     color: #000;
+}
+
+.dis-play.col-sm-9 {
+    display: block;
+}
+
+.col-sm-9 {
+    display: none;
 }
 

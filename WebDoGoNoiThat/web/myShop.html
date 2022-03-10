@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="css/header.css">
     <link rel="stylesheet" href="css/base.css">
     <link rel="stylesheet" href="./css/shop.css">
+    <link rel="stylesheet" href="css/myshop.css">
     <link rel="stylesheet" href="fonts/fontawesome-free-6.0.0-web/css/all.css">
     <!-- Latest compiled and minified CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -20,6 +21,7 @@
 
 <body>
     <div class="main">
+        <!-- header -->
         <div class="header">
             <div class="grid">
                 <!-- header navbar -->
@@ -30,8 +32,8 @@
                     </ul>
                     <ul class="header__navbar-list">
                         <li class="header__navbar-item header__navbar-item-has-notify ">
-                            <a href="" class="header__navbar-item-link"><i
-                                    class="fa-solid fa-bell bell-icon"></i>Thông báo</a>
+                            <a href="" class="header__navbar-item-link"><i class="fa-solid fa-bell bell-icon"></i>Thông
+                                báo</a>
                             <!-- Notification -->
                             <div class="header__notify">
                                 <header class="header__notify-header">
@@ -138,7 +140,7 @@
                                         </div>
                                     </li>
                                 </ul>
-                                <a href="#" class="nav-link btn-order">Xem giỏ hàng</a>
+                                <a href="#" class="btn-order">Xem giỏ hàng</a>
                             </div>
                             <!--  cart : header cart list no cart  -->
                         </div>
@@ -149,18 +151,20 @@
 
         </div>
 
+        <!-- body -->
         <div class="body">
             <div class="row shop__information">
                 <div class="col-sm-1"></div>
                 <div class="col-sm-10 shop__infor">
                     <div class="shop__infor-name">
                         <img class="shop-img" src="./image/login-img.jpg" alt="">
-                        <h3 class="shop-name">DÉP CROSS VIỆT NAM XUẤT KHẨU</h3>
+                        <h3 class="shop-name">Cửa hàng của tôi</h3>
+
                     </div>
                     <div class="shop__infor2">
                         <ul>
                             <li class="quantity"><i class="quantity-icon fa-solid fa-store"></i>Số lượng: </li>
-                            <li class="sold"><i class="sold-icon fa-brands fa-sellcast"></i>Đã bán:  </li>
+                            <li class="sold"><i class="sold-icon fa-brands fa-sellcast"></i>Đã bán: </li>
                             <li class="join"><i class="join-icon fa-solid fa-user-check"></i>Ngày tham gia: </li>
                         </ul>
                         <ul>
@@ -179,120 +183,114 @@
             <!-- Product top -->
 
             <div class="row product__shop-sell">
-                <div class="col-sm-1"></div>
-                <div class="col-sm-2">
+                <div class="col-sm-3">
                     <div class="product">
-                        <h4 class="product__header"><i class="product__header-icon fa-solid fa-list"></i>Sản Phẩm
+                        <h4 class="product__header"><i class="product__header-icon fa-solid fa-list"></i>Shop của tôi
                         </h4>
                         <ul class="product__list nav flex-column">
                             <li class="product__list-item nav-item ">
-                                <a class=" product__list-item--link nav-link" href="#">Tất cả sản phẩm</a>
+                                <a href="" class="nav-link product__list-item--link">Tất cả sản phẩm</a> 
+                             </li>
+                            <li class="product__list-item nav-item ">
+                               <a href="" class="nav-link product__list-item--link">Thêm sản phẩm</a> 
                             </li>
                             <li class="product__list-item nav-item ">
-                                <a class=" product__list-item--link nav-link" href="#">Nội thất phòng ngủ</a>
+                                <a href="" class="nav-link product__list-item--link">Doanh thu</a> 
                             </li>
-                            <li class="product__list-item nav-item product__list-item--active">
-                                <a class=" product__list-item--link nav-link" href="#">Nội thất phòng học </a>
+                            <li class="product__list-item nav-item ">
+                                <a href="" class="nav-link product__list-item--link">Thay đổi thông tin</a> 
                             </li>
-                            <li class="product__list-item nav-item">
-                                <a class="product__list-item--link nav-link" href="#">Nội thất phòng khách </a>
-                            </li>
-                            <li class="product__list-item nav-item">
-                                <a class="product__list-item--link nav-link" href="#">Nội thất phòng bếp </a>
-                            </li>
-                            <li class="product__list-item nav-item">
-                                <a class="product__list-item--link nav-link" href="#">Nội thất phòng làm viêc </a>
-                            </li>
-                            
+
                         </ul>
 
                     </div>
                 </div>
                 <!-- product -->
-                <div class="col-sm-8">
-                    <div class="home-product">
-                        <div class="row">
-                            <div class="col-sm-3">
-                                <a href="CartProduct.html" class="home-product-item">
-                                    <div class="home-product-item__img"
-                                        style="background-image: url('https://noithatnhadep.pro/images/stories/virtuemart/product/resized/ban-an-mat-da-toi-gian-phong-cach-y-van-may-den-trang-(1)_400x400.jpg');">
-                                    </div>
-                                    <h5 class="home-product-item__name">Set dung trang Whoo dodng y hoang cung Gong Jinh
-                                        Jnag</h5>
-                                    <div class="home-product-item__price">
-                                        <span class="home-product-item__price-old">1.200.000đ</span>
-                                        <span class="home-product-item__price-current">999.999đ</span>
-                                    </div>
-                                    <div class="home-product-item__action">
-                                        <!-- home-product-item__like--liked -->
-                                        <span class="home-product-item__like ">
-                                            <i class="home-product-item__like-icon-empty fa-regular fa-heart"></i>
-                                            <i class="home-product-item__like-icon-fill fa-solid fa-heart"></i>
-                                        </span>
-                                        <div class="home-product-item__rating">
-                                            <i class="home-product-item__star-gold fa-solid fa-star"></i>
-                                            <i class="home-product-item__star-gold fa-solid fa-star"></i>
-                                            <i class="home-product-item__star-gold fa-solid fa-star"></i>
-                                            <i class="home-product-item__star-gold fa-solid fa-star"></i>
-                                            <i class="fa-solid fa-star"></i>
-                                        </div>
-                                    </div>
-                                    <div class="home-product-item__origin">
-                                        <span class="home-product-item__brand">Whoo</span>
-                                        <span class="home-product-item__origin-name">Han Quoc </span>
-                                    </div>
-                                    <div class="home-product-item__favorite">
-                                        <i class="fa-solid fa-check"></i>
-                                        Yêu thích
-                                    </div>
-                                    <div class="home-product-item__sell-off">
-                                        <span class="home-product-item__sell-off--percent">10%</span>
-                                        <span class="home-product-item__sell-off--label">Giảm</span>
-                                    </div>
-                                </a>
-                            </div>
 
-
+                <div class="col-sm-9">
+                    <div class="product__information">
+                        <div class="row product__thead">
+                            <div class="col-sm-4"><h2>Tên sản phẩm </h2></div>
+                            <div class="col-sm-2"><h2>Phân loại</h2></div>
+                            <div class="col-sm-2"><h2>Giá</h2></div>
+                            <div class="col-sm-1"><h2>Kho</h2></div>
+                            <div class="col-sm-1"><h2>Đã bán</h2></div>
+                            <div class="col-sm-2"><h2></h2></div>
                         </div>
+                        <div class="row product__row">
+                            <div class="col-sm-4 product__cart">
+                                <img src="./image/login-img.jpg" alt="" class="header__cart-img img-fluid">
+                                <h5 class="home-product-item__name">Set dung trang Whoo dodng y Set dung trang Whoo dodng y Set dung trang Whoo dodng y </h5>
+                            </div>
+                            <div class="col-sm-2 product__style">Ghế</div>
+                            <div class="col-sm-2 product__price">2.000đ</div>
+                            <div class="col-sm-1 product__quantity">12</div>
+                            <div class="col-sm-1 product__total">24.000đ</div>
+                            <div class="col-sm-2 product__delete"> <span><a href="#" class="nav-link">Xóa</a></span><span><a href="#" class="nav-link">Sửa</a></span></div>
+                        </div>
+                        <div class="row product__row">
+                            <div class="col-sm-4 product__cart">
+                                <img src="./image/login-img.jpg" alt="" class="header__cart-img img-fluid">
+                                <h5 class="home-product-item__name">Set dung trang Whoo dodng y Set dung trang Whoo dodng y Set dung trang Whoo dodng y </h5>
+                            </div>
+                            <div class="col-sm-2 product__style">Ghế</div>
+                            <div class="col-sm-2 product__price">2.000đ</div>
+                            <div class="col-sm-1 product__quantity">12</div>
+                            <div class="col-sm-1 product__total">24.000đ</div>
+                            <div class="col-sm-2 product__delete"> <span><a href="#" class="nav-link">Xóa</a></span><span><a href="#" class="nav-link">Sửa</a></span></div>
+                        </div>
+                        <div class="row product__row">
+                            <div class="col-sm-4 product__cart">
+                                <img src="./image/login-img.jpg" alt="" class="header__cart-img img-fluid">
+                                <h5 class="home-product-item__name">Set dung trang Whoo dodng y Set dung trang Whoo dodng y Set dung trang Whoo dodng y </h5>
+                            </div>
+                            <div class="col-sm-2 product__style">Ghế</div>
+                            <div class="col-sm-2 product__price">2.000đ</div>
+                            <div class="col-sm-1 product__quantity">12</div>
+                            <div class="col-sm-1 product__total">24.000đ</div>
+                            <div class="col-sm-2 product__delete"> <span><a href="#" class="nav-link">Xóa</a></span><span><a href="#" class="nav-link">Sửa</a></span></div>
+                        </div>
+                        <div class="row product__row">
+                            <div class="col-sm-4 product__cart">
+                                <img src="./image/login-img.jpg" alt="" class="header__cart-img img-fluid">
+                                <h5 class="home-product-item__name">Set dung trang Whoo dodng y Set dung trang Whoo dodng y Set dung trang Whoo dodng y </h5>
+                            </div>
+                            <div class="col-sm-2 product__style">Ghế</div>
+                            <div class="col-sm-2 product__price">2.000đ</div>
+                            <div class="col-sm-1 product__quantity">12</div>
+                            <div class="col-sm-1 product__total">24.000đ</div>
+                            <div class="col-sm-2 product__delete"> <span><a href="#" class="nav-link">Xóa</a></span><span><a href="#" class="nav-link">Sửa</a></span></div>
+                        </div>
+                        <div class="row product__row">
+                            <div class="col-sm-4 product__cart">
+                                <img src="./image/login-img.jpg" alt="" class="header__cart-img img-fluid">
+                                <h5 class="home-product-item__name">Set dung trang Whoo dodng y Set dung trang Whoo dodng y Set dung trang Whoo dodng y </h5>
+                            </div>
+                            <div class="col-sm-2 product__style">Ghế</div>
+                            <div class="col-sm-2 product__price">2.000đ</div>
+                            <div class="col-sm-1 product__quantity">12</div>
+                            <div class="col-sm-1 product__total">24.000đ</div>
+                            <div class="col-sm-2 product__delete"> <span><a href="#" class="nav-link">Xóa</a></span><span><a href="#" class="nav-link">Sửa</a></span></div>
+                        </div>
+                        <div class="row product__row">
+                            <div class="col-sm-4 product__cart">
+                                <img src="./image/login-img.jpg" alt="" class="header__cart-img img-fluid">
+                                <h5 class="home-product-item__name">Set dung trang Whoo dodng y Set dung trang Whoo dodng y Set dung trang Whoo dodng y </h5>
+                            </div>
+                            <div class="col-sm-2 product__style">Ghế</div>
+                            <div class="col-sm-2 product__price">2.000đ</div>
+                            <div class="col-sm-1 product__quantity">12</div>
+                            <div class="col-sm-1 product__total">24.000đ</div>
+                            <div class="col-sm-2 product__delete"> <span><a href="#" class="nav-link">Xóa</a></span><span><a href="#" class="nav-link">Sửa</a></span></div>
+                        </div>
+                        
                     </div>
-                    <ul class="pagination">
-                        <li class="pagination-item">
-                            <a href="" class="pagination-item__link">
-                                <i class="pagination-item__icon fa-solid fa-angle-left"></i>
-                            </a>
-                        </li>
-                        <li class="pagination-item pagination-item--active">
-                            <a href="" class="pagination-item__link">1</a>
-                        </li>
-                        <li class="pagination-item">
-                            <a href="" class="pagination-item__link">2</a>
-                        </li>
-                        <li class="pagination-item">
-                            <a href="" class="pagination-item__link">3</a>
-                        </li>
-                        <li class="pagination-item">
-                            <a href="" class="pagination-item__link">4</a>
-                        </li>
-                        <li class="pagination-item">
-                            <a href="" class="pagination-item__link">5</a>
-                        </li>
-                        <li class="pagination-item">
-                            <a href="" class="pagination-item__link">...</a>
-                        </li>
-                        <li class="pagination-item">
-                            <a href="" class="pagination-item__link">14</a>
-                        </li>
-                        <li class="pagination-item">
-                            <a href="" class="pagination-item__link">
-                                <i class="pagination-item__icon fa-solid fa-angle-right"></i>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-                <div class="col-sm-1"></div>
 
+                </div>
             </div>
         </div>
+
+        <!-- footer -->
         <div class="footer">
 
             <div class=" footer__header">
@@ -324,73 +322,77 @@
                     </div>
                 </div>
             </div>
-        <div class="row footer-main">
-            <div class="col-sm-3 first-footer footer-section">
-                <h3 class="footer__heading">Chăm sóc khách hàng</h3>
-                <ul class="footer__list">
-                    <li class="footer__list-item">
-                        <a href="#" class="footer__list-item--link nav-link">Trung tâm trợ giúp</a>
-                    </li>
-                    <li class="footer__list-item">
-                        <a href="#" class="footer__list-item--link nav-link">Mall</a>
-                    </li>
-                    <li class="footer__list-item">
-                        <a href="#" class="footer__list-item--link nav-link">Hướng dẫn mua hàng</a>
-                    </li>
-                </ul>
-            </div>
-            <div class="col-sm-2 footer-section">
-                <h3 class="footer__heading">Giới Thiệu</h3>
-                <ul class="footer__list">
-                    <li class="footer__list-item">
-                        <a href="#" class="footer__list-item--link nav-link">Giới thiệu</a>
-                    </li>
-                    <li class="footer__list-item">
-                        <a href="#" class="footer__list-item--link nav-link">Tuyển dụng</a>
-                    </li>
+            <div class="row footer-main">
+                <div class="col-sm-3 first-footer footer-section">
+                    <h3 class="footer__heading">Chăm sóc khách hàng</h3>
+                    <ul class="footer__list">
+                        <li class="footer__list-item">
+                            <a href="#" class="footer__list-item--link nav-link">Trung tâm trợ giúp</a>
+                        </li>
+                        <li class="footer__list-item">
+                            <a href="#" class="footer__list-item--link nav-link">Mall</a>
+                        </li>
+                        <li class="footer__list-item">
+                            <a href="#" class="footer__list-item--link nav-link">Hướng dẫn mua hàng</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-sm-2 footer-section">
+                    <h3 class="footer__heading">Giới Thiệu</h3>
+                    <ul class="footer__list">
+                        <li class="footer__list-item">
+                            <a href="#" class="footer__list-item--link nav-link">Giới thiệu</a>
+                        </li>
+                        <li class="footer__list-item">
+                            <a href="#" class="footer__list-item--link nav-link">Tuyển dụng</a>
+                        </li>
 
-                    <li class="footer__list-item">
-                        <a href="#" class="footer__list-item--link nav-link">Điều khoản</a>
-                    </li>
-                </ul>
-            </div>
-            <div class="col-sm-2 footer-section">
-                <h3 class="footer__heading">Liên hệ</h3>
-                <ul class="footer__list">
-                    <li class="footer__list-item">
-                        <a href="#" class="footer__list-item--link nav-link">Địa chỉ:Số XX, đường Nguyễn A, Hà nội</a>
-                    </li>
-                    <li class="footer__list-item">
-                        <a href="#" class="footer__list-item--link nav-link">Liên hệ : 098XXXXXXX</a>
-                    </li>
+                        <li class="footer__list-item">
+                            <a href="#" class="footer__list-item--link nav-link">Điều khoản</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-sm-2 footer-section">
+                    <h3 class="footer__heading">Liên hệ</h3>
+                    <ul class="footer__list">
+                        <li class="footer__list-item">
+                            <a href="#" class="footer__list-item--link nav-link">Địa chỉ:Số XX, đường Nguyễn A, Hà
+                                nội</a>
+                        </li>
+                        <li class="footer__list-item">
+                            <a href="#" class="footer__list-item--link nav-link">Liên hệ : 098XXXXXXX</a>
+                        </li>
 
-                    <li class="footer__list-item">
-                        <a href="#" class="footer__list-item--link nav-link">Điều khoản</a>
-                    </li>
-                </ul>
-            </div>
-            <div class="col-sm-2 footer-section">
-                <h3 class="footer__heading">Theo dõi</h3>
-                <ul class="footer__list">
-                    <li class="footer__list-item">
-                        <a href="#" class="footer__list-item--link nav-link"><i class="footer__list-item--icon fa-brands fa-facebook"></i>Facebook</a>
-                    </li>
-                    <li class="footer__list-item">
-                        <a href="#" class="footer__list-item--link nav-link"><i class="footer__list-item--icon fa-brands fa-instagram-square"></i>Instagram</a>
-                    </li>
+                        <li class="footer__list-item">
+                            <a href="#" class="footer__list-item--link nav-link">Điều khoản</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-sm-2 footer-section">
+                    <h3 class="footer__heading">Theo dõi</h3>
+                    <ul class="footer__list">
+                        <li class="footer__list-item">
+                            <a href="#" class="footer__list-item--link nav-link"><i
+                                    class="footer__list-item--icon fa-brands fa-facebook"></i>Facebook</a>
+                        </li>
+                        <li class="footer__list-item">
+                            <a href="#" class="footer__list-item--link nav-link"><i
+                                    class="footer__list-item--icon fa-brands fa-instagram-square"></i>Instagram</a>
+                        </li>
 
-                    <li class="footer__list-item">
-                        <a href="#" class="footer__list-item--link nav-link"><i class="footer__list-item--icon fa-brands fa-linkedin"></i>Linkedin</a>
-                    </li>
-                </ul>
-            </div>
-            <div class="col-sm-3 last-footer footer-section">
-                <h3 class="footer__heading">Chăm sóc khách hàng</h3>
+                        <li class="footer__list-item">
+                            <a href="#" class="footer__list-item--link nav-link"><i
+                                    class="footer__list-item--icon fa-brands fa-linkedin"></i>Linkedin</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-sm-3 last-footer footer-section">
+                    <h3 class="footer__heading">Chăm sóc khách hàng</h3>
 
+                </div>
             </div>
+
         </div>
-
-    </div>
     </div>
 
 

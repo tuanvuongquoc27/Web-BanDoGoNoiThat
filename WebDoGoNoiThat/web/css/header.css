@@ -120,6 +120,13 @@
     animation: headerNotify ease-in 0.2s;
 }
 
+ul.header__cart-list-item{
+    padding-left: 0;
+}
+ ul.header__notify-list {
+    padding-left: 0;
+}
+
 .header__notify::before {
     content: "";
     border-style: solid ;
@@ -465,17 +472,19 @@ content: "";
     color: #eb2a08;
 }
 
-.btn-order{
+.nav-link.btn-order{
     background-color: #25da1f;
     padding: 8px 12px;
     float: right;
     margin-bottom:5px ;
     margin-right: 5px;
     color: #fff;
+    font-size: 1.6rem;
 }
 
-.btn-order:hover {
-    opacity: 0.6;
+.nav-link.btn-order:hover {
+    opacity: 0.9;
+    color: rgb(235, 6, 6);
     cursor: pointer;
 }
 
