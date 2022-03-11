@@ -24,6 +24,18 @@
         <servlet-name>ForgotPassServlet</servlet-name>
         <servlet-class>Controller.ForgotPassServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>HomeServletController</servlet-name>
+        <servlet-class>Controller.HomeServletController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ProductServletController</servlet-name>
+        <servlet-class>Controller.ProductServletController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ShopServletController</servlet-name>
+        <servlet-class>ShopServletController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
         <url-pattern>/LoginServlet</url-pattern>
@@ -39,6 +51,18 @@
     <servlet-mapping>
         <servlet-name>ForgotPassServlet</servlet-name>
         <url-pattern>/ForgotPassServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>HomeServletController</servlet-name>
+        <url-pattern>/HomeServletController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ProductServletController</servlet-name>
+        <url-pattern>/ProductServletController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ShopServletController</servlet-name>
+        <url-pattern>/ShopServletController</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

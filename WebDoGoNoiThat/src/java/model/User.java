@@ -9,33 +9,33 @@ package model;
  *
  * @author Admin
  */
-public class Account {
+public class User {
+    private int userId;
     private String userName;
     private String password;
     private String role;
-    private String email;
 
-    public Account() {
+    public User() {
     }
 
-    public Account(String userName, String password, String role, String email) {
+    public User(int userId, String userName, String password, String role) {
+        this.userId = userId;
         this.userName = userName;
         this.password = password;
         this.role = role;
-        this.email = email;
     }
 
-    public Account(String userName, String password) {
+    public User(String userName, String password) {
         this.userName = userName;
         this.password = password;
     }
 
-    public String getEmail() {
-        return email;
+    public int getUserId() {
+        return userId;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
     public String getUserName() {

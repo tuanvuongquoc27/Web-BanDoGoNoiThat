@@ -3,25 +3,21 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Controller;
 
-import DAO.UserDAO;
-import DAO.ProductDAO;
+import DAO.ShopDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import model.User;
-import model.Product;
+import model.Shop;
 
 /**
  *
  * @author Admin
  */
-public class LoginServlet extends HttpServlet {
+public class ShopServletController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -36,19 +32,13 @@ public class LoginServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            UserDAO accd = new UserDAO();
-            ProductDAO prd = new ProductDAO();
-            ArrayList<Product> listproduct =prd.getAllProduct();
-            String username = request.getParameter("input-username");
-            String password = request.getParameter("input-password");
-            User acc = new User(username, password);
-            if(accd.getUser(username, password)!= null){
-                request.setAttribute("productlist", listproduct);
-                request.getRequestDispatcher("HomePage.jsp").forward(request, response);
-            }else{
-                out.println("login fail");
-            }
-            
+            /* TODO output your page here. You may use following sample code. */
+            String idstring = request.getParameter("shopId");
+            int shopId = Integer.parseInt(idstring);
+            ShopDAO sd = new ShopDAO();
+            Shop shop = sd.getProduct(shopId);
+            request.setAttribute("shop", shop);
+            request.getRequestDispatcher("shoppage.jsp").forward(request, response);
         }
     }
 
@@ -80,6 +70,7 @@ public class LoginServlet extends HttpServlet {
             throws ServletException, IOException {
         processRequest(request, response);
     }
+
     /**
      * Returns a short description of the servlet.
      *

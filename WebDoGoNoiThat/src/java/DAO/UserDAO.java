@@ -12,39 +12,35 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import model.Product;
+import model.User;
 
 /**
  *
  * @author Admin
  */
-public class ProductDAO {
+public class UserDAO {
+
     Connection conn;
     PreparedStatement state;
-    ResultSet rs ;
-    
-    public ArrayList<Product> getAllProduct(){
+    ResultSet rs;
+
+    public ArrayList<User> getAllUser() {
         DBContext db = new DBContext();
+        ArrayList<User> listacc = new ArrayList<>();
         try {   
             conn=db.getConnection();
             state=conn.prepareStatement("select * from product");
             rs = state.executeQuery();
-            ArrayList<Product> listproduct = new ArrayList<>();
-            while(rs.next()){
-                listproduct.add(new Product(
-                        rs.getInt(1),
-                        rs.getString(2),
-                        rs.getString(3),
-                        rs.getString(4),
-                        rs.getInt(5),
-                        rs.getInt(6),
-                        rs.getInt(7),
-                        rs.getInt(8),
-                        rs.getString(9),
-                        rs.getString(10),
-                        rs.getInt(11)));
+            
+            while (rs.next()) {
+                User acc = new User(
+                rs.getInt(1),
+                rs.getString(2),
+                rs.getString(3),
+                rs.getString(4));
+                listacc.add(acc);
             }
-            return listproduct;
+            return listacc;
         } catch (SQLException ex) {
             Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
         } catch (Exception ex) {
@@ -53,26 +49,21 @@ public class ProductDAO {
         return null;
     }
     
-    public Product getProduct(int productId){
+    public User getUser(String username, String password){
         DBContext db = new DBContext();
+        ArrayList<User> listacc = new ArrayList<>();
         try {   
             conn=db.getConnection();
-            state=conn.prepareStatement("select * from product where productId="+productId);
+            state=conn.prepareStatement("select * from User where username = '"+username+"'"
+                    + " and password='"+password+"'");
             rs = state.executeQuery();
-            Product product = new Product();
-            while(rs.next()){
-                return new Product(
-                        rs.getInt(1),
-                        rs.getString(2),
-                        rs.getString(3),
-                        rs.getString(4),
-                        rs.getInt(5),
-                        rs.getInt(6),
-                        rs.getInt(7),
-                        rs.getInt(8),
-                        rs.getString(9),
-                        rs.getString(10),
-                        rs.getInt(11));
+            
+            while (rs.next()) {
+                return new User(
+                rs.getInt(1),
+                rs.getString(2),
+                rs.getString(3),
+                rs.getString(4)); 
             }
         } catch (SQLException ex) {
             Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -81,4 +72,6 @@ public class ProductDAO {
         }
         return null;
     }
+    
+    
 }

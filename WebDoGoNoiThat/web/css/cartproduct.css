@@ -6,12 +6,12 @@
     background: rgb(241, 239, 239);
 }
 
-.product__buy{
-    height: 420px;
+.product__buy.row{
+    height: 550px;
 }
 
 .product__cart-img {
-    width: 100%;
+    width: 90%;
 }
 
 .body {
@@ -133,7 +133,7 @@ margin-top: 20px;
 }
 
 .shop.row{
-    margin-top: 30px;
+    margin-top: 300px;
     height: 100px;
 }
 

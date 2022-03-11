@@ -5,14 +5,14 @@
  */
 package Controller;
 
-import DAO.AccountDAO;
+import DAO.UserDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import model.Account;
+import model.User;
 
 /**
  *
@@ -37,16 +37,16 @@ public class SignUpServlet extends HttpServlet {
             String password = request.getParameter("input-password");
             String email = request.getParameter("input-email");
             String password_again = request.getParameter("input-password-2");
-            AccountDAO accd = new AccountDAO();
+            UserDAO accd = new UserDAO();
             
-            if(password.equals(password_again)){
-                Account acc = accd.getAccount(username, password, email);
-                if(acc==null){
-                    accd.signupAccount(username, password,email);
-                }else{
-                    response.sendRedirect("SignUp.html");
-                }
-            }
+//            if(password.equals(password_again)){
+//                User acc = accd.getUser(username, password, email);
+//                if(acc==null){
+//                    accd.signupAccount(username, password,email);
+//                }else{
+//                    response.sendRedirect("SignUp.html");
+//                }
+//            }
         }
     }
 
