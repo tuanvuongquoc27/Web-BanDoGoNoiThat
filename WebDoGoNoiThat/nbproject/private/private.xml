@@ -4,15 +4,8 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/D:/java/WEB-Banhang/Web-BanDoGoNoiThat/WebDoGoNoiThat/src/java/Controller/HomeServletController.java</file>
-            <file>file:/D:/java/WEB-Banhang/Web-BanDoGoNoiThat/WebDoGoNoiThat/src/java/model/Product.java</file>
-            <file>file:/D:/java/WEB-Banhang/Web-BanDoGoNoiThat/WebDoGoNoiThat/src/java/DAO/ShopDAO.java</file>
-            <file>file:/D:/java/WEB-Banhang/Web-BanDoGoNoiThat/WebDoGoNoiThat/src/java/DAO/ProductDAO.java</file>
-            <file>file:/D:/java/WEB-Banhang/Web-BanDoGoNoiThat/WebDoGoNoiThat/src/java/Controller/ShopServletController.java</file>
-            <file>file:/D:/java/WEB-Banhang/Web-BanDoGoNoiThat/WebDoGoNoiThat/src/java/model/Shop.java</file>
-            <file>file:/D:/java/WEB-Banhang/Web-BanDoGoNoiThat/WebDoGoNoiThat/web/css/shop.css</file>
             <file>file:/D:/java/WEB-Banhang/Web-BanDoGoNoiThat/WebDoGoNoiThat/web/HomePage.jsp</file>
-            <file>file:/D:/java/WEB-Banhang/Web-BanDoGoNoiThat/WebDoGoNoiThat/web/product.jsp</file>
-            <file>file:/D:/java/WEB-Banhang/Web-BanDoGoNoiThat/WebDoGoNoiThat/web/shoppage.jsp</file>
+            <file>file:/D:/java/WEB-Banhang/Web-BanDoGoNoiThat/WebDoGoNoiThat/web/Home.html</file>
         </group>
     </open-files>
 </project-private>

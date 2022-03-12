@@ -5,6 +5,7 @@
 --%>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <!--
@@ -28,6 +29,7 @@ and open the template in the editor.
     <!-- Latest compiled and minified CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    
 </head>
 
 <body>
@@ -310,8 +312,8 @@ and open the template in the editor.
                                     <div class="home-product-item__img" style="background-image: url('<c:out value="${p.getProductImg()}"/>');"></div>
                                     <h5 class="home-product-item__name"><c:out value="${p.getProductName()}"/></h5>
                                     <div class="home-product-item__price">
-                                        <span class="home-product-item__price-old"><c:out value="${p.getProductOldPrice()}"/>đ</span>
-                                        <span class="home-product-item__price-current"><c:out value="${p.getProductNewPrice()}"/>đ</span>
+                                        <span class="home-product-item__price-old"><fmt:formatNumber type="number" pattern="###,###,###đ" value="${p.getProductOldPrice()}" /></span>
+                                        <span class="home-product-item__price-current"><fmt:formatNumber type="number" pattern="###,###,###đ" value="${p.getProductNewPrice()}" /></span>
                                     </div>
                                     <div class="home-product-item__action">
                                         <!-- home-product-item__like--liked -->

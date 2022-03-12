@@ -24,6 +24,7 @@
         <!-- Latest compiled and minified CSS -->
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+
     </head>
 
     <body>
@@ -169,6 +170,8 @@
                             <c:set var="product" value="${requestScope.product}" />
                             <c:set var="percent" value="${100-(product.getProductNewPrice()/product.getProductOldPrice())*100}" />
                             <fmt:parseNumber var="j" integerOnly="true" pattern="." type="number" value="${percent}"/> 
+                            
+                            
                             <div class="col-sm-6 product__cart-infor">
                                 <div class="product__cart-header">
                                     <h4 class="product__cart-name">${product.getProductName()}</h4>
@@ -183,10 +186,16 @@
                                     <span class="product__cart-header--sold">8,4k Đã bán</span>
                                 </div>
                                 <div class="product__cart-price">
-                                    <span class="product__cart-price--old">${product.getProductOldPrice()}</span>
-                                    <span class="product__cart-price--new">${product.getProductNewPrice()}</span>
-                                    <span class="product__cart-price--percent">
-                                        ${j}% Giảm</span>
+                                    <c:if test="${j==0}">
+                                        <span class="product__cart-price--new"><fmt:formatNumber type="number" pattern="###,###,###đ" value="${product.getProductOldPrice()}" /></span>
+                                    </c:if> 
+                                    <c:if test="${j!=0}">
+                                        <span class="product__cart-price--old"><fmt:formatNumber type="number" pattern="###,###,###đ" value="${product.getProductOldPrice()}" /></span>
+                                        <span class="product__cart-price--new"><fmt:formatNumber type="number" pattern="###,###,###đ" value="${product.getProductNewPrice()}" /></span>
+                                        <span class="product__cart-price--percent">
+                                            ${j}% Giảm</span>
+                                        </c:if> 
+
                                 </div>
                                 <div class="product__cart-address">
                                     <span class="product__cart-address--name">Địa chỉ</span>
