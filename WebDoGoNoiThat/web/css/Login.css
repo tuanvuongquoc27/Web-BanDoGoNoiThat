@@ -81,3 +81,9 @@ a:hover {
     width: 180px;
     margin-left: 50px;
 }
+
+.message {
+    background-color: rgb(255, 255, 255);
+    color: rgb(255, 0, 0);
+    font-size: 1.8rem;
+}

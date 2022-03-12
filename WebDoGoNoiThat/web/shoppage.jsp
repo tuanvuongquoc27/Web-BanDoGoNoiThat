@@ -35,7 +35,7 @@
                     <!-- header navbar -->
                     <nav class="header__navbar">
                         <ul class="header__navbar-list">
-                            <li class="header__navbar-item"><a href="Home.html" class="header__navbar-item-link">Trang chủ</a></li>
+                            <li class="header__navbar-item"><a href="HomeServletController" class="header__navbar-item-link">Trang chủ</a></li>
                             <li class="header__navbar-item">Xin chào......</li>
                         </ul>
                         <ul class="header__navbar-list">

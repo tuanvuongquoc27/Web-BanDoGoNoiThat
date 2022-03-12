@@ -36,6 +36,14 @@
         <servlet-name>ShopServletController</servlet-name>
         <servlet-class>Controller.ShopServletController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>CartServletController</servlet-name>
+        <servlet-class>Controller.CartServletController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>AddProductToCart</servlet-name>
+        <servlet-class>Controller.AddProductToCart</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
         <url-pattern>/LoginServlet</url-pattern>
@@ -63,6 +71,14 @@
     <servlet-mapping>
         <servlet-name>ShopServletController</servlet-name>
         <url-pattern>/ShopServletController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CartServletController</servlet-name>
+        <url-pattern>/CartServletController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AddProductToCart</servlet-name>
+        <url-pattern>/AddProductToCart</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

@@ -5,22 +5,18 @@
  */
 package Controller;
 
-import DAO.CustomerDAO;
-import DAO.UserDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import model.Customer;
-import model.User;
 
 /**
  *
  * @author Admin
  */
-public class SignUpServlet extends HttpServlet {
+public class AddProductToCart extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -35,33 +31,10 @@ public class SignUpServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            String username = request.getParameter("input-username");
-            String password = request.getParameter("input-password");
-            String email = request.getParameter("input-email");
-            String password_again = request.getParameter("input-password-2");
-            UserDAO ud = new UserDAO();
-            CustomerDAO ctd = new CustomerDAO();
+            /* TODO output your page here. You may use following sample code. */
             
-            if(password.equals(password_again)){
-                User user = ud.getUser(username, password);
-                if(user==null ){
-                    Customer customer = ctd.getCustomerByEmail(email);
-                    if(customer!=null){
-                        request.setAttribute("error", "Email đã tồn tại");
-                    }else{
-                        ud.insertUser(username, password,email);
-                        User newuser = ud.getUser(username, password);
-                        ctd.insertCustomer(newuser.getUserId(), username, "", email,"");
-                        request.setAttribute("success", "Tạo tài khoản thành công");
-                        request.getRequestDispatcher("Login.jsp").forward(request, response);
-                    }
-                }else{
-                    request.setAttribute("error", "Tài khoản đã tồn tại");
-                }
-            }else {
-                request.setAttribute("error", "Mật khẩu không trùng khớp");
-            }
-            request.getRequestDispatcher("SignUp.jsp").forward(request, response);
+            
+            
         }
     }
 

@@ -1,0 +1,80 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package DAO;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import model.Customer;
+
+/**
+ *
+ * @author Admin
+ */
+public class CustomerDAO {
+    Connection conn;
+    PreparedStatement state;
+    ResultSet rs;
+    
+    
+    public Customer getCustomerById(int customerId) {
+        DBContext db = new DBContext();
+        try {
+            conn=db.getConnection();
+            state = conn.prepareStatement("select * from customer where customerid="+customerId);
+            rs = state.executeQuery();
+            while(rs.next()){
+                return new Customer(
+                        rs.getInt(1),
+                        rs.getString(2), 
+                        rs.getString(3),
+                        rs.getString(4),
+                        rs.getString(5));
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(CustomerDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+    
+    public Customer getCustomerByEmail(String email) {
+        DBContext db = new DBContext();
+        try {
+            conn=db.getConnection();
+            state = conn.prepareStatement("select * from customer where customerEmail='"+email+"'");
+            rs = state.executeQuery();
+            while(rs.next()){
+                return new Customer(
+                        rs.getInt(1),
+                        rs.getString(2), 
+                        rs.getString(3),
+                        rs.getString(4),
+                        rs.getString(5));
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(CustomerDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+    
+    public void insertCustomer(int customerId, String customerName, String customerAddress, String customerEmail, String customerPhone) {
+        DBContext db = new DBContext();
+        try {
+            conn=db.getConnection();
+            state=conn.prepareStatement("insert into customer values("
+                    +customerId+",'"
+                    +customerName+"','"
+                    +customerAddress+"','"
+                    +customerEmail+"','"
+                    +customerPhone+"')");
+            state.executeUpdate();
+        } catch (Exception ex) {
+            Logger.getLogger(CustomerDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+}

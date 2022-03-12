@@ -35,7 +35,7 @@
                     <!-- header navbar -->
                     <nav class="header__navbar">
                         <ul class="header__navbar-list">
-                            <li class="header__navbar-item"><a href="Home.html" class="header__navbar-item-link">Trang chủ</a></li>
+                            <li class="header__navbar-item"><a href="HomeServletController" class="header__navbar-item-link">Trang chủ</a></li>
                             <li class="header__navbar-item">Xin chào......</li>
                         </ul>
                         <ul class="header__navbar-list">
@@ -201,14 +201,13 @@
                                     <span class="product__cart-address--name">Địa chỉ</span>
                                     <input type="text" class="product__cart-address--place">
                                 </div>
-                                <div class="product__cart-quatity">
-                                    <span>Số lượng</span>
-
+                                <div class="product__cart-quantity">
+                                    <span class="quantity">Số lượng</span>
+                                    <input type="number" class="input-quantity" min="1" max="10" value="1">
                                 </div>
 
                                 <div class="product__cart-buy">
-                                    <a href="" class="product__cart-add-to-cart"><i class="fa-solid fa-cart-plus"></i>Add to
-                                        cart</a>
+                                    <a href="AddProductToCart?productid=${product.getProductId()}" class="product__cart-add-to-cart"><i class="fa-solid fa-cart-plus"></i>Add to cart</a>
                                     <a href="" class="product__cart-buy-product">Buy now</a>
                                 </div>
 

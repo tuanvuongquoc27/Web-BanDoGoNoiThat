@@ -5,12 +5,16 @@
  */
 package Controller;
 
+import DAO.CustomerDAO;
+import DAO.UserDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import model.Customer;
+import model.User;
 
 /**
  *
@@ -32,10 +36,37 @@ public class ForgotPassServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
-            String username = request.getParameter("username");
-            String email = request.getParameter("email");
-            
-            
+            String username = request.getParameter("input-username");
+            String email = request.getParameter("input-email");
+            String password = request.getParameter("input-password");
+            String password_again = request.getParameter("input-password-again");
+            UserDAO ud = new UserDAO();
+            out.println(username);
+            CustomerDAO ctd = new CustomerDAO();
+            User user = ud.getUserByUserName(username);
+            if (email == null) {
+                out.println(user.getUserId()+"/");
+                if(password.equals(password_again)){
+                    out.println(user.getUserId());
+                    ud.updatePassword(password, user.getUserId());
+                    request.setAttribute("success", "Cập nhật thành công");
+                    request.getRequestDispatcher("Login.jsp").forward(request, response);
+                }else {
+                    out.println(user.getUserId()+"//");
+                    request.setAttribute("error", "Mật khẩu không khớp");
+                    request.getRequestDispatcher("ForgotPass.jsp").forward(request, response);
+                }
+                
+            } else {
+                Customer customer = ctd.getCustomerById(user.getUserId());
+                if (username.equals(user.getUserName()) && email.equals(customer.getCustomerEmail())) {
+                    
+                    request.setAttribute("message", "Cập nhật mật khẩu");
+                    request.setAttribute("username", username);
+                    request.getRequestDispatcher("ForgotPass.jsp").forward(request, response);
+                }
+            }
+
         }
     }
 

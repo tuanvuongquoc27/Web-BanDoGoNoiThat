@@ -9,23 +9,24 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <title>Đăng nhập</title>
         <link rel="stylesheet" href="css/Login.css">
     </head>
     <body>
         <div class="container">
             <div class="section">
-                <header>Login</header>
+                <header>Đăng nhập</header>
                 <form action="LoginServlet" method="post">
-                    <input type="text" placeholder="Enter username" name="input-username" class="input-infor-acc" required><br>
-                    <input type="password" placeholder="Enter password" name="input-password" class="input-infor-acc" required><br>
-                    <input type="submit" value="Login" class="btn btn-login"><br>
-                    <a class="back_home" href="Home.html">Back</a>
+                    <input type="text" placeholder="Tên đăng nhập" name="input-username" class="input-infor-acc" required><br>
+                    <input type="password" placeholder="Mật khảu" name="input-password" class="input-infor-acc" required><br>
+                    <input type="submit" value="Đăng nhập" class="btn btn-login"><br>
+                    <a class="back_home" href="Home.html">Trở lại</a>
                     <div style="clear: both;"></div>
                 </form>
                 
-                <a href="SignUp.jsp">Sign Up</a><br>
-                <a href="ForgotPass.jsp">Forgot Password</a><br>
+                <a href="SignUp.jsp">Đăng kí</a><br>
+                <a href="ForgotPass.jsp">Quên mật khẩu</a><br>
+                <h3 class="message">${requestScope.success}</h3>
             </div>
         </div>
            

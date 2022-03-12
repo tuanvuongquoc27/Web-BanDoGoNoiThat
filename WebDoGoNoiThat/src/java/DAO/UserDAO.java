@@ -49,13 +49,11 @@ public class UserDAO {
         return null;
     }
     
-    public User getUser(String username, String password){
+    public User getUser(String username,String password){
         DBContext db = new DBContext();
-        ArrayList<User> listacc = new ArrayList<>();
         try {   
             conn=db.getConnection();
-            state=conn.prepareStatement("select * from User where username = '"+username+"'"
-                    + " and password='"+password+"'");
+            state=conn.prepareStatement("select * from [user] where username = '"+username+"'");
             rs = state.executeQuery();
             
             while (rs.next()) {
@@ -71,6 +69,49 @@ public class UserDAO {
             Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
+    }
+    
+    public User getUserByUserName(String username){
+        DBContext db = new DBContext();
+        try {   
+            conn=db.getConnection();
+            state=conn.prepareStatement("select * from [user] where username = '"+username+"'");
+            rs = state.executeQuery();
+            while (rs.next()) {
+                return new User(
+                rs.getInt(1),
+                rs.getString(2),
+                rs.getString(3),
+                rs.getString(4)); 
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+    
+    public void insertUser(String username, String password, String email) {
+        DBContext db = new DBContext();
+        try {
+            conn=db.getConnection();
+            state=conn.prepareStatement("insert into [user] values('"+username+"','"+password+"','customer')");
+            state.executeUpdate();  
+        } catch (Exception ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void updatePassword(String newPass, int userId){
+        DBContext db = new DBContext();
+        try {
+            conn=db.getConnection();
+            state=conn.prepareStatement("update [user] set password='"+newPass+"' where userId="+userId);
+            state.executeUpdate();  
+        } catch (Exception ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     

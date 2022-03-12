@@ -36,14 +36,14 @@ public class LoginServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            UserDAO accd = new UserDAO();
+            UserDAO ud = new UserDAO();
             ProductDAO prd = new ProductDAO();
             ArrayList<Product> listproduct =prd.getAllProduct();
             String username = request.getParameter("input-username");
             String password = request.getParameter("input-password");
             User acc = new User(username, password);
-            if(accd.getUser(username, password)!= null){
-                request.setAttribute("productlist", listproduct);
+            if(ud.getUser(username, password)!= null){
+                request.setAttribute("list", listproduct);
                 request.getRequestDispatcher("HomePage.jsp").forward(request, response);
             }else{
                 out.println("login fail");
