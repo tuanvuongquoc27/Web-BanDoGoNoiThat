@@ -5,7 +5,7 @@
 --%>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -159,7 +159,7 @@
             </div>
 
             <div class="body">
-                <div class="row product__buy" style="height:550px;">
+                <div class="row product__buy">
                     <div class="col-sm-1"></div>
                     <div class="col-sm-10 product__cart">
                         <div class="row">
@@ -168,6 +168,7 @@
                             </div>
                             <c:set var="product" value="${requestScope.product}" />
                             <c:set var="percent" value="${100-(product.getProductNewPrice()/product.getProductOldPrice())*100}" />
+                            <fmt:parseNumber var="j" integerOnly="true" pattern="." type="number" value="${percent}"/> 
                             <div class="col-sm-6 product__cart-infor">
                                 <div class="product__cart-header">
                                     <h4 class="product__cart-name">${product.getProductName()}</h4>
@@ -185,7 +186,7 @@
                                     <span class="product__cart-price--old">${product.getProductOldPrice()}</span>
                                     <span class="product__cart-price--new">${product.getProductNewPrice()}</span>
                                     <span class="product__cart-price--percent">
-                                        ${percent}% Giảm</span>
+                                        ${j}% Giảm</span>
                                 </div>
                                 <div class="product__cart-address">
                                     <span class="product__cart-address--name">Địa chỉ</span>
@@ -224,7 +225,7 @@
                             <div class="col-sm-6 shop-description">
                                 <span>Product quantity: ${requestScope.shop.getShopProductQuantity()} </span>
                                 <span>Product sold: ${requestScope.shop.getShopProductSold()}</span>
-                                <span>Ngày tham gia: 27th22020 </span>
+                                <span>Ngày tham gia: ${requestScope.shop.getShopDate()} </span>
                             </div>
                         </div>
                     </div>

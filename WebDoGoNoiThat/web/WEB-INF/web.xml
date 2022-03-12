@@ -34,7 +34,7 @@
     </servlet>
     <servlet>
         <servlet-name>ShopServletController</servlet-name>
-        <servlet-class>ShopServletController</servlet-class>
+        <servlet-class>Controller.ShopServletController</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>

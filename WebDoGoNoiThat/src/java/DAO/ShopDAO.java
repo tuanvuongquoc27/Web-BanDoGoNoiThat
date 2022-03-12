@@ -37,7 +37,8 @@ public class ShopDAO {
                         rs.getString(3),
                         rs.getInt(4),
                         rs.getInt(5),
-                        rs.getString(6)));
+                        rs.getString(6),
+                        rs.getDate(7)));
             }
             return listshop;
         } catch (SQLException ex) {
@@ -62,7 +63,8 @@ public class ShopDAO {
                         rs.getString(3),
                         rs.getInt(4),
                         rs.getInt(5),
-                        rs.getString(6));
+                        rs.getString(6),
+                        rs.getDate(7));
             }
         } catch (SQLException ex) {
             Logger.getLogger(ShopDAO.class.getName()).log(Level.SEVERE, null, ex);

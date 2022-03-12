@@ -4,6 +4,8 @@
     Author     : Admin
 --%>
 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -162,17 +164,17 @@
                     <div class="col-sm-10 shop__infor">
                         <div class="shop__infor-name">
                             <img class="shop-img" src="./image/login-img.jpg" alt="">
-                            <h3 class="shop-name">DÉP CROSS VIỆT NAM XUẤT KHẨU</h3>
+                            <h3 class="shop-name">${requestScope.shop.getShopName()}</h3>
                         </div>
                         <div class="shop__infor2">
                             <ul>
-                                <li class="quantity"><i class="quantity-icon fa-solid fa-store"></i>Số lượng: </li>
-                                <li class="sold"><i class="sold-icon fa-brands fa-sellcast"></i>Đã bán:  </li>
-                                <li class="join"><i class="join-icon fa-solid fa-user-check"></i>Ngày tham gia: </li>
+                                <li class="quantity"><i class="quantity-icon fa-solid fa-store"></i>Số lượng: ${requestScope.shop.getShopProductQuantity()}</li>
+                                <li class="sold"><i class="sold-icon fa-brands fa-sellcast"></i>Đã bán: ${requestScope.shop.getShopProductSold()} </li>
+                                <li class="join"><i class="join-icon fa-solid fa-user-check"></i>Ngày tham gia: ${requestScope.shop.getShopDate()}</li>
                             </ul>
                             <ul>
-                                <li class="phone-number">Số điện thoại: 098xxxxxxx</li>
-                                <li class="address">Địa chỉ: Phố X Hẻm Y Thành phố Z</li>
+                                <li class="phone-number">Số điện thoại: ${requestScope.shop.getShopPhone()}</li>
+                                <li class="address">Địa chỉ: ${requestScope.shop.getShopAddress()}</li>
                                 <li class="rate">Đánh giá: </li>
                             </ul>
                         </div>
@@ -219,46 +221,50 @@
                     <div class="col-sm-8">
                         <div class="home-product">
                             <div class="row">
-                                <div class="col-sm-3">
-                                    <a href="CartProduct.html" class="home-product-item">
-                                        <div class="home-product-item__img"
-                                             style="background-image: url('https://noithatnhadep.pro/images/stories/virtuemart/product/resized/ban-an-mat-da-toi-gian-phong-cach-y-van-may-den-trang-(1)_400x400.jpg');">
-                                        </div>
-                                        <h5 class="home-product-item__name">Set dung trang Whoo dodng y hoang cung Gong Jinh
-                                            Jnag</h5>
-                                        <div class="home-product-item__price">
-                                            <span class="home-product-item__price-old">1.200.000đ</span>
-                                            <span class="home-product-item__price-current">999.999đ</span>
-                                        </div>
-                                        <div class="home-product-item__action">
-                                            <!-- home-product-item__like--liked -->
-                                            <span class="home-product-item__like ">
-                                                <i class="home-product-item__like-icon-empty fa-regular fa-heart"></i>
-                                                <i class="home-product-item__like-icon-fill fa-solid fa-heart"></i>
-                                            </span>
-                                            <div class="home-product-item__rating">
-                                                <i class="home-product-item__star-gold fa-solid fa-star"></i>
-                                                <i class="home-product-item__star-gold fa-solid fa-star"></i>
-                                                <i class="home-product-item__star-gold fa-solid fa-star"></i>
-                                                <i class="home-product-item__star-gold fa-solid fa-star"></i>
-                                                <i class="fa-solid fa-star"></i>
+                                <c:forEach items="${requestScope.productlist}" varStatus="loop" var="p">
+                                    <c:set var="percent" value="${(100-(p.getProductNewPrice()/p.getProductOldPrice())*100)}"/>
+                                    <fmt:parseNumber var="j" integerOnly="true" pattern="." type="number" value="${percent}"/>  
+                                    <div class="col-sm-3">
+                                        <a href="ProductServletController?productId=<c:out value="${p.getProductId()}"/>" class="home-product-item">
+                                            <div class="home-product-item__img"
+                                                 style="background-image: url('<c:out value="${p.getProductImg()}"/>');">
                                             </div>
-                                        </div>
-                                        <div class="home-product-item__origin">
-                                            <span class="home-product-item__brand">Whoo</span>
-                                            <span class="home-product-item__origin-name">Han Quoc </span>
-                                        </div>
-                                        <div class="home-product-item__favorite">
-                                            <i class="fa-solid fa-check"></i>
-                                            Yêu thích
-                                        </div>
-                                        <div class="home-product-item__sell-off">
-                                            <span class="home-product-item__sell-off--percent">10%</span>
-                                            <span class="home-product-item__sell-off--label">Giảm</span>
-                                        </div>
-                                    </a>
-                                </div>
-
+                                            <h5 class="home-product-item__name"><c:out value="${p.getProductName()}"/></h5>
+                                            <div class="home-product-item__price">
+                                                <span class="home-product-item__price-old"><c:out value="${p.getProductOldPrice()}"/> đ</span>
+                                                <span class="home-product-item__price-current"><c:out value="${p.getProductNewPrice()}"/> đ</span>
+                                            </div>
+                                            <div class="home-product-item__action">
+                                                <!-- home-product-item__like--liked -->
+                                                <span class="home-product-item__like ">
+                                                    <i class="home-product-item__like-icon-empty fa-regular fa-heart"></i>
+                                                    <i class="home-product-item__like-icon-fill fa-solid fa-heart"></i>
+                                                </span>
+                                                <div class="home-product-item__rating">
+                                                    <i class="home-product-item__star-gold fa-solid fa-star"></i>
+                                                    <i class="home-product-item__star-gold fa-solid fa-star"></i>
+                                                    <i class="home-product-item__star-gold fa-solid fa-star"></i>
+                                                    <i class="home-product-item__star-gold fa-solid fa-star"></i>
+                                                    <i class="fa-solid fa-star"></i>
+                                                </div>
+                                            </div>
+                                            <div class="home-product-item__origin">
+                                                <span class="home-product-item__brand"><c:out value="${p.getProductBrand()}"/></span>
+                                                <span class="home-product-item__origin-name"><c:out value="${p.getProductOrigin()}"/> </span>
+                                            </div>
+                                            <div class="home-product-item__favorite">
+                                                <i class="fa-solid fa-check"></i>
+                                                Yêu thích
+                                            </div>
+                                            <c:if test="${percent!=0}">
+                                                <div class="home-product-item__sell-off">
+                                                    <span class="home-product-item__sell-off--percent"><c:out value="${j}"/> %</span>
+                                                    <span class="home-product-item__sell-off--label">Giảm</span>
+                                                </div>
+                                            </c:if>
+                                        </a>
+                                    </div>
+                                </c:forEach>
 
                             </div>
                         </div>
