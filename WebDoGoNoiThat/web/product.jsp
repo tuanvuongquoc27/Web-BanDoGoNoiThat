@@ -166,7 +166,7 @@
                                             </div>
                                         </li>
                                     </ul>
-                                    <a href="#" class="nav-link btn-order">Xem giỏ hàng</a>
+                                    <a href="CartServletController?userId=${sessionScope.user.userId}" class="nav-link btn-order">Xem giỏ hàng</a>
                                 </div>
                                 <!--  cart : header cart list no cart  -->
                             </div>
@@ -185,7 +185,7 @@
                             <div class="col-sm-5 product__cart-image">
                                 <img class="product__cart-img" src="${product.getProductImg()}" alt="">
                             </div>
-                            <c:set var="product" value="${requestScope.product}" />
+                            <c:set var="product" value="${requestScope.product}"/>
                             <c:set var="percent" value="${100-(product.getProductNewPrice()/product.getProductOldPrice())*100}" />
                             <fmt:parseNumber var="j" integerOnly="true" pattern="." type="number" value="${percent}"/> 
 
@@ -225,28 +225,35 @@
                                     </c:if>
                                     
                                 </div>
-                                <div class="product__cart-quantity">
-                                    <form action="AddProductToCart">
+                                <form action="AddProductToCart" method="post">
+                                    <div class="product__cart-quantity">
                                         <table>
                                             <tr>
                                                 <td><span class="quantity">Số lượng</span></td>
-                                                <td><input type="number" class="input-quantity" min="1" max="10" value="1"></td>
+                                                <td><input type="number" class="input-quantity" name="quantity_input" min="1" max="10" value="1"></td>
+                                                <td><input type="hidden" name="productId" value="${product.getProductId()}"/></td>
+                                                <td><input type="hidden" name="userId" value="${sessionScope.user.userId}"/></td>
                                             </tr>
                                         </table>
-                                    </form>
-                                    
-                                    
-                                </div>
 
-                                <div class="product__cart-buy">
-                                    <c:if test="${sessionScope.user!=null}">
-                                        <a href="AddProductToCart?productid=${product.getProductId()}" class="product__cart-add-to-cart"><i class="fa-solid fa-cart-plus"></i>Thêm vào giỏ hàng</a>
-                                    </c:if>
-                                    <c:if test="${sessionScope.user==null}">
-                                        <a href="Login.jsp" class="product__cart-add-to-cart"><i class="fa-solid fa-cart-plus"></i>Thêm vào giỏ hàng</a>
-                                    </c:if>
-                                    <a href="" class="product__cart-buy-product">Mua ngay</a>
-                                </div>
+
+
+                                    </div>
+
+                                    <div class="product__cart-buy">
+                                        <c:if test="${sessionScope.user!=null}">
+                                            <span class="product__cart-add-to-cart" >
+                                                <i class="product__cart-add-to-cart-icon fa-solid fa-cart-plus"></i><input type="submit" class="product__cart-add-to-cart--input" value="Thêm vào giỏ hàng"/>
+                                            </span>
+                                        </c:if>
+                                        <c:if test="${sessionScope.user==null}">
+                                            <span class="product__cart-add-to-cart" >
+                                                <a href="Login.jsp" class="product__cart-add-to-cart"><i class="fa-solid fa-cart-plus"></i>Thêm vào giỏ hàng</a>
+                                            </span>
+                                        </c:if>
+                                        <a href="" class="product__cart-buy-product">Mua ngay</a>
+                                    </div>
+                                </form>
 
                             </div>
                         </div>

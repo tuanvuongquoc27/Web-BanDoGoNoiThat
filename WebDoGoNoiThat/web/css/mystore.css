@@ -72,6 +72,11 @@ h3 {
     font-size: 2rem;
 }
 
+.nav-link.delete-link{
+    font-size: 2rem;
+    color: red;
+}
+
 .total-pay.col-sm-3 {
     color: rgb(153, 142, 142);
     font-size: 300;

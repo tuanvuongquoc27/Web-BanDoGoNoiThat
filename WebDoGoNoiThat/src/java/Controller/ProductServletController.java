@@ -42,7 +42,7 @@ public class ProductServletController extends HttpServlet {
             /* TODO output your page here. You may use following sample code. */
             String idstring = request.getParameter("productId");
             String userIdstring = request.getParameter("userId");
-            int userId = Integer.parseInt(userIdstring);
+            
             int productId = Integer.parseInt(idstring);
             ProductDAO prd = new ProductDAO();
             CustomerDAO ctd = new CustomerDAO();
@@ -50,6 +50,7 @@ public class ProductServletController extends HttpServlet {
             SellerDAO sld = new SellerDAO();
             
             if(userIdstring!=null){
+                int userId = Integer.parseInt(userIdstring);
                 Seller seller = sld.getSellerById(userId);
                 Customer customer = ctd.getCustomerById(userId);
                 request.setAttribute("customer", customer);

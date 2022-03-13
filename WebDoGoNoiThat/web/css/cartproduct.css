@@ -119,14 +119,20 @@ margin-top: 20px;
     text-decoration: none;
     margin-top: 100px;
 }
-
+.product__cart-add-to-cart--input {
+    background-color: rgb(240, 139, 106);
+    color: rgb(127, 255, 7);
+    border:none;
+}
 .product__cart-add-to-cart{
+    margin-right: 10px;
     background-color: rgb(240, 139, 106);
     padding: 15px 25px;
     font-size: 1.5rem;
     color: rgb(127, 255, 7);
     text-decoration: none;
     border: 2px solid rgb(114, 255, 21);
+    
 }
 
 .product__cart-buy-product{

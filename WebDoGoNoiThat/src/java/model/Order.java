@@ -17,11 +17,12 @@ public class Order {
     private int productPrice;
     private int productQuantity;
     private int productTotal ;
+    private boolean sold;
 
     public Order() {
     }
 
-    public Order(int orderId, int customerId, int billId, int productId, int productPrice, int productQuantity, int productTotal) {
+    public Order(int orderId, int customerId, int billId, int productId, int productPrice, int productQuantity, int productTotal, boolean sold) {
         this.orderId = orderId;
         this.customerId = customerId;
         this.billId = billId;
@@ -29,7 +30,10 @@ public class Order {
         this.productPrice = productPrice;
         this.productQuantity = productQuantity;
         this.productTotal = productTotal;
+        this.sold = sold;
     }
+
+    
 
     public int getOrderId() {
         return orderId;
@@ -85,6 +89,14 @@ public class Order {
 
     public void setProductTotal(int productTotal) {
         this.productTotal = productTotal;
+    }
+
+    public boolean isSold() {
+        return sold;
+    }
+
+    public void setSold(boolean sold) {
+        this.sold = sold;
     }
     
     

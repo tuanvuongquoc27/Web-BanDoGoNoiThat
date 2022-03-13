@@ -5,6 +5,7 @@
  */
 package Controller;
 
+import DAO.OrderDAO;
 import DAO.UserDAO;
 import DAO.ProductDAO;
 import java.io.IOException;
@@ -15,6 +16,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import model.Order;
 import model.User;
 import model.Product;
 
@@ -38,11 +40,18 @@ public class LoginServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             UserDAO ud = new UserDAO();
+            
             String username = request.getParameter("input-username");
             String password = request.getParameter("input-password");
-            User acc = new User(username, password);
             User user = ud.getUserByUserName(username);
             if(ud.getUser(username, password)!= null){
+                OrderDAO od = new OrderDAO();
+                
+                if(!od.getAllOrder(ud.getUser(username, password).getUserId()).isEmpty()){
+                    request.setAttribute("orderlist", od.getAllOrder(ud.getUser(username, password).getUserId()));
+                }else{
+                    request.setAttribute("orderlist", null);
+                }
                 HttpSession session = request.getSession();
                 session.setAttribute("user", user);
                 request.getRequestDispatcher("HomeServletController").forward(request, response);

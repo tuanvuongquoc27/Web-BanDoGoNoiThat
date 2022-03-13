@@ -4,6 +4,10 @@
     Author     : Admin
 --%>
 
+<%@page import="model.Product"%>
+<%@page import="DAO.ProductDAO"%>
+<%@page import="model.Order"%>
+<%@page import="java.util.ArrayList"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -42,14 +46,14 @@ and open the template in the editor.
                     <!-- header navbar -->
                     <nav class="header__navbar">
                         <ul class="header__navbar-list">
-                            <li class="header__navbar-item"><a href="HomeServletController" class="header__navbar-item-link">Trang chủ</a></li>
-                                <c:if test="${sessionScope.user!=null}">
+                            <c:if test="${sessionScope.user!=null}">
+                                <li class="header__navbar-item"><a href="HomeServletController?userId=${sessionScope.user.userId}" class="header__navbar-item-link">Trang chủ</a></li>
                                 <li class="header__navbar-item">Xin chào: ${sessionScope.user.userName}  </li>
                                 </c:if>
                                 <c:if test="${sessionScope.user.role!='seller'&&sessionScope.user.role!='admin'}">
-                                    <li class="header__navbar-item"><a class="header__navbar-item-link" href="Seller.html">Đăng kí bán hàng</a></li>
+                                <li class="header__navbar-item"><a class="header__navbar-item-link" href="Seller.html">Đăng kí bán hàng</a></li>
                                 </c:if>
-                            
+
                         </ul>
                         <ul class="header__navbar-list">
                             <li class="header__navbar-item header__navbar-item-has-notify ">
@@ -117,68 +121,48 @@ and open the template in the editor.
                                 <span class="header__cart-number">3</span>
                                 <!-- no cart : header__cart-list--no-cart  -->
                                 <div class="header__cart-list header__cart-list--no-cart">
-                                    <img src="image/cart-empty.png" alt="" class="header__cart-list--no-cart-img" />
-                                    <p class="header__cart-list--no-cart-message">Không có sản phẩm</p>
+                                    <c:if test="${requestScope.orderlist==null}">
+                                        <img src="image/cart-empty.png" alt="" class="header__cart-list--no-cart-img" />
+                                        <p class="header__cart-list--no-cart-message">Không có sản phẩm</p>
+                                    </c:if>
+                                    <c:if test="${requestScope.orderlist!=null}">
+                                        <% ArrayList<Order> ordlist = (ArrayList<Order>) request.getAttribute("orderlist");
+                                            for (int i = 0; i < ordlist.size(); i++) {
+                                                ProductDAO prd = new ProductDAO();
+                                                Product pro = new Product();
+                                                pro = prd.getProduct(ordlist.get(i).getProductId());
+                                                request.setAttribute("pro", pro);
+                                                request.setAttribute("order", ordlist.get(i)); %>
+                                        
+                                        <h4 class="header__cart-heading">Sản phẩm</h4>
+                                        <ul class="header__cart-list-item">
+                                            <!-- cart item -->
+                                            <li class="header__cart-item">
+                                                <img src="${requestScope.pro.getProductImg()}" alt="" class="header__cart-img">
+                                                <div class="header__cart-item-infor">
+                                                    <div class="header__cart-item-head">
+                                                        <h5 class="header__cart-item-name">${requestScope.pro.getProductName()}</h5>
+                                                        <div class="header__cart-item-pricewrap">
+                                                            <span class="header__cart-item-price"><fmt:formatNumber type="number" pattern="###,###,###đ" value="${requestScope.order.getProductPrice()}" /></span>
+                                                            <span class="header__cart-item-ope">x</span>
+                                                            <span class="header__cart-item-quantity">${requestScope.order.getProductQuantity()}</span>
+                                                        </div>
 
-                                    <h4 class="header__cart-heading">Sản phẩm</h4>
-                                    <ul class="header__cart-list-item">
-                                        <!-- cart item -->
-                                        <li class="header__cart-item">
-                                            <img src="image/login-img.jpg" alt="" class="header__cart-img">
-                                            <div class="header__cart-item-infor">
-                                                <div class="header__cart-item-head">
-                                                    <h5 class="header__cart-item-name">Bộ kem đặc trị vùng mắt</h5>
-                                                    <div class="header__cart-item-pricewrap">
-                                                        <span class="header__cart-item-price">2.000.000đ</span>
-                                                        <span class="header__cart-item-ope">x</span>
-                                                        <span class="header__cart-item-quantity">1</span>
                                                     </div>
-
-                                                </div>
-                                                <div class="header__cart-item-body">
-                                                    <span class="header__cart-item-description">phân loại</span>
-                                                    <span class="header__cart-item-delete">Xóa</span>
-                                                </div>
-                                            </div>
-                                        </li>
-                                        <li class="header__cart-item">
-                                            <img src="image/login-img.jpg" alt="" class="header__cart-img">
-                                            <div class="header__cart-item-infor">
-                                                <div class="header__cart-item-head">
-                                                    <h5 class="header__cart-item-name">Bộ kem đặc trị vùng mắt</h5>
-                                                    <div class="header__cart-item-pricewrap">
-                                                        <span class="header__cart-item-price">2.000.000đ</span>
-                                                        <span class="header__cart-item-ope">x</span>
-                                                        <span class="header__cart-item-quantity">1</span>
+                                                    <div class="header__cart-item-body">
+                                                        <span class="header__cart-item-description">Xuất xứ: ${requestScope.pro.getProductBrand()}</span>
+                                                        <span class="header__cart-item-delete">Xóa</span>
                                                     </div>
+                                                </div>
+                                            </li>
 
-                                                </div>
-                                                <div class="header__cart-item-body">
-                                                    <span class="header__cart-item-description">phân loại</span>
-                                                    <span class="header__cart-item-delete">Xóa</span>
-                                                </div>
-                                            </div>
-                                        </li>
-                                        <li class="header__cart-item">
-                                            <img src="image/login-img.jpg" alt="" class="header__cart-img">
-                                            <div class="header__cart-item-infor">
-                                                <div class="header__cart-item-head">
-                                                    <h5 class="header__cart-item-name">Bộ kem đặc trị vùng mắt</h5>
-                                                    <div class="header__cart-item-pricewrap">
-                                                        <span class="header__cart-item-price">2.000.000đ</span>
-                                                        <span class="header__cart-item-ope">x</span>
-                                                        <span class="header__cart-item-quantity">1</span>
-                                                    </div>
+                                        </ul>
+                                        <%}%>
+                                        <a href="CartServletController?userId=${sessionScope.user.userId}" class="nav-link btn-order">Xem giỏ hàng</a>
+                                    </c:if>
 
-                                                </div>
-                                                <div class="header__cart-item-body">
-                                                    <span class="header__cart-item-description">phân loại</span>
-                                                    <span class="header__cart-item-delete">Xóa</span>
-                                                </div>
-                                            </div>
-                                        </li>
-                                    </ul>
-                                    <a href="mycart.html" class="nav-link btn-order">Xem giỏ hàng</a>
+
+
                                 </div>
                                 <!--  cart : header cart list no cart  -->
                             </div>
@@ -201,12 +185,12 @@ and open the template in the editor.
                             <ul class="dropdown-menu category__list-child">
                                 <c:if test="${sessionScope.user.role=='admin'}">
                                     <li class="dropdown-item category__list-item--child ">
-                                        <a href="ManagerStoreServlet" class="category__list-item-link--child nav-link">Quản lí tài khoản</a>
+                                        <a href="ManagerStoreServlet?userId=${sessionScope.user.userId}" class="category__list-item-link--child nav-link">Quản lí tài khoản</a>
                                     </li>
                                 </c:if>
                                 <c:if test="${sessionScope.user.role=='seller'}">
                                     <li class="dropdown-item category__list-item--child ">
-                                        <a href="myShop.html" class="category__list-item-link--child nav-link">Quản lý cửa hàng</a>
+                                        <a href="ShopServletController" class="category__list-item-link--child nav-link">Quản lý cửa hàng</a>
                                     </li>
                                 </c:if>
 
@@ -234,7 +218,7 @@ and open the template in the editor.
 
                                 <c:if test="${sessionScope.user.role=='admin'}">
                                     <li class="dropdown-item category__list-item--child ">
-                                        <a href="#" class="category__list-item-link--child nav-link">Add more</a>
+                                        <a href="#" class="category__list-item-link--child nav-link">Thêm mới</a>
                                     </li>
                                 </c:if>
 
@@ -289,48 +273,53 @@ and open the template in the editor.
                                     <c:set var="percent" value="${100-(p.getProductNewPrice()/p.getProductOldPrice())*100}"/>
                                     <fmt:parseNumber var="j" integerOnly="true" pattern="." type="number" value="${percent}"/>
                                     <div class="col-sm-3">
-                                        <a href="ProductServletController?productId=<c:out value="${p.getProductId()}"/>&userId=${sessionScope.user.userId}" class="home-product-item">
-                                            <div class="home-product-item__img" style="background-image: url('<c:out value="${p.getProductImg()}"/>');"></div>
-                                            <h5 class="home-product-item__name"><c:out value="${p.getProductName()}"/></h5>
-                                            <div class="home-product-item__price">
+                                        <c:if test="${sessionScope.user==null}">
+                                            <a href="ProductServletController?productId=<c:out value="${p.getProductId()}"/>" class="home-product-item">
+                                            </c:if> 
+                                            <c:if test="${sessionScope.user!=null}">
+                                                <a href="ProductServletController?productId=<c:out value="${p.getProductId()}"/>&userId=${sessionScope.user.userId}" class="home-product-item">
+                                                </c:if> 
+                                                <div class="home-product-item__img" style="background-image: url('<c:out value="${p.getProductImg()}"/>');"></div>
+                                                <h5 class="home-product-item__name"><c:out value="${p.getProductName()}"/></h5>
+                                                <div class="home-product-item__price">
+                                                    <c:if test="${j!=0}">
+                                                        <span class="home-product-item__price-old"><fmt:formatNumber type="number" pattern="###,###,###đ" value="${p.getProductOldPrice()}" /></span>
+                                                        <span class="home-product-item__price-current"><fmt:formatNumber type="number" pattern="###,###,###đ" value="${p.getProductNewPrice()}" /></span>
+                                                    </c:if>
+                                                    <c:if test="${j==0}">
+                                                        <span class="home-product-item__price-current"><fmt:formatNumber type="number" pattern="###,###,###đ" value="${p.getProductOldPrice()}" /></span>
+                                                    </c:if>
+                                                </div>
+                                                <div class="home-product-item__action">
+                                                    <!-- home-product-item__like--liked -->
+                                                    <span class="home-product-item__like ">
+                                                        <i class="home-product-item__like-icon-empty fa-regular fa-heart"></i>
+                                                        <i class="home-product-item__like-icon-fill fa-solid fa-heart"></i>
+                                                    </span>
+                                                    <div class="home-product-item__rating">
+                                                        <i class="home-product-item__star-gold fa-solid fa-star"></i>
+                                                        <i class="home-product-item__star-gold fa-solid fa-star"></i>
+                                                        <i class="home-product-item__star-gold fa-solid fa-star"></i>
+                                                        <i class="home-product-item__star-gold fa-solid fa-star"></i>
+                                                        <i class="fa-solid fa-star"></i>
+                                                    </div>
+                                                </div>
+                                                <div class="home-product-item__origin">
+                                                    <span class="home-product-item__brand"><c:out value="${p.getProductBrand()}"/></span>
+                                                    <span class="home-product-item__origin-name"><c:out value="${p.getProductOrigin()}"/></span>
+                                                </div>
+                                                <div class="home-product-item__favorite">
+                                                    <i class="fa-solid fa-check"></i>
+                                                    Yêu thích 
+                                                </div>
                                                 <c:if test="${j!=0}">
-                                                    <span class="home-product-item__price-old"><fmt:formatNumber type="number" pattern="###,###,###đ" value="${p.getProductOldPrice()}" /></span>
-                                                    <span class="home-product-item__price-current"><fmt:formatNumber type="number" pattern="###,###,###đ" value="${p.getProductNewPrice()}" /></span>
+                                                    <div class="home-product-item__sell-off">
+                                                        <span class="home-product-item__sell-off--percent"><c:out value="${j}"/> %</span>
+                                                        <span class="home-product-item__sell-off--label">Giảm</span>
+                                                    </div>
                                                 </c:if>
-                                                <c:if test="${j==0}">
-                                                    <span class="home-product-item__price-current"><fmt:formatNumber type="number" pattern="###,###,###đ" value="${p.getProductOldPrice()}" /></span>
-                                                </c:if>
-                                            </div>
-                                            <div class="home-product-item__action">
-                                                <!-- home-product-item__like--liked -->
-                                                <span class="home-product-item__like ">
-                                                    <i class="home-product-item__like-icon-empty fa-regular fa-heart"></i>
-                                                    <i class="home-product-item__like-icon-fill fa-solid fa-heart"></i>
-                                                </span>
-                                                <div class="home-product-item__rating">
-                                                    <i class="home-product-item__star-gold fa-solid fa-star"></i>
-                                                    <i class="home-product-item__star-gold fa-solid fa-star"></i>
-                                                    <i class="home-product-item__star-gold fa-solid fa-star"></i>
-                                                    <i class="home-product-item__star-gold fa-solid fa-star"></i>
-                                                    <i class="fa-solid fa-star"></i>
-                                                </div>
-                                            </div>
-                                            <div class="home-product-item__origin">
-                                                <span class="home-product-item__brand"><c:out value="${p.getProductBrand()}"/></span>
-                                                <span class="home-product-item__origin-name"><c:out value="${p.getProductOrigin()}"/></span>
-                                            </div>
-                                            <div class="home-product-item__favorite">
-                                                <i class="fa-solid fa-check"></i>
-                                                Yêu thích 
-                                            </div>
-                                            <c:if test="${j!=0}">
-                                                <div class="home-product-item__sell-off">
-                                                    <span class="home-product-item__sell-off--percent"><c:out value="${j}"/> %</span>
-                                                    <span class="home-product-item__sell-off--label">Giảm</span>
-                                                </div>
-                                            </c:if>
 
-                                        </a>
+                                            </a>
                                     </div>
                                 </c:forEach>
 

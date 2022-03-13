@@ -98,7 +98,7 @@ public class UserDAO {
         DBContext db = new DBContext();
         try {
             conn=db.getConnection();
-            state=conn.prepareStatement("insert into [user] values('"+username+"','"+password+"','customer')");
+            state=conn.prepareStatement("insert into [user] values('"+username+"','"+password+"','customer',0)");
             state.executeUpdate();  
         } catch (Exception ex) {
             Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -121,6 +121,17 @@ public class UserDAO {
         try {
             conn=db.getConnection();
             state=conn.prepareStatement("delete [user] where userId="+userId);
+            state.executeUpdate();  
+        } catch (Exception ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void updateBalance(int userId , int balance){
+        DBContext db = new DBContext();
+        try {
+            conn=db.getConnection();
+            state=conn.prepareStatement("update [user] set userBalance=userBalance"+ balance +" where userId="+userId);
             state.executeUpdate();  
         } catch (Exception ex) {
             Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);

@@ -5,12 +5,18 @@
  */
 package Controller;
 
+import DAO.BillDAO;
+import DAO.OrderDAO;
+import DAO.ProductDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import model.Bill;
+import model.Order;
+import model.Product;
 
 /**
  *
@@ -32,7 +38,33 @@ public class AddProductToCart extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
-            String quantityString = request.getParameter("input-quantity");
+            String quantityString = request.getParameter("quantity_input");
+            String userIdstring = request.getParameter("userId");
+            String productIdstring = request.getParameter("productId");
+            int userId = Integer.parseInt(userIdstring);
+            int quantity = Integer.parseInt(quantityString);
+            int productId = Integer.parseInt(productIdstring);
+            ProductDAO prd = new ProductDAO();
+            BillDAO bd = new BillDAO();
+            OrderDAO od = new OrderDAO();
+            Bill bill = bd.getBillEmpty(userId);
+            Product product = prd.getProduct(productId);
+            
+            if(bill==null){
+                bd.insertBill(userId);
+            }else if(bill.getBillDate()!=null){
+                bd.insertBill(userId);
+                
+            }
+            
+                bill = bd.getBillEmpty(userId);
+                Order oldorder = od.getOrderSold(userId, productId);
+                if(oldorder==null){
+                    od.insertOrder(userId, bill.getBillId(), productId, product.getProductNewPrice(), quantity, quantity*product.getProductNewPrice());
+                }else{
+                    od.updateOrder(productId, quantity, quantity*product.getProductNewPrice());
+                }
+                request.getRequestDispatcher("HomeServletController").forward(request, response);
             
             
         }

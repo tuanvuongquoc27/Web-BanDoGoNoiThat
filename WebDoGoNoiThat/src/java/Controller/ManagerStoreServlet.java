@@ -5,6 +5,7 @@
  */
 package Controller;
 
+import DAO.OrderDAO;
 import DAO.SellerDAO;
 import DAO.ShopDAO;
 import java.io.IOException;
@@ -14,6 +15,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import model.Order;
 import model.Seller;
 import model.Shop;
 
@@ -38,6 +40,11 @@ public class ManagerStoreServlet extends HttpServlet {
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             SellerDAO sld = new SellerDAO();
+            String userIdstring = request.getParameter("userId");
+            int userId = Integer.parseInt(userIdstring);
+            OrderDAO od = new OrderDAO();
+             ArrayList<Order> orderlist = od.getAllOrder(userId);
+             request.setAttribute("orderlist", orderlist);
             ShopDAO sd = new ShopDAO();
             ArrayList<Shop> shoplist = sd.getAllShop();
             ArrayList<Seller> sellerlist = sld.getAllSeller();

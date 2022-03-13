@@ -51,7 +51,7 @@ public class SignUpServlet extends HttpServlet {
                     }else{
                         ud.insertUser(username, password,email);
                         User newuser = ud.getUser(username, password);
-                        ctd.insertCustomer(newuser.getUserId(), username, "", email,"");
+                        ctd.insertCustomer(newuser.getUserId(), username, null, email,null);
                         request.setAttribute("success", "Tạo tài khoản thành công");
                         request.getRequestDispatcher("Login.jsp").forward(request, response);
                     }

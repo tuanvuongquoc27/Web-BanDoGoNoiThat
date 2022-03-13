@@ -4,6 +4,12 @@
     Author     : Admin
 --%>
 
+<%@page import="model.Order"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="model.Product"%>
+<%@page import="DAO.ProductDAO"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -11,7 +17,8 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Document</title>
+        <title>Giỏ hàng</title>
+        <link rel="shortcut icon" href="./image/cart.png" type="image/x-icon">
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">        
@@ -27,7 +34,7 @@
             <div class="row header">
                 <div class="col-sm-1"></div>
                 <div class="col-sm-10 header__cart">
-                    <a class="" href="Home.html"><i class="fa-solid fa-house"></i>Trang chủ</a>
+                    <a class="" href="HomeServletController?userId=${sessionScope.user.userId}"><i class="fa-solid fa-house"></i>Trang chủ</a>
                     <span class="cart-name">Giỏ hàng</span>
                 </div>
                 <div class="col-sm-1"></div>
@@ -38,58 +45,61 @@
                     <div class="col-sm-2"><h2>Đơn giá</h2></div>
                     <div class="col-sm-2"><h2>Số lượng</h2></div>
                     <div class="col-sm-2"><h2>Thành tiền</h2></div>
+                    <div class="col-sm-1"></div>
                 </div>
-                <div class="row product__row">
-                    <div class="col-sm-6 product__cart">
-                        <img src="./image/login-img.jpg" alt="" class="header__cart-img img-fluid">
-                        <h5 class="home-product-item__name">Set dung trang Whoo dodng y hoang cung Gong Jinh Jnag Set dung trang Whoo dodng y hoang cung Gong Jinh Jnag</h5>
+                <c:if test="${requestScope.orderlist!=null}">
+                    <c:set var="totalmoney" value="${0}"></c:set>
+                    <% ArrayList<Order> ordlist = (ArrayList<Order>) request.getAttribute("orderlist");
+                        for (int i = 0; i < ordlist.size(); i++) {
+                            ProductDAO prd = new ProductDAO();
+                            Product pro = new Product();
+                            pro = prd.getProduct(ordlist.get(i).getProductId());
+                            request.setAttribute("pro", pro);
+                            request.setAttribute("order", ordlist.get(i)); %>
+
+                    <div class="row product__row">
+                        <div class="col-sm-6 product__cart">
+                            <img src="${requestScope.pro.getProductImg()}" alt="" class="header__cart-img img-fluid">
+                            <h5 class="home-product-item__name">${requestScope.pro.getProductName()}</h5>
+
+                        </div>
+                        <div class="col-sm-2 product__price"><fmt:formatNumber type="number" pattern="###,###,###đ" value="${requestScope.order.getProductPrice()}" /></div>
+                        <div class="col-sm-2 product__quantity">${requestScope.order.getProductQuantity()}</div>
+                        <div class="col-sm-2 product__total"><fmt:formatNumber type="number" pattern="###,###,###đ" value="${requestScope.order.getProductTotal()}" />
+                            <a href="CartServletController?deleteId=${requestScope.pro.getProductId()}&userId=${sessionScope.user.userId}" class="nav-link delete-link">Xóa</a></div>
+                    </div>
+
+                    <c:set var="totalmoney" value="${requestScope.order.getProductTotal()+totalmoney}"></c:set>
+                    <%}%>
+
+
+                    <div class="row">
+                        <div class="col-sm-9"></div>
+                        <div class="col-sm-3 total-pay">
+                            <h3>Tống tiền hàng: <fmt:formatNumber type="number" pattern="###,###,###đ" value="${totalmoney}" /></h3>
+                            <h3>Phí vận chuyển: 20.000đ</h3>
+                            <h3>Tổng thanh toán: <fmt:formatNumber type="number" pattern="###,###,###đ" value="${totalmoney+20000}" /></h3>
+                        </div>
+                    </div>  
+
+                    <div class="product__pay">
+                        <form action="#">
+                            <h2>Phương thức thanh toán</h2>
+                            <select name="" id="" class="pay-option">
+                                <option value="">Thanh toán ví điện tử</option>
+                                <option value="">Thanh toán khi nhận hàng</option>
+                            </select>
+                            <input type="submit" class="sub-btn" value="Thanh toán">
+                        </form>
+
 
                     </div>
-                    <div class="col-sm-2 product__price">2.000đ</div>
-                    <div class="col-sm-2 product__quantity">12</div>
-                    <div class="col-sm-2 product__total">24.000đ</div>
-                </div>
-                <div class="row product__row">
-                    <div class="col-sm-6 product__cart">
-                        <img src="./image/login-img.jpg" alt="" class="header__cart-img img-fluid">
-                        <h5 class="home-product-item__name">Set dung trang Whoo dodng y hoang cung Gong Jinh Jnag</h5>
+                </c:if>
+                <c:if test="${requestScope.order==null}">
+                    
+                    
+                </c:if>
 
-                    </div>
-                    <div class="col-sm-2 product__price">2.000đ</div>
-                    <div class="col-sm-2 product__quantity">12</div>
-                    <div class="col-sm-2 product__total">24.000đ</div>
-                </div>
-                <div class="row product__row">
-                    <div class="col-sm-6 product__cart">
-                        <img src="./image/login-img.jpg" alt="" class="header__cart-img img-fluid">
-                        <h5 class="home-product-item__name">Set dung trang Whoo dodng y hoang cung Gong Jinh Jnag</h5>
-
-                    </div>
-                    <div class="col-sm-2 product__price">2.000đ</div>
-                    <div class="col-sm-2 product__quantity">12</div>
-                    <div class="col-sm-2 product__total">24.000đ</div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-9"></div>
-                    <div class="col-sm-3 total-pay">
-                        <h3>Tống tiền hàng: 100.000đ</h3>
-                        <h3>Phí vận chuyển: 20.000đ</h3>
-                        <h3>Tổng thanh toán: 120.000đ</h3>
-                    </div>
-                </div>  
-
-                <div class="product__pay">
-                    <form action="#">
-                        <h2>Phương thức thanh toán</h2>
-                        <select name="" id="" class="pay-option">
-                            <option value="">Thanh toán ví điện tử</option>
-                            <option value="">Thanh toán khi nhận hàng</option>
-                        </select>
-                        <input type="submit" class="sub-btn" value="Thanh toán">
-                    </form>
-
-
-                </div>
 
             </div>
 

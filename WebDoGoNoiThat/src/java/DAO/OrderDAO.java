@@ -5,37 +5,122 @@
  */
 package DAO;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import model.Order;
+
 /**
  *
  * @author Admin
  */
 public class OrderDAO {
-    public Product getProduct(int productId){
+    Connection conn;
+    PreparedStatement state ;
+    ResultSet rs;
+    
+    public ArrayList<Order> getAllOrder(int customerId){
         DBContext db = new DBContext();
         try {   
             conn=db.getConnection();
-            state=conn.prepareStatement("select * from product where productId="+productId);
+            state=conn.prepareStatement("select * from [order] where customerId="+customerId+"and sold=0");
             rs = state.executeQuery();
-            Product product = new Product();
+            ArrayList<Order> orderlist = new ArrayList<>();
             while(rs.next()){
-                return new Product(
+                orderlist.add(new Order(
                         rs.getInt(1),
-                        rs.getString(2),
-                        rs.getString(3),
-                        rs.getString(4),
+                        rs.getInt(2),
+                        rs.getInt(3),
+                        rs.getInt(4),
                         rs.getInt(5),
                         rs.getInt(6),
                         rs.getInt(7),
-                        rs.getInt(8),
-                        rs.getString(9),
-                        rs.getString(10),
-                        rs.getInt(11));
+                        rs.getBoolean(8)));
             }
+            return orderlist;
         } catch (SQLException ex) {
-            Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(OrderDAO.class.getName()).log(Level.SEVERE, null, ex);
         } catch (Exception ex) {
-            Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(OrderDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
     }
+    
+    public Order getOrderSold(int userId, int productId){
+        DBContext db = new DBContext();
+        try {   
+            conn=db.getConnection();
+            state=conn.prepareStatement("select * from [order] where customerId="+userId+" and sold=0 and productId="+productId);
+            rs = state.executeQuery();
+            while(rs.next()){
+                return new Order(
+                        rs.getInt(1),
+                        rs.getInt(2),
+                        rs.getInt(3),
+                        rs.getInt(4),
+                        rs.getInt(5),
+                        rs.getInt(6),
+                        rs.getInt(7),
+                        rs.getBoolean(8));
+            }
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(OrderDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(OrderDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+    
+    public void insertOrder(int customerId, int billId, int productId, int productPrice, int productQuantity, int productTotal){
+        DBContext db = new DBContext();
+        try {   
+            conn=db.getConnection();
+            state=conn.prepareStatement("insert into [order] values("
+                    +customerId+","
+                    +billId+","
+                    +productId+","
+                    +productPrice+","
+                    +productQuantity+","
+                    +productTotal+",0)");
+            
+           state.execute();
+        } catch (SQLException ex) {
+            Logger.getLogger(OrderDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(OrderDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void updateOrder(int productId,int productQuantity ,int productTotal){
+        DBContext db = new DBContext();
+        try {   
+            conn=db.getConnection();
+            state=conn.prepareStatement("update [order] set productQuantity = productQuantity+"+productQuantity+", productTotal=productTotal+"+productTotal+" where productId="+productId);
+            
+           state.execute();
+        } catch (SQLException ex) {
+            Logger.getLogger(OrderDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(OrderDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void deleteOrder(int deleteId) {
+        DBContext db = new DBContext();
+        try {   
+            conn=db.getConnection();
+            state=conn.prepareStatement("delete [order] where productId="+deleteId);
+            state.execute();
+        } catch (SQLException ex) {
+            Logger.getLogger(OrderDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(OrderDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
 }
