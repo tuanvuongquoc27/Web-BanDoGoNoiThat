@@ -14,16 +14,20 @@ public class User {
     private String userName;
     private String password;
     private String role;
+    private int userBanlance;
 
     public User() {
     }
 
-    public User(int userId, String userName, String password, String role) {
+    public User(int userId, String userName, String password, String role, int userBanlance) {
         this.userId = userId;
         this.userName = userName;
         this.password = password;
         this.role = role;
+        this.userBanlance = userBanlance;
     }
+
+    
 
     public User(String userName, String password) {
         this.userName = userName;
@@ -60,6 +64,14 @@ public class User {
 
     public void setRole(String role) {
         this.role = role;
+    }
+
+    public int getUserBanlance() {
+        return userBanlance;
+    }
+
+    public void setUserBanlance(int userBanlance) {
+        this.userBanlance = userBanlance;
     }
     
     

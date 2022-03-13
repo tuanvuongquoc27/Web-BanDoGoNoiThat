@@ -112,5 +112,35 @@ public class ProductDAO {
         return null;
     }
     
+    public ArrayList<Product> getProductbyCategoryId(int categoryId){
+        DBContext db = new DBContext();
+        try {   
+            conn=db.getConnection();
+            state=conn.prepareStatement("select * from product where productType="+categoryId);
+            rs = state.executeQuery();
+            ArrayList<Product> productlist = new ArrayList<>();
+            while(rs.next()){
+                productlist.add(new Product(
+                        rs.getInt(1),
+                        rs.getString(2),
+                        rs.getString(3),
+                        rs.getString(4),
+                        rs.getInt(5),
+                        rs.getInt(6),
+                        rs.getInt(7),
+                        rs.getInt(8),
+                        rs.getString(9),
+                        rs.getString(10),
+                        rs.getInt(11)));
+            }
+            return productlist;
+        } catch (SQLException ex) {
+            Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+    
     
 }

@@ -38,7 +38,9 @@ public class ShopDAO {
                         rs.getInt(4),
                         rs.getInt(5),
                         rs.getString(6),
-                        rs.getDate(7)));
+                        rs.getDate(7),
+                        rs.getInt(8),
+                        rs.getInt(9)));
             }
             return listshop;
         } catch (SQLException ex) {
@@ -49,7 +51,7 @@ public class ShopDAO {
         return null;
     }
     
-    public Shop getProduct(int shopId){
+    public Shop getShop(int shopId){
         DBContext db = new DBContext();
         try {   
             conn=db.getConnection();
@@ -64,7 +66,9 @@ public class ShopDAO {
                         rs.getInt(4),
                         rs.getInt(5),
                         rs.getString(6),
-                        rs.getDate(7));
+                        rs.getDate(7),
+                        rs.getInt(8),
+                        rs.getInt(9));
             }
         } catch (SQLException ex) {
             Logger.getLogger(ShopDAO.class.getName()).log(Level.SEVERE, null, ex);

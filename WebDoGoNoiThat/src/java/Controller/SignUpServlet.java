@@ -43,7 +43,7 @@ public class SignUpServlet extends HttpServlet {
             CustomerDAO ctd = new CustomerDAO();
             
             if(password.equals(password_again)){
-                User user = ud.getUser(username, password);
+                User user = ud.getUserByUserName(username);
                 if(user==null ){
                     Customer customer = ctd.getCustomerByEmail(email);
                     if(customer!=null){

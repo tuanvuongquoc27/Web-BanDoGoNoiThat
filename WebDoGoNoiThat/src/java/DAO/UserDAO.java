@@ -37,7 +37,8 @@ public class UserDAO {
                 rs.getInt(1),
                 rs.getString(2),
                 rs.getString(3),
-                rs.getString(4));
+                rs.getString(4),
+                rs.getInt(5));
                 listacc.add(acc);
             }
             return listacc;
@@ -53,15 +54,15 @@ public class UserDAO {
         DBContext db = new DBContext();
         try {   
             conn=db.getConnection();
-            state=conn.prepareStatement("select * from [user] where username = '"+username+"'");
+            state=conn.prepareStatement("select * from [user] where username = '"+username+"' and password='"+password+"'");
             rs = state.executeQuery();
-            
             while (rs.next()) {
                 return new User(
                 rs.getInt(1),
                 rs.getString(2),
                 rs.getString(3),
-                rs.getString(4)); 
+                rs.getString(4),
+                rs.getInt(5)); 
             }
         } catch (SQLException ex) {
             Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -82,7 +83,8 @@ public class UserDAO {
                 rs.getInt(1),
                 rs.getString(2),
                 rs.getString(3),
-                rs.getString(4)); 
+                rs.getString(4),
+                rs.getInt(5)); 
             }
         } catch (SQLException ex) {
             Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -108,6 +110,17 @@ public class UserDAO {
         try {
             conn=db.getConnection();
             state=conn.prepareStatement("update [user] set password='"+newPass+"' where userId="+userId);
+            state.executeUpdate();  
+        } catch (Exception ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void deleteUser(int userId){
+        DBContext db = new DBContext();
+        try {
+            conn=db.getConnection();
+            state=conn.prepareStatement("delete [user] where userId="+userId);
             state.executeUpdate();  
         } catch (Exception ex) {
             Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);

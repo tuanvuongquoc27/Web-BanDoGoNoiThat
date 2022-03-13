@@ -5,6 +5,7 @@
  */
 package Controller;
 
+import DAO.CategoryDAO;
 import DAO.ProductDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -13,6 +14,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import model.Category;
 import model.Product;
 
 /**
@@ -36,8 +38,12 @@ public class HomeServletController extends HttpServlet {
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             ProductDAO prd = new ProductDAO();
+            CategoryDAO ctd = new CategoryDAO();
+            ArrayList<Category> categorylist = ctd.getAllCategory();
             ArrayList<Product> list = prd.getAllProduct();
+            request.setAttribute("categorylist", categorylist);
             request.setAttribute("list", list);
+            //out.println(categorylist);
             request.getRequestDispatcher("HomePage.jsp").forward(request, response);
         }
     }

@@ -19,11 +19,13 @@ public class Shop {
     private int shopProductSold ;
     private String shopPhone ;
     private Date shopDate;
+    private int shopRevenue;
+    private int shopProfit;
 
     public Shop() {
     }
 
-    public Shop(int shopId, String shopName, String shopAddress, int shopProductQuantity, int shopProductSold, String shopPhone, Date shopDate) {
+    public Shop(int shopId, String shopName, String shopAddress, int shopProductQuantity, int shopProductSold, String shopPhone, Date shopDate, int shopRevenue, int shopProfit) {
         this.shopId = shopId;
         this.shopName = shopName;
         this.shopAddress = shopAddress;
@@ -31,7 +33,11 @@ public class Shop {
         this.shopProductSold = shopProductSold;
         this.shopPhone = shopPhone;
         this.shopDate = shopDate;
+        this.shopRevenue = shopRevenue;
+        this.shopProfit = shopProfit;
     }
+
+    
 
     public int getShopId() {
         return shopId;
@@ -87,6 +93,22 @@ public class Shop {
 
     public Date getShopDate() {
         return shopDate;
+    }
+
+    public int getShopRevenue() {
+        return shopRevenue;
+    }
+
+    public void setShopRevenue(int shopRevenue) {
+        this.shopRevenue = shopRevenue;
+    }
+
+    public int getShopProfit() {
+        return shopProfit;
+    }
+
+    public void setShopProfit(int shopProfit) {
+        this.shopProfit = shopProfit;
     }
     
     

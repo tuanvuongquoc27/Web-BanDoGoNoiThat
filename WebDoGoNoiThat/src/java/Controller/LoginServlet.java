@@ -14,6 +14,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import model.User;
 import model.Product;
 
@@ -37,17 +38,20 @@ public class LoginServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             UserDAO ud = new UserDAO();
-            ProductDAO prd = new ProductDAO();
-            ArrayList<Product> listproduct =prd.getAllProduct();
             String username = request.getParameter("input-username");
             String password = request.getParameter("input-password");
             User acc = new User(username, password);
+            User user = ud.getUserByUserName(username);
             if(ud.getUser(username, password)!= null){
-                request.setAttribute("list", listproduct);
-                request.getRequestDispatcher("HomePage.jsp").forward(request, response);
-            }else{
-                out.println("login fail");
+                HttpSession session = request.getSession();
+                session.setAttribute("user", user);
+                request.getRequestDispatcher("HomeServletController").forward(request, response);
+            }else if (user!=null){
+                request.setAttribute("error", "Tài khoản hoặc mật khẩu sai");
+            }else {
+                request.setAttribute("error", "Tài khoản không tồn tại");
             }
+            request.getRequestDispatcher("Login.jsp").forward(request, response);
             
         }
     }

@@ -4,14 +4,18 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/D:/java/WEB-Banhang/Web-BanDoGoNoiThat/WebDoGoNoiThat/src/java/Controller/HomeServletController.java</file>
-            <file>file:/D:/java/WEB-Banhang/Web-BanDoGoNoiThat/WebDoGoNoiThat/src/java/model/Order.java</file>
-            <file>file:/D:/java/WEB-Banhang/Web-BanDoGoNoiThat/WebDoGoNoiThat/src/java/model/Product.java</file>
-            <file>file:/D:/java/WEB-Banhang/Web-BanDoGoNoiThat/WebDoGoNoiThat/src/java/DAO/ProductDAO.java</file>
+            <file>file:/D:/java/WEB-Banhang/Web-BanDoGoNoiThat/WebDoGoNoiThat/src/java/model/Customer.java</file>
+            <file>file:/D:/java/WEB-Banhang/Web-BanDoGoNoiThat/WebDoGoNoiThat/src/java/DAO/UserDAO.java</file>
+            <file>file:/D:/java/WEB-Banhang/Web-BanDoGoNoiThat/WebDoGoNoiThat/web/Login.jsp</file>
             <file>file:/D:/java/WEB-Banhang/Web-BanDoGoNoiThat/WebDoGoNoiThat/web/HomePage.jsp</file>
-            <file>file:/D:/java/WEB-Banhang/Web-BanDoGoNoiThat/WebDoGoNoiThat/web/shoppage.jsp</file>
-            <file>file:/D:/java/WEB-Banhang/Web-BanDoGoNoiThat/WebDoGoNoiThat/web/Home.html</file>
-            <file>file:/D:/java/WEB-Banhang/Web-BanDoGoNoiThat/WebDoGoNoiThat/src/java/Controller/CartServletController.java</file>
-            <file>file:/D:/java/WEB-Banhang/Web-BanDoGoNoiThat/WebDoGoNoiThat/web/product.html</file>
+            <file>file:/D:/java/WEB-Banhang/Web-BanDoGoNoiThat/WebDoGoNoiThat/web/SignUp.jsp</file>
+            <file>file:/D:/java/WEB-Banhang/Web-BanDoGoNoiThat/WebDoGoNoiThat/src/java/model/User.java</file>
+            <file>file:/D:/java/WEB-Banhang/Web-BanDoGoNoiThat/WebDoGoNoiThat/src/java/Controller/ForgotPassServlet.java</file>
+            <file>file:/D:/java/WEB-Banhang/Web-BanDoGoNoiThat/WebDoGoNoiThat/src/java/DAO/CustomerDAO.java</file>
+            <file>file:/D:/java/WEB-Banhang/Web-BanDoGoNoiThat/WebDoGoNoiThat/web/ForgotPass.jsp</file>
+            <file>file:/D:/java/WEB-Banhang/Web-BanDoGoNoiThat/WebDoGoNoiThat/src/java/Controller/SignUpServlet.java</file>
+            <file>file:/D:/java/WEB-Banhang/Web-BanDoGoNoiThat/WebDoGoNoiThat/web/css/header.css</file>
+            <file>file:/D:/java/WEB-Banhang/Web-BanDoGoNoiThat/WebDoGoNoiThat/src/java/Controller/LoginServlet.java</file>
             <file>file:/D:/java/WEB-Banhang/Web-BanDoGoNoiThat/WebDoGoNoiThat/src/java/DAO/OrderDAO.java</file>
         </group>
     </open-files>

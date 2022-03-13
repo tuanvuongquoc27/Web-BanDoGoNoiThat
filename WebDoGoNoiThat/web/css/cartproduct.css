@@ -98,6 +98,7 @@ margin-top: 20px;
 .product__cart-address--place{
     padding: 8px;
     min-width: 400px;
+    font-size: 1.7rem;
 }
 
 .product__cart-quantity {

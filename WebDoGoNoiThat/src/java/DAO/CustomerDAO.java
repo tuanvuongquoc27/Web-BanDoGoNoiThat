@@ -17,21 +17,21 @@ import model.Customer;
  * @author Admin
  */
 public class CustomerDAO {
+
     Connection conn;
     PreparedStatement state;
     ResultSet rs;
-    
-    
+
     public Customer getCustomerById(int customerId) {
         DBContext db = new DBContext();
         try {
-            conn=db.getConnection();
-            state = conn.prepareStatement("select * from customer where customerid="+customerId);
+            conn = db.getConnection();
+            state = conn.prepareStatement("select * from customer where customerId=" + customerId);
             rs = state.executeQuery();
-            while(rs.next()){
+            while (rs.next()) {
                 return new Customer(
                         rs.getInt(1),
-                        rs.getString(2), 
+                        rs.getString(2),
                         rs.getString(3),
                         rs.getString(4),
                         rs.getString(5));
@@ -41,17 +41,17 @@ public class CustomerDAO {
         }
         return null;
     }
-    
+
     public Customer getCustomerByEmail(String email) {
         DBContext db = new DBContext();
         try {
-            conn=db.getConnection();
-            state = conn.prepareStatement("select * from customer where customerEmail='"+email+"'");
+            conn = db.getConnection();
+            state = conn.prepareStatement("select * from customer where customerEmail='" + email + "'");
             rs = state.executeQuery();
-            while(rs.next()){
+            while (rs.next()) {
                 return new Customer(
                         rs.getInt(1),
-                        rs.getString(2), 
+                        rs.getString(2),
                         rs.getString(3),
                         rs.getString(4),
                         rs.getString(5));
@@ -61,17 +61,28 @@ public class CustomerDAO {
         }
         return null;
     }
-    
+
     public void insertCustomer(int customerId, String customerName, String customerAddress, String customerEmail, String customerPhone) {
         DBContext db = new DBContext();
         try {
-            conn=db.getConnection();
-            state=conn.prepareStatement("insert into customer values("
-                    +customerId+",'"
-                    +customerName+"','"
-                    +customerAddress+"','"
-                    +customerEmail+"','"
-                    +customerPhone+"')");
+            conn = db.getConnection();
+            state = conn.prepareStatement("insert into customer values("
+                    + customerId + ",'"
+                    + customerName + "','"
+                    + customerAddress + "','"
+                    + customerEmail + "','"
+                    + customerPhone + "')");
+            state.executeUpdate();
+        } catch (Exception ex) {
+            Logger.getLogger(CustomerDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void deleteCustomer(int customerId) {
+        DBContext db = new DBContext();
+        try {
+            conn = db.getConnection();
+            state = conn.prepareStatement("delete customer where customerId=" + customerId);
             state.executeUpdate();
         } catch (Exception ex) {
             Logger.getLogger(CustomerDAO.class.getName()).log(Level.SEVERE, null, ex);

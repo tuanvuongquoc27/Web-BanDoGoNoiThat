@@ -500,7 +500,7 @@ content: "";
 }
 
 .category__list-item-link--child.nav-link,
-.dropdown-toggle.nav-link.category__list-item--link{
+.nav-link.category__list-item--link{
     color: var(--white-color);
 }
 

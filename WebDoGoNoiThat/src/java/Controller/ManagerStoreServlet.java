@@ -1,12 +1,11 @@
-package Controller;
-
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+package Controller;
 
-import DAO.ProductDAO;
+import DAO.SellerDAO;
 import DAO.ShopDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -15,14 +14,14 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import model.Product;
+import model.Seller;
 import model.Shop;
 
 /**
  *
  * @author Admin
  */
-public class ShopServletController extends HttpServlet {
+public class ManagerStoreServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -38,16 +37,13 @@ public class ShopServletController extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
-            String idstring = request.getParameter("shopId");
-            int shopId = Integer.parseInt(idstring);
+            SellerDAO sld = new SellerDAO();
             ShopDAO sd = new ShopDAO();
-            ProductDAO prd = new ProductDAO();
-            ArrayList<Product> productlist=prd.getProductbyShopId(shopId);
-            Shop shop = sd.getShop(shopId);
-            request.setAttribute("shop", shop);
-            request.setAttribute("productlist", productlist);
-            request.getRequestDispatcher("shoppage.jsp").forward(request, response);
-            //out.println(shop.getShopDate());
+            ArrayList<Shop> shoplist = sd.getAllShop();
+            ArrayList<Seller> sellerlist = sld.getAllSeller();
+            request.setAttribute("sellerlist", sellerlist);
+            request.setAttribute("shoplist", shoplist);
+            request.getRequestDispatcher("managerStore.jsp").forward(request, response);
         }
     }
 

@@ -5,7 +5,9 @@
  */
 package Controller;
 
+import DAO.CustomerDAO;
 import DAO.ProductDAO;
+import DAO.SellerDAO;
 import DAO.ShopDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -13,7 +15,9 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import model.Customer;
 import model.Product;
+import model.Seller;
 import model.Shop;
 
 /**
@@ -37,14 +41,28 @@ public class ProductServletController extends HttpServlet {
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             String idstring = request.getParameter("productId");
+            String userIdstring = request.getParameter("userId");
+            int userId = Integer.parseInt(userIdstring);
             int productId = Integer.parseInt(idstring);
             ProductDAO prd = new ProductDAO();
+            CustomerDAO ctd = new CustomerDAO();
             ShopDAO sd = new ShopDAO();
+            SellerDAO sld = new SellerDAO();
+            
+            if(userIdstring!=null){
+                Seller seller = sld.getSellerById(userId);
+                Customer customer = ctd.getCustomerById(userId);
+                request.setAttribute("customer", customer);
+                request.setAttribute("seller", seller);
+            }
+            
             Product product = prd.getProduct(productId);
-            Shop shop = sd.getProduct(product.getShopId());
+            Shop shop = sd.getShop(product.getShopId());
             request.setAttribute("product", product);
             request.setAttribute("shop", shop);
             request.getRequestDispatcher("product.jsp").forward(request, response);
+            
+            
         }
     }
 
