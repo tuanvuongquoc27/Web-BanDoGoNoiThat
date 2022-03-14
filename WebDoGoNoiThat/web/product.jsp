@@ -4,6 +4,10 @@
     Author     : Admin
 --%>
 
+<%@page import="model.Product"%>
+<%@page import="DAO.ProductDAO"%>
+<%@page import="model.Order"%>
+<%@page import="java.util.ArrayList"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -102,71 +106,56 @@
                         <div class="header__cart">
                             <div class="header__cart-wrap">
                                 <i class="header__cart-icon  fa-solid fa-cart-shopping"></i>
-                                <span class="header__cart-number">3</span>
+                                <c:if test="${requestScope.orderlist.size()>0}">
+                                    <span class="header__cart-number">${requestScope.orderlist.size()}</span>
+                                </c:if>
+                                <c:if test="${requestScope.orderlist.size()==0||requestScope.orderlist.size()==null}">
+                                    <span class="header__cart-number">0</span>
+                                </c:if>
                                 <!-- no cart : header__cart-list--no-cart  -->
                                 <div class="header__cart-list header__cart-list--no-cart">
-                                    <img src="image/cart-empty.png" alt="" class="header__cart-list--no-cart-img" />
-                                    <p class="header__cart-list--no-cart-message">Không có sản phẩm</p>
+                                    <c:if test="${requestScope.orderlist==null}">
+                                        <img src="image/cart-empty.png" alt="" class="header__cart-list--no-cart-img" />
+                                        <p class="header__cart-list--no-cart-message">Không có sản phẩm</p>
+                                    </c:if>
+                                    <c:if test="${requestScope.orderlist!=null}">
+                                        <% ArrayList<Order> ordlist = (ArrayList<Order>) request.getAttribute("orderlist");
+                                            for (int i = 0; i < ordlist.size(); i++) {
+                                                ProductDAO prd = new ProductDAO();
+                                                Product pro = new Product();
+                                                pro = prd.getProduct(ordlist.get(i).getProductId());
+                                                request.setAttribute("pro", pro);
+                                                request.setAttribute("order", ordlist.get(i)); %>
+                                        
+                                        <h4 class="header__cart-heading">Sản phẩm</h4>
+                                        <ul class="header__cart-list-item">
+                                            <!-- cart item -->
+                                            <li class="header__cart-item">
+                                                <img src="${requestScope.pro.getProductImg()}" alt="" class="header__cart-img">
+                                                <div class="header__cart-item-infor">
+                                                    <div class="header__cart-item-head">
+                                                        <h5 class="header__cart-item-name">${requestScope.pro.getProductName()}</h5>
+                                                        <div class="header__cart-item-pricewrap">
+                                                            <span class="header__cart-item-price"><fmt:formatNumber type="number" pattern="###,###,###đ" value="${requestScope.order.getProductPrice()}" /></span>
+                                                            <span class="header__cart-item-ope">x</span>
+                                                            <span class="header__cart-item-quantity">${requestScope.order.getProductQuantity()}</span>
+                                                        </div>
 
-                                    <h4 class="header__cart-heading">Sản phẩm</h4>
-                                    <ul class="header__cart-list-item">
-                                        <!-- cart item -->
-                                        <li class="header__cart-item">
-                                            <img src="image/login-img.jpg" alt="" class="header__cart-img">
-                                            <div class="header__cart-item-infor">
-                                                <div class="header__cart-item-head">
-                                                    <h5 class="header__cart-item-name">Bộ kem đặc trị vùng mắt</h5>
-                                                    <div class="header__cart-item-pricewrap">
-                                                        <span class="header__cart-item-price">2.000.000đ</span>
-                                                        <span class="header__cart-item-ope">x</span>
-                                                        <span class="header__cart-item-quantity">1</span>
                                                     </div>
-
-                                                </div>
-                                                <div class="header__cart-item-body">
-                                                    <span class="header__cart-item-description">phân loại</span>
-                                                    <span class="header__cart-item-delete">Xóa</span>
-                                                </div>
-                                            </div>
-                                        </li>
-                                        <li class="header__cart-item">
-                                            <img src="image/login-img.jpg" alt="" class="header__cart-img">
-                                            <div class="header__cart-item-infor">
-                                                <div class="header__cart-item-head">
-                                                    <h5 class="header__cart-item-name">Bộ kem đặc trị vùng mắt</h5>
-                                                    <div class="header__cart-item-pricewrap">
-                                                        <span class="header__cart-item-price">2.000.000đ</span>
-                                                        <span class="header__cart-item-ope">x</span>
-                                                        <span class="header__cart-item-quantity">1</span>
+                                                    <div class="header__cart-item-body">
+                                                        <span class="header__cart-item-description">Xuất xứ: ${requestScope.pro.getProductBrand()}</span>
+                                                        <span class="header__cart-item-delete">Xóa</span>
                                                     </div>
+                                                </div>
+                                            </li>
 
-                                                </div>
-                                                <div class="header__cart-item-body">
-                                                    <span class="header__cart-item-description">phân loại</span>
-                                                    <span class="header__cart-item-delete">Xóa</span>
-                                                </div>
-                                            </div>
-                                        </li>
-                                        <li class="header__cart-item">
-                                            <img src="image/login-img.jpg" alt="" class="header__cart-img">
-                                            <div class="header__cart-item-infor">
-                                                <div class="header__cart-item-head">
-                                                    <h5 class="header__cart-item-name">Bộ kem đặc trị vùng mắt</h5>
-                                                    <div class="header__cart-item-pricewrap">
-                                                        <span class="header__cart-item-price">2.000.000đ</span>
-                                                        <span class="header__cart-item-ope">x</span>
-                                                        <span class="header__cart-item-quantity">1</span>
-                                                    </div>
+                                        </ul>
+                                        <%}%>
+                                        <a href="CartServletController?userId=${sessionScope.user.userId}" class="nav-link btn-order">Xem giỏ hàng</a>
+                                    </c:if>
 
-                                                </div>
-                                                <div class="header__cart-item-body">
-                                                    <span class="header__cart-item-description">phân loại</span>
-                                                    <span class="header__cart-item-delete">Xóa</span>
-                                                </div>
-                                            </div>
-                                        </li>
-                                    </ul>
-                                    <a href="CartServletController?userId=${sessionScope.user.userId}" class="nav-link btn-order">Xem giỏ hàng</a>
+
+
                                 </div>
                                 <!--  cart : header cart list no cart  -->
                             </div>
@@ -230,7 +219,7 @@
                                         <table>
                                             <tr>
                                                 <td><span class="quantity">Số lượng</span></td>
-                                                <td><input type="number" class="input-quantity" name="quantity_input" min="1" max="10" value="1"></td>
+                                                <td><input type="number" class="input-quantity" name="quantity_input" min="1" max="${product.getProductQuantity()}" value="1"></td>
                                                 <td><input type="hidden" name="productId" value="${product.getProductId()}"/></td>
                                                 <td><input type="hidden" name="userId" value="${sessionScope.user.userId}"/></td>
                                             </tr>
@@ -269,7 +258,7 @@
                                 <img src="./image/login-img.jpg" class="shop-img" alt="">
                                 <div class="shop-infor">
                                     <h4 class="shop-name">${requestScope.shop.getShopName()}</h4>
-                                    <a href="ShopServletController?shopId=${requestScope.shop.getShopId()}" class="shop-watch">Watch Shop</a>
+                                    <a href="ShopServletController?shopId=${requestScope.shop.getShopId()}" class="shop-watch">Xem shop</a>
                                 </div>
 
 

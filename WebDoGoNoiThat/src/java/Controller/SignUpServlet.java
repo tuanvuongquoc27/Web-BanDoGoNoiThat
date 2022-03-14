@@ -9,6 +9,10 @@ import DAO.CustomerDAO;
 import DAO.UserDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -51,7 +55,7 @@ public class SignUpServlet extends HttpServlet {
                     }else{
                         ud.insertUser(username, password,email);
                         User newuser = ud.getUser(username, password);
-                        ctd.insertCustomer(newuser.getUserId(), username, null, email,null);
+                        ctd.insertCustomer(newuser.getUserId(), username, null, email,null,getDateNow(),null,null);
                         request.setAttribute("success", "Tạo tài khoản thành công");
                         request.getRequestDispatcher("Login.jsp").forward(request, response);
                     }
@@ -63,6 +67,12 @@ public class SignUpServlet extends HttpServlet {
             }
             request.getRequestDispatcher("SignUp.jsp").forward(request, response);
         }
+    }
+    
+    public String getDateNow(){
+        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy"); 
+        Date date = new Date();
+        return sdf.format(date);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

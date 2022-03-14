@@ -5,6 +5,8 @@
  */
 package model;
 
+
+
 /**
  *
  * @author Admin
@@ -15,17 +17,22 @@ public class Seller {
     private String sellerAddress ;
     private String sellerEmail ;
     private String sellerPhone ;
+    private String sellerDate;
+    private boolean sellerGender;
+    private String sellerDOB;
 
     public Seller() {
     }
 
-    public Seller(int sellerId, String sellerName, String sellerAddress, String sellerEmail, String sellerPhone) {
+    public Seller(int sellerId, String sellerName, String sellerAddress, String sellerEmail, String sellerPhone, String sellerDate, boolean sellerGender, String sellerDOB) {
         this.sellerId = sellerId;
         this.sellerName = sellerName;
         this.sellerAddress = sellerAddress;
         this.sellerEmail = sellerEmail;
         this.sellerPhone = sellerPhone;
-
+        this.sellerDate = sellerDate;
+        this.sellerGender = sellerGender;
+        this.sellerDOB = sellerDOB;
     }
 
     
@@ -69,4 +76,30 @@ public class Seller {
     public void setSellerPhone(String sellerPhone) {
         this.sellerPhone = sellerPhone;
     }
+
+    public String getSellerDate() {
+        return sellerDate;
+    }
+
+    public void setSellerDate(String sellerDate) {
+        this.sellerDate = sellerDate;
+    }
+
+    public boolean isSellerGender() {
+        return sellerGender;
+    }
+
+    public void setSellerGender(boolean sellerGender) {
+        this.sellerGender = sellerGender;
+    }
+
+    public String getSellerDOB() {
+        return sellerDOB;
+    }
+
+    public void setSellerDOB(String sellerDOB) {
+        this.sellerDOB = sellerDOB;
+    }
+    
+    
 }

@@ -38,9 +38,11 @@ public class ShopDAO {
                         rs.getInt(4),
                         rs.getInt(5),
                         rs.getString(6),
-                        rs.getDate(7),
-                        rs.getInt(8),
-                        rs.getInt(9)));
+                        rs.getString(7),
+                        rs.getString(8),
+                        rs.getInt(9),
+                        rs.getInt(10),
+                        rs.getBoolean(11)));
             }
             return listshop;
         } catch (SQLException ex) {
@@ -57,7 +59,6 @@ public class ShopDAO {
             conn=db.getConnection();
             state=conn.prepareStatement("select * from shop where shopId="+shopId);
             rs = state.executeQuery();
-            Shop product = new Shop();
             while(rs.next()){
                 return new Shop(
                         rs.getInt(1),
@@ -66,9 +67,11 @@ public class ShopDAO {
                         rs.getInt(4),
                         rs.getInt(5),
                         rs.getString(6),
-                        rs.getDate(7),
-                        rs.getInt(8),
-                        rs.getInt(9));
+                        rs.getString(7),
+                        rs.getString(8),
+                        rs.getInt(9),
+                        rs.getInt(10),
+                        rs.getBoolean(11));
             }
         } catch (SQLException ex) {
             Logger.getLogger(ShopDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -76,5 +79,36 @@ public class ShopDAO {
             Logger.getLogger(ShopDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
+    }
+    
+    public void deleteShop(int shopId){
+        DBContext db = new DBContext();
+        try {   
+            conn=db.getConnection();
+            state=conn.prepareStatement("delete shop where shopId="+shopId);
+            state.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(ShopDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(ShopDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    }
+    
+    public void insertShop (int shopId,String shopName, String ShopAddress,String shopPhone, String shopEmail, String shopDate){
+        DBContext db = new DBContext();
+        try {
+            conn = db.getConnection();
+            state = conn.prepareStatement("insert into shop values("
+                    + shopId + ",N'"
+                    + shopName + "',N'"
+                    + ShopAddress +"',0,0,'"
+                    + shopPhone + "','"
+                    + shopEmail + "','"
+                    + shopDate + "',0,0,0)");
+            state.executeUpdate();
+        } catch (Exception ex) {
+            Logger.getLogger(ShopDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }

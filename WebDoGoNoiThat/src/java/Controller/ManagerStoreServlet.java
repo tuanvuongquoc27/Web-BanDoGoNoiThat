@@ -5,9 +5,13 @@
  */
 package Controller;
 
+import DAO.CustomerDAO;
 import DAO.OrderDAO;
+import DAO.ProductDAO;
+import DAO.RequestDAO;
 import DAO.SellerDAO;
 import DAO.ShopDAO;
+import DAO.UserDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -16,6 +20,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import model.Order;
+import model.Request;
 import model.Seller;
 import model.Shop;
 
@@ -38,19 +43,46 @@ public class ManagerStoreServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
             SellerDAO sld = new SellerDAO();
-            String userIdstring = request.getParameter("userId");
-            int userId = Integer.parseInt(userIdstring);
             OrderDAO od = new OrderDAO();
-             ArrayList<Order> orderlist = od.getAllOrder(userId);
-             request.setAttribute("orderlist", orderlist);
             ShopDAO sd = new ShopDAO();
-            ArrayList<Shop> shoplist = sd.getAllShop();
-            ArrayList<Seller> sellerlist = sld.getAllSeller();
-            request.setAttribute("sellerlist", sellerlist);
-            request.setAttribute("shoplist", shoplist);
-            request.getRequestDispatcher("managerStore.jsp").forward(request, response);
+            CustomerDAO csd = new CustomerDAO();
+            UserDAO ud = new UserDAO();
+            ProductDAO prd = new ProductDAO();
+            RequestDAO rqd = new RequestDAO();
+            
+            ArrayList<Request> listrequest = rqd.getAllRequest();
+            request.setAttribute("reqeustlist", listrequest);
+            String infor = request.getParameter("infor");
+            if (infor == null) {
+                ArrayList<Shop> shoplist = sd.getAllShop();
+                ArrayList<Seller> sellerlist = sld.getAllSeller();
+                
+                request.setAttribute("sellerlist", sellerlist);
+                request.setAttribute("shoplist", shoplist);
+                
+                request.getRequestDispatcher("managerStore.jsp").forward(request, response);
+            }else{
+                if(infor.equals("delete")){
+                    int deleteId = Integer.parseInt(request.getParameter("shopId"));
+                    Seller seller = sld.getSellerById(deleteId);
+//                  delete shop va thay doi role for user
+                    prd.deleteProductByShopId(deleteId);
+                    sd.deleteShop(deleteId);
+                    sld.deleteSeller(deleteId);
+                    //csd.insertCustomer(seller.getSellerId(), seller.getSellerName(), seller.getSellerAddress(), seller.getSellerEmail(), seller.getSellerPhone());
+                    ud.updateRole(deleteId, "customer");
+                    //get thong tin chuyen sang trang cho admin
+                    ArrayList<Shop> shoplist = sd.getAllShop();
+                    ArrayList<Seller> sellerlist = sld.getAllSeller();
+                    request.setAttribute("sellerlist", sellerlist);
+                    request.setAttribute("shoplist", shoplist);
+                    request.getRequestDispatcher("managerStore.jsp").forward(request, response);
+                }else if (infor.equals("all")){
+                    
+                }
+            }
+
         }
     }
 

@@ -36,7 +36,7 @@
         <div class="main">
             <!-- header -->
             <div class="header">
-                <div class="grid">
+                <div class="grid"  style="height: 50px;">
                     <!-- header navbar -->
                     <nav class="header__navbar">
                         <ul class="header__navbar-list">
@@ -59,6 +59,7 @@
                                     </header>
                                     <ul class="header__notify-list">
                                         <li class="header__notify-item header__notify-item--viewed">
+                                            
                                             <a href="#" class="header__notify-link">
                                                 <img src="image/login-img.jpg" alt="" class="header__notify-img">
                                                 <div class="header__notify-infor">
@@ -87,7 +88,7 @@
                                     <span class="header_navbar-user-name">${sessionScope.user.userName}</span>
                                     <ul class="header__navbar-user-menu">
                                         <li class="header__navbar-user-item">
-                                            <a href="myAccount.html">Tài khoản của tôi</a>
+                                            <a href="AccountFileController?userId=${sessionScope.user.userId}">Tài khoản của tôi</a>
                                         </li>
                                         <li class="header__navbar-user-item">
                                             <a href="LogoutServlet">Đăng xuất</a>
@@ -97,66 +98,7 @@
                             </c:if> 
                         </ul>
                     </nav>
-                    <!-- header with search -->
-                    <div class="header-with-search">
-                        <div class="header__search">
-                            <input type="text" class="header__search-input" placeholder="Enter to search"></input>
-                            <button type="submit" formaction="LoginServlet.java" class="header__search-btn">
-                                <i class="header__search-btn-icon fa-solid fa-magnifying-glass"></i>
-                            </button>
-
-                        </div>
-                        <!-- header cart  -->
-                        <div class="header__cart">
-                            <div class="header__cart-wrap">
-                                <i class="header__cart-icon  fa-solid fa-cart-shopping"></i>
-                                <span class="header__cart-number">3</span>
-                                <!-- no cart : header__cart-list--no-cart  -->
-                                <div class="header__cart-list header__cart-list--no-cart">
-                                    <c:if test="${requestScope.orderlist==null}">
-                                        <img src="image/cart-empty.png" alt="" class="header__cart-list--no-cart-img" />
-                                        <p class="header__cart-list--no-cart-message">Không có sản phẩm</p>
-                                    </c:if>
-                                    <c:if test="${requestScope.orderlist!=null}">
-                                        <% ArrayList<Order> ordlist = (ArrayList<Order>) request.getAttribute("orderlist");
-                                            for (int i = 0; i < ordlist.size(); i++) {
-                                                ProductDAO prd = new ProductDAO();
-                                                Product pro = new Product();
-                                                pro = prd.getProduct(ordlist.get(i).getProductId());
-                                                request.setAttribute("pro", pro);
-                                                request.setAttribute("order", ordlist.get(i)); %>
-
-                                        <h4 class="header__cart-heading">Sản phẩm</h4>
-                                        <ul class="header__cart-list-item">
-                                            <!-- cart item -->
-                                            <li class="header__cart-item">
-                                                <img src="${requestScope.pro.getProductImg()}" alt="" class="header__cart-img">
-                                                <div class="header__cart-item-infor">
-                                                    <div class="header__cart-item-head">
-                                                        <h5 class="header__cart-item-name">${requestScope.pro.getProductName()}</h5>
-                                                        <div class="header__cart-item-pricewrap">
-                                                            <span class="header__cart-item-price"><fmt:formatNumber type="number" pattern="###,###,###đ" value="${requestScope.order.getProductPrice()}" /></span>
-                                                            <span class="header__cart-item-ope">x</span>
-                                                            <span class="header__cart-item-quantity">${requestScope.order.getProductQuantity()}</span>
-                                                        </div>
-
-                                                    </div>
-                                                    <div class="header__cart-item-body">
-                                                        <span class="header__cart-item-description">Xuất xứ: ${requestScope.pro.getProductBrand()}</span>
-                                                        <span class="header__cart-item-delete">Xóa</span>
-                                                    </div>
-                                                </div>
-                                            </li>
-
-                                        </ul>
-                                        <%}%>
-                                        <a href="CartServletController?userId=${sessionScope.user.userId}" class="nav-link btn-order">Xem giỏ hàng</a>
-                                    </c:if>
-                                </div>
-                                <!--  cart : header cart list no cart  -->
-                            </div>
-                        </div>
-                    </div>
+                    
                 </div>
 
 
@@ -166,49 +108,45 @@
                     <div class="col-sm-2">
                         <div class="product__list-item nav-item">
                             <div class="dropdown product__list-item">
-                                <a href="#" data-bs-toggle="dropdown"
-                                   class="dropdown-toggle nav-link product__list-item--link">Tháng</a>
+                                <a href="ManagerStoreServlet?infor=all" data-bs-toggle="dropdown"
+                                   class="dropdown-toggle nav-link product__list-item--link">Thông tin cửa hàng</a>
                                 <ul class="dropdown-menu product__list-child">
                                     <li class="dropdown-item product__list-item--child "><a href="#"
                                                                                             class="product__list-item-link--child nav-link">Tháng 1</a>
                                     </li>
-                                    <li class="dropdown-item product__list-item--child "><a href="#"
-                                                                                            class="product__list-item-link--child nav-link">Tháng 2</a>
+
                                     </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="product__list-item nav-item">
+                            <div class="dropdown product__list-item">
+                                <a href="#" data-bs-toggle="dropdown"
+                                   class="dropdown-toggle nav-link product__list-item--link">Thông tin chủ cửa hàng</a>
+                                <ul class="dropdown-menu product__list-child">
                                     <li class="dropdown-item product__list-item--child "><a href="#"
-                                                                                            class="product__list-item-link--child nav-link">Tháng 3</a>
+                                                                                            class="product__list-item-link--child nav-link">Tháng 1</a>
                                     </li>
-                                    <li class="dropdown-item product__list-item--child "><a href="#"
-                                                                                            class="product__list-item-link--child nav-link">Tháng 4</a>
+
                                     </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="product__list-item nav-item">
+                            <div class="dropdown product__list-item">
+                                <a href="#" data-bs-toggle="dropdown"
+                                   class="dropdown-toggle nav-link product__list-item--link">Thông tin khách hàng</a>
+                                <ul class="dropdown-menu product__list-child">
                                     <li class="dropdown-item product__list-item--child "><a href="#"
-                                                                                            class="product__list-item-link--child nav-link">Tháng 5</a>
+                                                                                            class="product__list-item-link--child nav-link">Tháng 1</a>
                                     </li>
-                                    <li class="dropdown-item product__list-item--child "><a href="#"
-                                                                                            class="product__list-item-link--child nav-link">Tháng 6</a>
-                                    </li>
-                                    <li class="dropdown-item product__list-item--child "><a href="#"
-                                                                                            class="product__list-item-link--child nav-link">Tháng 7</a>
-                                    </li>
-                                    <li class="dropdown-item product__list-item--child "><a href="#"
-                                                                                            class="product__list-item-link--child nav-link">Tháng 8</a>
-                                    </li>
-                                    <li class="dropdown-item product__list-item--child "><a href="#"
-                                                                                            class="product__list-item-link--child nav-link">Tháng 9</a>
-                                    </li>
-                                    <li class="dropdown-item product__list-item--child "><a href="#"
-                                                                                            class="product__list-item-link--child nav-link">Tháng 10</a>
-                                    </li>
-                                    <li class="dropdown-item product__list-item--child "><a href="#"
-                                                                                            class="product__list-item-link--child nav-link">Tháng 11</a>
-                                    </li>
-                                    <li class="dropdown-item product__list-item--child "><a href="#"
-                                                                                            class="product__list-item-link--child nav-link">Tháng 12</a>
+
                                     </li>
                                 </ul>
                             </div>
                         </div>
                     </div>
+                    <!-- thoong tin cuar hang-->
                     <div class="col-sm-10">
                         <div class="store-infor">
                             <h1>Thông tin cửa hàng</h1>
@@ -218,23 +156,70 @@
                             <tr>
                                 <td>ID</td>
                                 <td>Tên của hàng</td>
-                                <td>Tên tài khoản</td>
+                                <td>Tên chu cua hang</td>
                                 <td>Số lượng sản phẩm</td>
                                 <td>Doanh thu của cửa hàng</td>
                                 <td>Lợi nhuận của cửa hàng</td>
                                 <td>Lợi nhuận từ cửa hàng</td>
                                 <td></td>
                             </tr>
-                            <c:forEach items="${requestScope.shoplist}" var="sl">
+                            <c:forEach items="${requestScope.shoplist}" var="shoplist">
                                 <tr>
-                                    <td><c:out value="${sl.getShopId()}"/></td>
-                                    <td><a href="" class="nav-link store-manager"><c:out value="${sl.getShopName()}"/></a></td>
-                                    <td><c:out value="${sl.getShopAddress()}"/></td>
-                                    <td><c:out value="${sl.getShopProductQuantity()}"/></td>
-                                    <td><c:out value="${sl.getShopRevenue()}"/></td>
-                                    <td><c:out value="${sl.getShopProfit()}"/></td>
-                                    <td><c:out value="${sl.getShopProfit()}"/></td>
-                                    <td><a href="#" class="nav-link">Xóa cửa hàng</a></td>
+                                    <td><c:out value="${shoplist.getShopId()}"/></td>
+                                    <td><a href="ManagerStore?infor=shop&shopId=${shoplist.getShopId()}" class="nav-link store-manager"><c:out value="${shoplist.getShopName()}"/></a></td>
+                                    <c:forEach items="${requestScope.sellerlist}" var="sllist">
+                                        <c:if test="${shoplist.getShopId()==sllist.getSellerId()}">
+                                            <td><c:out value="${sllist.getSellerName()}"/></td>
+                                        </c:if>
+                                    </c:forEach>    
+
+
+                                    <td><c:out value="${shoplist.getShopProductQuantity()}"/></td>
+                                    <td><c:out value="${shoplist.getShopRevenue()}"/></td>
+                                    <td><c:out value="${shoplist.getShopProfit()}"/></td>
+                                    <td><c:out value="${shoplist.getShopProfit()}"/></td>
+                                    <td><a onclick="if (!confirm('Bạn có muốn xóa cửa hàng này')) { return false; }" href="ManagerStoreServlet?infor=delete&shopId=${shoplist.getShopId()}" class="nav-link">Xóa cửa hàng</a></td>
+                                </tr>
+                            </c:forEach>
+
+
+                        </table>
+                        <div class="add__store">
+                            <a href="#" class="nav-link add__store-link">Thêm cửa hàng</a>
+                        </div>
+                        
+                        
+                        <div class="store-infor">
+                            <h1>Thông tin cửa hàng</h1>
+                        </div>
+
+                        <table>
+                            <tr>
+                                <td>ID</td>
+                                <td>Tên của hàng</td>
+                                <td>Tên chu cua hang</td>
+                                <td>Số lượng sản phẩm</td>
+                                <td>Doanh thu của cửa hàng</td>
+                                <td>Lợi nhuận của cửa hàng</td>
+                                <td>Lợi nhuận từ cửa hàng</td>
+                                <td></td>
+                            </tr>
+                            <c:forEach items="${requestScope.shoplist}" var="shoplist">
+                                <tr>
+                                    <td><c:out value="${shoplist.getShopId()}"/></td>
+                                    <td><a href="" class="nav-link store-manager"><c:out value="${shoplist.getShopName()}"/></a></td>
+                                    <c:forEach items="${requestScope.sellerlist}" var="sllist">
+                                        <c:if test="${shoplist.getShopId()==sllist.getSellerId()}">
+                                            <td><c:out value="${sllist.getSellerName()}"/></td>
+                                        </c:if>
+                                    </c:forEach>    
+
+
+                                    <td><c:out value="${shoplist.getShopProductQuantity()}"/></td>
+                                    <td><c:out value="${shoplist.getShopRevenue()}"/></td>
+                                    <td><c:out value="${shoplist.getShopProfit()}"/></td>
+                                    <td><c:out value="${shoplist.getShopProfit()}"/></td>
+                                    <td><a href="?shopId=${shoplist.getShopId()}" class="nav-link">Xóa cửa hàng</a></td>
                                 </tr>
                             </c:forEach>
 

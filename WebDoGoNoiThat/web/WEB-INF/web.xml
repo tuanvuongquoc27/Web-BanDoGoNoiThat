@@ -56,6 +56,38 @@
         <servlet-name>ManagerStoreServlet</servlet-name>
         <servlet-class>Controller.ManagerStoreServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ShopManagerProduct</servlet-name>
+        <servlet-class>Controller.ShopManagerProduct</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>SignupSeller</servlet-name>
+        <servlet-class>Controller.SignupSeller</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>AccountMoneyController</servlet-name>
+        <servlet-class>Controller.AccountMoneyController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>AccountFileController</servlet-name>
+        <servlet-class>Controller.AccountFileController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>AccountHistoryController</servlet-name>
+        <servlet-class>Controller.AccountHistoryController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>AccountPasswordController</servlet-name>
+        <servlet-class>Controller.AccountPasswordController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>AccountFileUpdate</servlet-name>
+        <servlet-class>Controller.AccountFileUpdate</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ManagerRequest</servlet-name>
+        <servlet-class>Controller.ManagerRequest</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
         <url-pattern>/LoginServlet</url-pattern>
@@ -103,6 +135,38 @@
     <servlet-mapping>
         <servlet-name>ManagerStoreServlet</servlet-name>
         <url-pattern>/ManagerStoreServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ShopManagerProduct</servlet-name>
+        <url-pattern>/ShopManagerProduct</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SignupSeller</servlet-name>
+        <url-pattern>/SignupSeller</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AccountMoneyController</servlet-name>
+        <url-pattern>/AccountMoneyController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AccountFileController</servlet-name>
+        <url-pattern>/AccountFileController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AccountHistoryController</servlet-name>
+        <url-pattern>/AccountHistoryController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AccountPasswordController</servlet-name>
+        <url-pattern>/AccountPasswordController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AccountFileUpdate</servlet-name>
+        <url-pattern>/AccountFileUpdate</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ManagerRequest</servlet-name>
+        <url-pattern>/ManagerRequest</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

@@ -1,31 +1,29 @@
-package Controller;
-
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-import DAO.CategoryDAO;
-import DAO.OrderDAO;
-import DAO.ProductDAO;
-import DAO.ShopDAO;
+package Controller;
+
+import DAO.CustomerDAO;
+import DAO.SellerDAO;
+import DAO.UserDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import model.Category;
-import model.Order;
-import model.Product;
-import model.Shop;
+import javax.servlet.http.HttpSession;
+import model.Customer;
+import model.Seller;
+import model.User;
 
 /**
  *
  * @author Admin
  */
-public class ShopServletController extends HttpServlet {
+public class AccountFileUpdate extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -41,36 +39,8 @@ public class ShopServletController extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
-            String idstring = request.getParameter("shopId");
-            String userIdstring = request.getParameter("userId");
-            if (idstring != null) {
-                int shopId = Integer.parseInt(idstring);
-                ShopDAO sd = new ShopDAO();
-                ProductDAO prd = new ProductDAO();
-                ArrayList<Product> productlist = prd.getProductbyShopId(shopId);
-                Shop shop = sd.getShop(shopId);
-                request.setAttribute("shop", shop);
-                request.setAttribute("productlist", productlist);
-                request.getRequestDispatcher("shoppage.jsp").forward(request, response);
-            }else{
-                int userId = Integer.parseInt(userIdstring);
-                ShopDAO sd = new ShopDAO();
-                OrderDAO od = new OrderDAO();
-                ProductDAO prd = new ProductDAO();
-                CategoryDAO ctd = new CategoryDAO();
-                Shop shop =  sd.getShop(userId);
-                ArrayList<Product> productlist = prd.getProductbyShopId(userId);
-                ArrayList<Order> orderlist = od.getAllOrder(userId);
-                ArrayList<Category> categorylist = ctd.getAllCategory();
-                request.setAttribute("shop", shop);
-                request.setAttribute("categorylist", categorylist);
-                request.setAttribute("productlist", productlist);
-                request.setAttribute("orderlist", orderlist);
-                request.setAttribute("update", "getAll");
-                request.getRequestDispatcher("myShop.jsp").forward(request, response);
-            }
-
-            //out.println(shop.getShopDate());
+            request.setAttribute("account", "update");
+            request.getRequestDispatcher("myAccount.jsp").forward(request, response);
         }
     }
 
@@ -100,7 +70,42 @@ public class ShopServletController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        request.setCharacterEncoding("UTF-8");
+        response.setCharacterEncoding("UTF-8");
+        response.setContentType("text/html; charset=UTF-8");
+        PrintWriter out = response.getWriter();
+        
+        String name = request.getParameter("input-name");
+        String email = request.getParameter("input-email");
+        String address = request.getParameter("input-address");
+        String phone = request.getParameter("input-phone");
+        String gender = request.getParameter("input-gender");
+        String DOB = request.getParameter("input-DOB");
+        String role = request.getParameter("role");
+        UserDAO ud = new UserDAO();
+        
+        int userId = Integer.parseInt(request.getParameter("userId"));
+        if (role.equals("customer")) {
+            CustomerDAO csd = new CustomerDAO();
+            csd.updateCustomer(userId, name, address, email, phone, gender, convertDate(DOB));
+            request.setAttribute("customer", csd.getCustomerById(userId));
+        } else if (role.equals("seller")) {
+            SellerDAO sld = new SellerDAO();
+            sld.updateSeller(userId, name, address, email, phone, gender, convertDate(DOB));
+            request.setAttribute("seller", sld.getSellerById(userId));
+        }
+        User user = ud.getUserByUserId(userId);
+        HttpSession session = request.getSession();
+        user = ud.getUserByUserId(userId);
+        session.removeAttribute("user");
+        session.setAttribute("user", user);
+        request.setAttribute("account", "file");
+        request.getRequestDispatcher("myAccount.jsp").forward(request, response);
+    }
+
+    public String convertDate(String dateconvert) {
+        String[] date = dateconvert.split("-");
+        return date[1] + "/" + date[2] + "/" + date[0];
     }
 
     /**

@@ -19,18 +19,19 @@ import model.Product;
  * @author Admin
  */
 public class ProductDAO {
+
     Connection conn;
     PreparedStatement state;
-    ResultSet rs ;
-    
-    public ArrayList<Product> getAllProduct(){
+    ResultSet rs;
+
+    public ArrayList<Product> getAllProduct() {
         DBContext db = new DBContext();
-        try {   
-            conn=db.getConnection();
-            state=conn.prepareStatement("select * from product");
+        try {
+            conn = db.getConnection();
+            state = conn.prepareStatement("select * from product");
             rs = state.executeQuery();
             ArrayList<Product> listproduct = new ArrayList<>();
-            while(rs.next()){
+            while (rs.next()) {
                 listproduct.add(new Product(
                         rs.getInt(1),
                         rs.getString(2),
@@ -52,15 +53,15 @@ public class ProductDAO {
         }
         return null;
     }
-    
-    public Product getProduct(int productId){
+
+    public Product getProduct(int productId) {
         DBContext db = new DBContext();
-        try {   
-            conn=db.getConnection();
-            state=conn.prepareStatement("select * from product where productId="+productId);
+        try {
+            conn = db.getConnection();
+            state = conn.prepareStatement("select * from product where productId=" + productId);
             rs = state.executeQuery();
             Product product = new Product();
-            while(rs.next()){
+            while (rs.next()) {
                 return new Product(
                         rs.getInt(1),
                         rs.getString(2),
@@ -81,15 +82,15 @@ public class ProductDAO {
         }
         return null;
     }
-    
-    public ArrayList<Product> getProductbyShopId(int shopId){
+
+    public ArrayList<Product> getProductbyShopId(int shopId) {
         DBContext db = new DBContext();
-        try {   
-            conn=db.getConnection();
-            state=conn.prepareStatement("select * from product where shopId="+shopId);
+        try {
+            conn = db.getConnection();
+            state = conn.prepareStatement("select * from product where shopId=" + shopId);
             rs = state.executeQuery();
             ArrayList<Product> productlist = new ArrayList<>();
-            while(rs.next()){
+            while (rs.next()) {
                 productlist.add(new Product(
                         rs.getInt(1),
                         rs.getString(2),
@@ -111,15 +112,15 @@ public class ProductDAO {
         }
         return null;
     }
-    
-    public ArrayList<Product> getProductbyCategoryId(int categoryId){
+
+    public ArrayList<Product> getProductbyCategoryId(int categoryId) {
         DBContext db = new DBContext();
-        try {   
-            conn=db.getConnection();
-            state=conn.prepareStatement("select * from product where productType="+categoryId);
+        try {
+            conn = db.getConnection();
+            state = conn.prepareStatement("select * from product where productType=" + categoryId);
             rs = state.executeQuery();
             ArrayList<Product> productlist = new ArrayList<>();
-            while(rs.next()){
+            while (rs.next()) {
                 productlist.add(new Product(
                         rs.getInt(1),
                         rs.getString(2),
@@ -141,6 +142,90 @@ public class ProductDAO {
         }
         return null;
     }
+
+    public void deleteProduct(int productId) {
+        DBContext db = new DBContext();
+
+        try {
+            conn = db.getConnection();
+            state = conn.prepareStatement("delete product where productId = " + productId);
+            state.execute();
+        } catch (Exception ex) {
+            Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
     
+    public void deleteProductByShopId(int shopId) {
+        DBContext db = new DBContext();
+
+        try {
+            conn = db.getConnection();
+            state = conn.prepareStatement("delete product where shopId = " + shopId);
+            state.execute();
+        } catch (Exception ex) {
+            Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
+
+    public void updateProduct(int productId, String productName, String productDescript,
+            String productImg, int productQuantity, int productOldPrice, int productNewPrice,
+            String productBrand, String productOrigin, int productType) {
+        DBContext db = new DBContext();
+
+        try {
+            conn = db.getConnection();
+            state = conn.prepareStatement("update product set "
+                    + "productName =N'" + productName + "', "
+                    + "productDescript=N'" + productDescript + "', "
+                    + "productImg ='" + productImg + "', "
+                    + "productQuantity=" + productQuantity + ", "
+                    + "productOldPrice =" + productOldPrice + ", "
+                    + "productNewPrice=" + productNewPrice + ", "
+                    + " productBrand=N'" + productBrand + "',"
+                    + "productOrigin=" + productOrigin + ", "
+                    + " productType=" + productType + ""
+                    + " where productId=" + productId);
+            state.execute();
+        } catch (Exception ex) {
+            Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
     
+    public void insertProduct(String productName, String productDescript,
+            String productImg, int productQuantity, int productNewPrice,
+            String productBrand, String productOrigin, int productType) {
+        DBContext db = new DBContext();
+
+        try {
+            conn = db.getConnection();
+            state = conn.prepareStatement("insert into product values('"
+                    + productName + "', ''"
+                    + productDescript + "', "
+                    + productImg + "', "
+                    + productQuantity + ", "
+                    + productNewPrice + ", "
+                    + productNewPrice + ", "
+                    + productBrand + "','"
+                    + productOrigin + ","
+                    + productType+")");
+            state.execute();
+        } catch (Exception ex) {
+            Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void updateQuantity(int quantity, int productId){
+        DBContext db = new DBContext();
+
+        try {
+            conn = db.getConnection();
+            state = conn.prepareStatement("update product set productQuantity = productQuantity- "+quantity+" where productId="+productId);
+            state.execute();
+        } catch (Exception ex) {
+            Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
 }

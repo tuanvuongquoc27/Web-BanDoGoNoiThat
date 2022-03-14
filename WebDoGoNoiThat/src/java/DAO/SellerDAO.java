@@ -36,7 +36,10 @@ public class SellerDAO {
                         rs.getString(2),
                         rs.getString(3),
                         rs.getString(4),
-                        rs.getString(5));
+                        rs.getString(5),
+                        rs.getString(6),
+                        rs.getBoolean(7),
+                        rs.getString(8));
             }
         } catch (Exception ex) {
             Logger.getLogger(SellerDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -58,7 +61,10 @@ public class SellerDAO {
                     rs.getString(2),
                     rs.getString(3),
                     rs.getString(4),
-                    rs.getString(5));
+                    rs.getString(5),
+                    rs.getString(6),
+                    rs.getBoolean(7),
+                    rs.getString(8));
                 sellerlist.add(seller);
             }
             return sellerlist;
@@ -68,5 +74,65 @@ public class SellerDAO {
             Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
+    }
+    
+    public void deleteSeller( int sellerId){
+        DBContext db = new DBContext();
+        try {   
+            conn=db.getConnection();
+            state=conn.prepareStatement("delete seller where sellerId = "+sellerId);
+            state.execute();
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void insertSeller(int sellerId, String sellerName, String sellerAddress, String sellerEmail, String sellerPhone, String sellerDate, String sellerGender, String sellerDOB) {
+        DBContext db = new DBContext();
+        try {
+            conn = db.getConnection();
+            state = conn.prepareStatement("insert into seller values("
+                    + sellerId + ",'"
+                    + sellerName + "','"
+                    + sellerAddress + "','"
+                    + sellerEmail + "','"
+                    + sellerPhone + "','"
+                    + sellerDate +"',"
+                    + convertGender(sellerGender)+",'"
+                    + sellerDOB +"')");
+            state.executeUpdate();
+        } catch (Exception ex) {
+            Logger.getLogger(SellerDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void updateSeller(int sellerId, String sellerName,
+            String sellerAddress, String sellerEmail, String sellerPhone,
+            String sellerGender, String sellerDOB) {
+        DBContext db = new DBContext();
+        try {
+            conn = db.getConnection();
+            state = conn.prepareStatement("update seller set "
+                    + "sellerName=N'"   + sellerName + "',"
+                    + "sellerAddress=N'"+ sellerAddress + "',"
+                    + "sellerEmail='"  + sellerEmail + "',"
+                    + "sellerPhone='"  + sellerPhone + "',"
+                    + "sellerGender="  + convertGender(sellerGender) +","
+                    + "sellerDOB='"    + sellerDOB +"' where sellerId=" + sellerId);
+            state.executeUpdate();
+        } catch (Exception ex) {
+            Logger.getLogger(SellerDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
+    
+    public int convertGender(String gender){
+        if(gender.equals("nam")){
+            return 1;
+        }
+        return 0;
     }
 }

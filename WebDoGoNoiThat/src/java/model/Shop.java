@@ -18,27 +18,29 @@ public class Shop {
     private int shopProductQuantity ;
     private int shopProductSold ;
     private String shopPhone ;
-    private Date shopDate;
+    private String shopEmail;
+    private String shopDate;
     private int shopRevenue;
     private int shopProfit;
+    private boolean shopActive;
 
     public Shop() {
     }
 
-    public Shop(int shopId, String shopName, String shopAddress, int shopProductQuantity, int shopProductSold, String shopPhone, Date shopDate, int shopRevenue, int shopProfit) {
+    public Shop(int shopId, String shopName, String shopAddress, int shopProductQuantity, int shopProductSold, String shopPhone, String shopEmail, String shopDate, int shopRevenue, int shopProfit, boolean shopActive) {
         this.shopId = shopId;
         this.shopName = shopName;
         this.shopAddress = shopAddress;
         this.shopProductQuantity = shopProductQuantity;
         this.shopProductSold = shopProductSold;
         this.shopPhone = shopPhone;
+        this.shopEmail = shopEmail;
         this.shopDate = shopDate;
         this.shopRevenue = shopRevenue;
         this.shopProfit = shopProfit;
+        this.shopActive = shopActive;
     }
-
     
-
     public int getShopId() {
         return shopId;
     }
@@ -87,11 +89,19 @@ public class Shop {
         this.shopPhone = shopPhone;
     }
 
-    public void setShopDate(Date shopDate) {
+    public String getShopEmail() {
+        return shopEmail;
+    }
+
+    public void setShopEmail(String shopEmail) {
+        this.shopEmail = shopEmail;
+    }
+
+    public void setShopDate(String shopDate) {
         this.shopDate = shopDate;
     }
 
-    public Date getShopDate() {
+    public String getShopDate() {
         return shopDate;
     }
 
@@ -110,6 +120,16 @@ public class Shop {
     public void setShopProfit(int shopProfit) {
         this.shopProfit = shopProfit;
     }
+
+    public boolean isShopActive() {
+        return shopActive;
+    }
+
+    public void setShopActive(boolean shopActive) {
+        this.shopActive = shopActive;
+    }
+    
+    
     
     
     

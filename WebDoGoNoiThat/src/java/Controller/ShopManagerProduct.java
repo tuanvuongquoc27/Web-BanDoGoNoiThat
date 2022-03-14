@@ -1,10 +1,10 @@
-package Controller;
-
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+package Controller;
+
 import DAO.CategoryDAO;
 import DAO.OrderDAO;
 import DAO.ProductDAO;
@@ -25,7 +25,7 @@ import model.Shop;
  *
  * @author Admin
  */
-public class ShopServletController extends HttpServlet {
+public class ShopManagerProduct extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -41,22 +41,20 @@ public class ShopServletController extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
-            String idstring = request.getParameter("shopId");
-            String userIdstring = request.getParameter("userId");
-            if (idstring != null) {
-                int shopId = Integer.parseInt(idstring);
-                ShopDAO sd = new ShopDAO();
-                ProductDAO prd = new ProductDAO();
-                ArrayList<Product> productlist = prd.getProductbyShopId(shopId);
-                Shop shop = sd.getShop(shopId);
-                request.setAttribute("shop", shop);
-                request.setAttribute("productlist", productlist);
-                request.getRequestDispatcher("shoppage.jsp").forward(request, response);
-            }else{
-                int userId = Integer.parseInt(userIdstring);
+            ProductDAO prd = new ProductDAO();
+            String productIddelete = request.getParameter("productIddelete");
+            String productIdupdate = request.getParameter("productIdupdate");
+            
+            String update = request.getParameter("update"); 
+            
+            if(productIddelete!=null){
+                int productId=Integer.parseInt(productIddelete);
+                prd.deleteProduct(productId);
+                request.setAttribute("update", "getAll");
+                String shopId = request.getParameter("userId");
+                int userId = Integer.parseInt(shopId);
                 ShopDAO sd = new ShopDAO();
                 OrderDAO od = new OrderDAO();
-                ProductDAO prd = new ProductDAO();
                 CategoryDAO ctd = new CategoryDAO();
                 Shop shop =  sd.getShop(userId);
                 ArrayList<Product> productlist = prd.getProductbyShopId(userId);
@@ -66,11 +64,40 @@ public class ShopServletController extends HttpServlet {
                 request.setAttribute("categorylist", categorylist);
                 request.setAttribute("productlist", productlist);
                 request.setAttribute("orderlist", orderlist);
-                request.setAttribute("update", "getAll");
+                request.getRequestDispatcher("myShop.jsp").forward(request, response);
+            }
+            if(productIdupdate!=null) {
+                String shopId = request.getParameter("userId");
+                int productId = Integer.parseInt(productIdupdate);
+                Product product = prd.getProduct(productId);
+                request.setAttribute("update", "update");
+                request.setAttribute("product", product);
+                request.getRequestDispatcher("myShop.jsp").forward(request, response);
+            }
+            if(update.equals("insert")){
+                request.setAttribute("update", update);
+                request.getRequestDispatcher("myShop.jsp").forward(request, response);
+            }
+            if(update.equals("getAll")){
+                String shopId = request.getParameter("userId");
+                request.setAttribute("update", update);
+                int userId = Integer.parseInt(shopId);
+                ShopDAO sd = new ShopDAO();
+                OrderDAO od = new OrderDAO();
+                CategoryDAO ctd = new CategoryDAO();
+                Shop shop =  sd.getShop(userId);
+                ArrayList<Product> productlist = prd.getProductbyShopId(userId);
+                ArrayList<Order> orderlist = od.getAllOrder(userId);
+                ArrayList<Category> categorylist = ctd.getAllCategory();
+                request.setAttribute("shop", shop);
+                request.setAttribute("categorylist", categorylist);
+                request.setAttribute("productlist", productlist);
+                request.setAttribute("orderlist", orderlist);
+                request.getRequestDispatcher("myShop.jsp").forward(request, response);
                 request.getRequestDispatcher("myShop.jsp").forward(request, response);
             }
 
-            //out.println(shop.getShopDate());
+            
         }
     }
 
@@ -100,7 +127,19 @@ public class ShopServletController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+//                String productName= request.getParameter("");
+//                String productDescript = request.getParameter("");
+//                String productImg = request.getParameter("");
+//                String productQuantity = request.getParameter("");
+//                String productOldPrice = request.getParameter("");
+//                String productNewPrice = request.getParameter("");
+//                String productBrand = request.getParameter("");
+//                String productOrigin = request.getParameter("");
+//                String productType = request.getParameter("");
+//                int productId=Integer.parseInt("");
+//                prd.updateProduct(productId, productIdupdate, productIdupdate, 
+//                                  productIdupdate, productId, productId, productId, 
+//                                  productIdupdate, productIdupdate, productId);
     }
 
     /**

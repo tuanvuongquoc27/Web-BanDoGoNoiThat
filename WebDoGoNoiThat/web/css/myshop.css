@@ -54,3 +54,28 @@
 .nav-link.product__list-item--link{
     font-size: 1.6rem;
 }
+
+h4.input-name {
+    margin-top: 10px;
+}
+
+input {
+    width: 50%;
+    padding: 5px;
+    margin-bottom: 10px;
+}
+
+select.form-select {
+    width: 50%;
+    height: 30px;
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+}
+
+input.submit-btn {
+    align-items: center;
+    width: 100px;
+    background-color: rgb(247, 3, 3);
+    color: rgb(255, 255, 255);
+    font-size: 1.6rem;
+}

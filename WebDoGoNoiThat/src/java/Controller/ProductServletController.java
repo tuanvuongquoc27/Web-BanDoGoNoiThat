@@ -5,17 +5,22 @@
  */
 package Controller;
 
+import DAO.CategoryDAO;
 import DAO.CustomerDAO;
+import DAO.OrderDAO;
 import DAO.ProductDAO;
 import DAO.SellerDAO;
 import DAO.ShopDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import model.Category;
 import model.Customer;
+import model.Order;
 import model.Product;
 import model.Seller;
 import model.Shop;
@@ -42,21 +47,28 @@ public class ProductServletController extends HttpServlet {
             /* TODO output your page here. You may use following sample code. */
             String idstring = request.getParameter("productId");
             String userIdstring = request.getParameter("userId");
-            
-            int productId = Integer.parseInt(idstring);
             ProductDAO prd = new ProductDAO();
+            int productId = Integer.parseInt(idstring);
             CustomerDAO ctd = new CustomerDAO();
             ShopDAO sd = new ShopDAO();
             SellerDAO sld = new SellerDAO();
-            
+            ArrayList<Order> orderlist = null;
             if(userIdstring!=null){
                 int userId = Integer.parseInt(userIdstring);
                 Seller seller = sld.getSellerById(userId);
                 Customer customer = ctd.getCustomerById(userId);
                 request.setAttribute("customer", customer);
                 request.setAttribute("seller", seller);
+                OrderDAO od = new OrderDAO();
+                orderlist = od.getAllOrder(userId);
+                if(orderlist.isEmpty()){
+                    orderlist=null;
+                }
+            }else{
             }
-            
+            ArrayList<Product> list = prd.getAllProduct();
+            request.setAttribute("list", list);
+            request.setAttribute("orderlist", orderlist);
             Product product = prd.getProduct(productId);
             Shop shop = sd.getShop(product.getShopId());
             request.setAttribute("product", product);

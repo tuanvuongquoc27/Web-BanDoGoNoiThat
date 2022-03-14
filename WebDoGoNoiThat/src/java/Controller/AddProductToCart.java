@@ -64,6 +64,7 @@ public class AddProductToCart extends HttpServlet {
                 }else{
                     od.updateOrder(productId, quantity, quantity*product.getProductNewPrice());
                 }
+                
                 request.getRequestDispatcher("HomeServletController").forward(request, response);
             
             

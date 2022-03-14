@@ -6,8 +6,8 @@
 package Controller;
 
 import DAO.OrderDAO;
+import DAO.RequestDAO;
 import DAO.UserDAO;
-import DAO.ProductDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -16,9 +16,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import model.Order;
+import model.Request;
 import model.User;
-import model.Product;
 
 /**
  *
@@ -46,7 +45,6 @@ public class LoginServlet extends HttpServlet {
             User user = ud.getUserByUserName(username);
             if(ud.getUser(username, password)!= null){
                 OrderDAO od = new OrderDAO();
-                
                 if(!od.getAllOrder(ud.getUser(username, password).getUserId()).isEmpty()){
                     request.setAttribute("orderlist", od.getAllOrder(ud.getUser(username, password).getUserId()));
                 }else{
@@ -54,7 +52,15 @@ public class LoginServlet extends HttpServlet {
                 }
                 HttpSession session = request.getSession();
                 session.setAttribute("user", user);
-                request.getRequestDispatcher("HomeServletController").forward(request, response);
+                if(user.getRole().equals("admin")){
+                    
+                    request.getRequestDispatcher("ManagerStoreServlet").forward(request, response);
+                }else{
+                    request.getRequestDispatcher("HomeServletController").forward(request, response);
+                }
+                
+                
+                
             }else if (user!=null){
                 request.setAttribute("error", "Tài khoản hoặc mật khẩu sai");
             }else {
