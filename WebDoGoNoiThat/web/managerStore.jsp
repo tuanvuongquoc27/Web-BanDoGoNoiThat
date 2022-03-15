@@ -1,4 +1,4 @@
-<%-- 
+ <%-- 
     Document   : managerStore
     Created on : Mar 11, 2022, 11:50:28 PM
     Author     : Admin
@@ -32,7 +32,6 @@
     </head>
 
     <body>
-
         <div class="main">
             <!-- header -->
             <div class="header">
@@ -64,7 +63,7 @@
                                             </c:if>
                                             <c:if test="${requestScope.requestlist.size()!=0}">
                                                 <c:forEach items="${requestScope.requestlist}" var="list">
-                                                    <a href="ManagerRequest?userId=${sessionScope.user.Id}" class="header__notify-link">
+                                                    <a href="ManagerRequest?userId=${sessionScope.user.userId}" class="header__notify-link">
                                                         <img src="image/login-img.jpg" alt="" class="header__notify-img">
                                                         <div class="header__notify-infor">
                                                             <span class="header__notify-name">Yêu cầu trở thành nhà bán hàng</span>
@@ -83,7 +82,7 @@
                                         </li>
                                     </ul>
                                     <footer class="header__notify-footer">
-                                        <a href="ManagerRequest?userId=${sessionScope.user.Id}" class="header__notify-footer-btn">Xem tất cả</a>
+                                        <a href="ManagerRequest?userId=${sessionScope.user.userId}" class="header__notify-footer-btn">Xem tất cả</a>
                                     </footer>
                                 </div>
                             </li>
@@ -101,7 +100,7 @@
                                     <span class="header_navbar-user-name">${sessionScope.user.userName}</span>
                                     <ul class="header__navbar-user-menu">
                                         <li class="header__navbar-user-item">
-                                            <a href="AccountFileController?role=${sessionScope.user.role}userId=${sessionScope.user.userId}">Tài khoản của tôi</a>
+                                            <a href="AccountFileController?role=${sessionScope.user.role}&userId=${sessionScope.user.userId}">Tài khoản của tôi</a>
                                         </li>
                                         <li class="header__navbar-user-item">
                                             <a href="LogoutServlet">Đăng xuất</a>
@@ -171,7 +170,7 @@
                                     <td>Lợi nhuận từ cửa hàng</td>
                                     <td></td>
                                 </tr>
-                                <c:forEach items="${requestScope.shoplist}" var="shoplist">
+                                <c:forEach begin="1" items="${requestScope.shoplist}" var="shoplist">
                                     <tr>
                                         <td><c:out value="${shoplist.getShopId()}"/></td>
                                         <td><a href="ManagerStore?infor=shop&shopId=${shoplist.getShopId()}" class="nav-link store-manager"><c:out value="${shoplist.getShopName()}"/></a></td>
@@ -214,29 +213,140 @@
                                 </tr>
                                 <c:forEach begin="1" items="${requestScope.sellerlist}" var="sllist">
                                     <tr>
-                                        <td>${sllist.getSellerId()}</td>
-                                        <td><a href="" class="nav-link store-manager">${sllist.getSellerName()}</a></td>
-                                        <td>${sllist.getSellerAddress()}</td>    
-
-                                        <td>${sllist.getSellerEmail()}</td>
-                                        <td>${sllist.getSellerPhone()}</td>
-                                        <td>${sllist.getSellerDate()}</td>
+                                        <td>
+                                            ${sllist.getSellerId()}</td>
+                                        <td>
+                                            ${sllist.getSellerName()}
+                                        </td>
                                         <td>
                                             <c:choose>  
-                                                <c:when test="${sllist.isSellerGender()==true}">  
-                                                    Nam
+                                                <c:when test="${sllist.getSellerAddress()=='null'}">  
+                                                    Chưa cập nhật 
+                                                </c:when> 
+                                                <c:otherwise>  
+                                                    ${sllist.getSellerAddress()}
+                                                </c:otherwise>  
+                                            </c:choose>
+                                        </td>    
+                                        <td>
+                                            ${sllist.getSellerEmail()}</td>
+                                        <td>
+                                            <c:choose>  
+                                                <c:when test="${sllist.getSellerAddress()=='null'}">  
+                                                    Chưa cập nhật
                                                 </c:when>
                                                 <c:otherwise>  
-                                                    Nữ
+                                                    ${sllist.getSellerPhone()}
                                                 </c:otherwise>  
                                             </c:choose> 
+                                            
+                                        <td>
+                                            ${sllist.getSellerDate()}</td>
+                                        <td>
+                                            <c:choose>  
+                                                <c:when test="${sllist.getSellerAddress()=='null'}">  
+                                                    Chưa cập nhật
+                                                </c:when> 
+                                                <c:otherwise>  
+                                                    <c:if test="${sllist.isSellerGender()==true}">
+                                                        Nam
+                                                    </c:if>
+                                                    <c:if test="${sllist.isSellerGender()==false}">
+                                                        Nữ
+                                                    </c:if>
+                                                </c:otherwise>  
+                                            </c:choose>  
                                         </td>
-                                        <td>${sllist    .getSellerDOB()}</tr>
-                                    </c:forEach>
+                                        <td>
+                                            <c:choose>  
+                                                <c:when test="${sllist.getSellerAddress()=='null'}">  
+                                                    Chưa cập nhật
+                                                </c:when>
+                                                <c:otherwise>  
+                                                    ${sllist.getSellerDOB()}
+                                                </c:otherwise>  
+                                            </c:choose>
+                                        </td>
+                                    </tr>
+                                </c:forEach>
                             </table>
                         </c:if>
                         <!--inforcustomer-->
-
+                        <c:if test="${requestScope.infor=='infor-customer'}" >
+                            <div class="store-infor">
+                                <h1>Thông tin người mua </h1>
+                            </div>
+                            <table>
+                                <tr>
+                                    <td>ID</td>
+                                    <td>Họ và tên </td>
+                                    <td>Địa chỉ </td>
+                                    <td>Email</td>
+                                    <td>Số điện thoại</td>
+                                    <td>Ngày tham gia</td>
+                                    <td>Giới tính</td>
+                                    <td>Ngày sinh nhật</td>
+                                </tr>
+                                <c:forEach items="${requestScope.customerlist}" var="cuslist">
+                                    <tr>
+                                        <td>
+                                            ${cuslist.getCustomerId()}</td>
+                                        <td> 
+                                            ${cuslist.getCustomerName()} 
+                                        </td>
+                                        <td>
+                                            <c:choose>  
+                                                <c:when test="${cuslist.getCustomerAddress()=='null'}">  
+                                                    Chưa cập nhật
+                                                </c:when>  
+                                                <c:otherwise>  
+                                                    ${cuslist.getCustomerAddress()}
+                                                </c:otherwise>  
+                                            </c:choose>
+                                        </td>    
+                                        <td>
+                                            ${cuslist.getCustomerEmail()}</td>
+                                        <td>
+                                            <c:choose>  
+                                                <c:when test="${cuslist.getCustomerAddress()=='null'}">  
+                                                    Chưa cập nhật
+                                                </c:when>  
+                                                <c:otherwise>  
+                                                    ${cuslist.getCustomerPhone()}
+                                                </c:otherwise>  
+                                            </c:choose> 
+                                            
+                                        <td>
+                                            ${cuslist.getCustomerData()}</td>
+                                        <td>
+                                            <c:choose>  
+                                                <c:when test="${cuslist.getCustomerAddress()=='null'}">  
+                                                    Chưa cập nhật
+                                                </c:when>  
+                                                <c:otherwise> 
+                                                    <c:if test="${cuslist.isCustomerGender()==true}">
+                                                        Nam
+                                                    </c:if>
+                                                    <c:if test="${cuslist.isCustomerGender()==false}">
+                                                        Nữ
+                                                    </c:if>
+                                                </c:otherwise>  
+                                            </c:choose>  
+                                        </td>
+                                        <td>
+                                            <c:choose>  
+                                                <c:when test="${cuslist.getCustomerAddress()=='null'}">  
+                                                    Chưa cập nhật 
+                                                </c:when>  
+                                                <c:otherwise>  
+                                                    ${cuslist.getCustomerDOB()}
+                                                </c:otherwise>  
+                                            </c:choose>
+                                        </td>
+                                    </tr>
+                                </c:forEach>
+                            </table>
+                        </c:if>
 
                         <!--request-->
                         <c:if test="${requestScope.store=='request'}">
@@ -259,37 +369,32 @@
                                         <td></td>
                                         <td></td>
                                     </tr>
-                                    <c:if test="${requestScope.requestlist==null}">
-                                        <h3>Không có thông báo mới</h3>
-                                    </c:if>
+                                    <c:forEach items="${requestScope.requestlist}" var="list">
+                                        <tr>
+                                            <td>${list.getCustomerId()}</td>
+                                            <td>
+                                                <c:forEach items="${requestScope.customerlist}" var="cuslist">
+                                                    <c:if test="${list.getCustomerId()==cuslist.getCustomerId()}">
+                                                        ${cuslist.getCustomerName()}
+                                                    </c:if>
+                                                </c:forEach>
+                                            </td>
+                                            <td>${list.getRequestSeller()}</td>
+                                            <td><c:forEach items="${requestScope.userlist}" var="userlist">
+                                                    <c:if test="${list.getCustomerId()==userlist.getUserId()}">
+                                                        ${userlist.getUserBanlance()}
+                                                    </c:if>
+                                                </c:forEach>
+                                            </td> 
+                                            <td>response</td>
+                                            <td><a onclick="if (!confirm('Bạn có muốn xóa cửa hàng này')) {
+                                                        return false;
+                                                    }" 
+                                                   href="ManagerRequest?rquest=delete&userId=${list.getCustomerId()}" class="nav-link">Xóa yêu cầu</a></td>
+                                            <td><a href="ManagerRequest?rquest=accept&userId=${list.getCustomerId()}" class="nav-link">Chấp nhận</a></td>
+                                        </tr>
+                                    </c:forEach>
 
-                                    <c:if test="${requestScope.requestlist!=null}">
-                                        <c:forEach items="${requestScope.requestlist}" var="list">
-                                            <tr>
-                                                <td>${list.getCustomerId()}</td>
-                                                <td>
-                                                    <c:forEach items="${requestScope.customerlist}" var="cuslist">
-                                                        <c:if test="${list.getCustomerId()==cuslist.getCustomerId()}">
-                                                            ${cuslist.getCustomerName()}
-                                                        </c:if>
-                                                    </c:forEach>
-                                                </td>
-                                                <td>${list.getRequestSeller()}</td>
-                                                <td><c:forEach items="${requestScope.userlist}" var="userlist">
-                                                        <c:if test="${list.getCustomerId()==userlist.getUserId()}">
-                                                            ${userlist.getUserBanlance()}
-                                                        </c:if>
-                                                    </c:forEach>
-                                                </td> 
-                                                <td>response</td>
-                                                <td><a onclick="if (!confirm('Bạn có muốn xóa cửa hàng này')) {
-                                                            return false;
-                                                        }" 
-                                                       href="ManagerRequest?rquest=delete&userId=${list.getCustomerId()}" class="nav-link">Xóa yêu cầu</a></td>
-                                                <td><a href="ManagerRequest?rquest=accept&userId=${list.getCustomerId()}" class="nav-link">Chấp nhận</a></td>
-                                            </tr>
-                                        </c:forEach>
-                                    </c:if>
 
                                 </table>
                             </c:if>

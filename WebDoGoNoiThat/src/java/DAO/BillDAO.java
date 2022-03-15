@@ -96,6 +96,17 @@ public class BillDAO {
         }
         return null;
     }
+
+    public void updateBill(int billId, int total, String dateNow) {
+        DBContext db = new DBContext();
+        try {
+            conn = db.getConnection();
+            state = conn.prepareStatement("update bill set billTotal = "+total + " , billDate = '"+dateNow+"' where billId = "+billId);
+            state.executeUpdate();
+        } catch (Exception ex) {
+            Logger.getLogger(CustomerDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
     
     
 }

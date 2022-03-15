@@ -20,6 +20,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import model.Customer;
 import model.Request;
+import model.Seller;
 import model.User;
 
 /**
@@ -47,6 +48,7 @@ public class ManagerRequest extends HttpServlet {
             SellerDAO sld = new SellerDAO();
             RequestDAO rqd = new RequestDAO();
             String rquest = request.getParameter("rquest");
+            
             int userId = Integer.parseInt(request.getParameter("userId"));
             if (rquest != null) {
                 if (rquest.equals("accept")) {
@@ -73,6 +75,8 @@ public class ManagerRequest extends HttpServlet {
             ArrayList<User> userlist = ud.getAllUser();
             ArrayList<Request> listrequest = rqd.getAllRequest();
             ArrayList<Customer> customerlist = csd.getAllCustomer();
+            ArrayList<Seller> sellerlist = sld.getAllSeller();
+            request.setAttribute("seller", sellerlist);
             request.setAttribute("customerlist", customerlist);
             request.setAttribute("requestlist", listrequest);
             request.setAttribute("userlist", userlist);

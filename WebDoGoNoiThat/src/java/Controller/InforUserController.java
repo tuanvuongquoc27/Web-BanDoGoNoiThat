@@ -46,8 +46,11 @@ public class InforUserController extends HttpServlet {
             if(infor.equals("seller")){
                 request.setAttribute("sellerlist",sellerlist);
                 request.setAttribute("infor", "infor-seller");
-                request.getRequestDispatcher("managerStore.jsp").forward(request, response);
+            }else{
+                request.setAttribute("customerlist",customerlist);
+                request.setAttribute("infor", "infor-customer");
             }
+            request.getRequestDispatcher("managerStore.jsp").forward(request, response);
         }
     }
 

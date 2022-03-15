@@ -76,6 +76,20 @@ public class OrderDAO {
         return null;
     }
     
+    public void updateOrderSold(int userId, int sold){
+        DBContext db = new DBContext();
+        try {   
+            conn=db.getConnection();
+            state=conn.prepareStatement("update [order] set sold = "+sold + " where customerId = "+userId);
+            state.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(OrderDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(OrderDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    }
+    
     public void insertOrder(int customerId, int billId, int productId, int productPrice, int productQuantity, int productTotal){
         DBContext db = new DBContext();
         try {   

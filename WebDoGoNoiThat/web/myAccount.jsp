@@ -161,14 +161,14 @@
                                 <td>Họ và Tên </td>
                                 <td>
                                     <c:choose>  
-                                        <c:when test="${requestScope.seller.getSellerAddress()!=null}">  
-                                            ${requestScope.seller.getSellerName()}
+                                        <c:when test="${requestScope.seller.getSellerAddress()=='null'}">  
+                                            Chưa cập nhật
                                         </c:when>  
-                                        <c:when test="${requestScope.customer.getCustomerAddress()!=null}">  
-                                            ${requestScope.customer.getCustomerName()}  
+                                        <c:when test="${requestScope.customer.getCustomerAddress()=='null'}">  
+                                            Chưa cập nhật
                                         </c:when>  
                                         <c:otherwise>  
-                                            Chưa cập nhật 
+                                            ${requestScope.seller.getSellerName()}${requestScope.customer.getCustomerName()}  
                                         </c:otherwise>  
                                     </c:choose> 
                                 </td>
@@ -182,14 +182,14 @@
                                 <td>Địa chỉ</td>
                                 <td>
                                     <c:choose>  
-                                        <c:when test="${requestScope.seller.getSellerAddress()!=null}">  
-                                            ${requestScope.seller.getSellerAddress()}
+                                        <c:when test="${requestScope.seller.getSellerAddress()=='null'}">  
+                                            Chưa cập nhật 
                                         </c:when>  
-                                        <c:when test="${requestScope.customer.getCustomerAddress()!=null}">  
-                                            ${requestScope.customer.getCustomerAddress()}  
+                                        <c:when test="${requestScope.customer.getCustomerAddress()=='null'}">  
+                                            Chưa cập nhật
                                         </c:when>  
                                         <c:otherwise>  
-                                            Chưa cập nhật 
+                                            ${requestScope.customer.getCustomerAddress()}${requestScope.seller.getSellerAddress()}
                                         </c:otherwise>  
                                     </c:choose> 
                                 </td>
@@ -198,14 +198,14 @@
                                 <td>Số điện thoại</td>
                                 <td>
                                     <c:choose>  
-                                        <c:when test="${requestScope.seller.getSellerAddress()!=null}">  
-                                            ${requestScope.seller.getSellerPhone()}
+                                        <c:when test="${requestScope.seller.getSellerAddress()=='null'}">  
+                                            Chưa cập nhật
                                         </c:when>  
-                                        <c:when test="${requestScope.customer.getCustomerAddress()!=null}">  
-                                            ${requestScope.customer.getCustomerPhone()}  
+                                        <c:when test="${requestScope.customer.getCustomerAddress()=='null'}">  
+                                            Chưa cập nhật
                                         </c:when>  
                                         <c:otherwise>  
-                                            Chưa cập nhật 
+                                            ${requestScope.seller.getSellerPhone()}${requestScope.customer.getCustomerPhone()}
                                         </c:otherwise>  
                                     </c:choose> 
                                 </td>
@@ -214,24 +214,25 @@
                                 <td>Giới tính</td>
                                 <td>
                                     <c:choose>  
-                                        <c:when test="${requestScope.seller.getSellerAddress()!=null}">  
+                                        <c:when test="${requestScope.seller.getSellerAddress()=='null'}">  
+                                            Chưa cập nhật
+                                        </c:when>  
+                                        <c:when test="${requestScope.customer.getCustomerAddress()=='null'}">  
+                                            Chưa cập nhật
+                                        </c:when>  
+                                        <c:otherwise>  
                                             <c:if test="${requestScope.seller.isSellerGender()==true}">
                                                 Nam
                                             </c:if>
                                             <c:if test="${requestScope.seller.isSellerGender()==false}">
                                                 Nữ
-                                            </c:if>
-                                        </c:when>  
-                                        <c:when test="${requestScope.customer.getCustomerAddress()!=null}">  
+                                            </c:if> 
                                             <c:if test="${requestScope.customer.isCustomerGender()==true}">
                                                 Nam
                                             </c:if>
                                             <c:if test="${requestScope.customer.isCustomerGender()==false}">
                                                 Nữ
-                                            </c:if>  
-                                        </c:when>  
-                                        <c:otherwise>  
-                                            Chưa cập nhật 
+                                            </c:if>
                                         </c:otherwise>  
                                     </c:choose> 
                                 </td>
@@ -240,14 +241,14 @@
                                 <td>Ngày sinh</td>
                                 <td>
                                     <c:choose>  
-                                        <c:when test="${requestScope.seller.getSellerAddress()!=null}">  
-                                            ${requestScope.seller.getSellerDOB()}
+                                        <c:when test="${requestScope.seller.getSellerAddress()=='null'}">  
+                                            Chưa cập nhật
                                         </c:when>  
-                                        <c:when test="${requestScope.customer.getCustomerAddress()!=null}">  
-                                            ${requestScope.customer.getCustomerDOB()}  
+                                        <c:when test="${requestScope.customer.getCustomerAddress()=='null'}">  
+                                            Chưa cập nhật 
                                         </c:when>  
                                         <c:otherwise>  
-                                            Chưa cập nhật 
+                                            ${requestScope.customer.getCustomerDOB()} ${requestScope.seller.getSellerDOB()}
                                         </c:otherwise>  
                                     </c:choose> 
                                 </td>

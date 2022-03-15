@@ -122,4 +122,31 @@ public class ShopDAO {
             Logger.getLogger(ShopDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    
+    public void updateQuantity(int shopId) {
+        DBContext db = new DBContext();
+        try {
+            conn = db.getConnection();
+            state = conn.prepareStatement("update shop set shopProductQuantity = ( select SUM(productQuantity) from product where shopId= "+shopId +" ) where shopId = "+shopId);
+            state.executeUpdate();
+        } catch (Exception ex) {
+            Logger.getLogger(ShopDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void updateProductSold(int shopId ){
+        
+                DBContext db = new DBContext();
+        try {
+            conn = db.getConnection();
+            state = conn.prepareStatement("select SUM(a.productQuantity) from [order] as a,product as b where b.shopId = "+shopId+" and b.productId=a.productId");
+            state.executeUpdate();
+        } catch (Exception ex) {
+            Logger.getLogger(ShopDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+     
+            
+            
 }

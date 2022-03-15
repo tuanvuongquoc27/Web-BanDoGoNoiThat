@@ -184,7 +184,7 @@ public class ProductDAO {
                     + "productOldPrice =" + productOldPrice + ", "
                     + "productNewPrice=" + productNewPrice + ", "
                     + " productBrand=N'" + productBrand + "',"
-                    + "productOrigin=" + productOrigin + ", "
+                    + "productOrigin=N'" + productOrigin + "', "
                     + " productType=" + productType + ""
                     + " where productId=" + productId);
             state.execute();
@@ -194,21 +194,22 @@ public class ProductDAO {
     }
     
     public void insertProduct(String productName, String productDescript,
-            String productImg, int productQuantity, int productNewPrice,
+            String productImg,int shopId, int productQuantity, int productNewPrice,
             String productBrand, String productOrigin, int productType) {
         DBContext db = new DBContext();
 
         try {
             conn = db.getConnection();
-            state = conn.prepareStatement("insert into product values('"
-                    + productName + "', ''"
-                    + productDescript + "', "
-                    + productImg + "', "
-                    + productQuantity + ", "
-                    + productNewPrice + ", "
-                    + productNewPrice + ", "
-                    + productBrand + "','"
-                    + productOrigin + ","
+            state = conn.prepareStatement("insert into product values(N'"
+                    + productName     + "',N'"
+                    + productDescript + "','"
+                    + productImg      + "', "
+                    + shopId          + " , "
+                    + productQuantity + " , "
+                    + productNewPrice + " , "
+                    + productNewPrice + " ,N'"
+                    + productBrand    + "',N'"
+                    + productOrigin   + "',"
                     + productType+")");
             state.execute();
         } catch (Exception ex) {
@@ -221,8 +222,8 @@ public class ProductDAO {
 
         try {
             conn = db.getConnection();
-            state = conn.prepareStatement("update product set productQuantity = productQuantity- "+quantity+" where productId="+productId);
-            state.execute();
+            state = conn.prepareStatement("update product set productQuantity = productQuantity-"+quantity+" where productId="+productId);
+            state.executeUpdate();
         } catch (Exception ex) {
             Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
         }

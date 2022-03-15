@@ -89,7 +89,7 @@
                                     <span class="header_navbar-user-name">${sessionScope.user.userName}</span>
                                     <ul class="header__navbar-user-menu">
                                         <li class="header__navbar-user-item">
-                                            <a href="myAccount.html">Tài khoản của tôi</a>
+                                            <a href="AccountFileController?role=${sessionScope.user.role}&userId=${sessionScope.user.userId}">Tài khoản của tôi</a>
                                         </li>
                                         <li class="header__navbar-user-item">
                                             <a href="LogoutServlet">Đăng xuất</a>
@@ -163,10 +163,7 @@
                             <a href="ShopManagerProduct?update=insert" class="nav-link product__list-item--link">Thêm sản phẩm</a> 
                         </li>
                         <li class="product__list-item nav-item ">
-                            <a href="ShopManagerProduct?update=insert" class="nav-link product__list-item--link">Doanh thu</a> 
-                        </li>
-                        <li class="product__list-item nav-item ">
-                            <a href="ShopManagerProduct?update=insert" class="nav-link product__list-item--link">Thay đổi thông tin</a> 
+                            <a href="ShopManagerProduct?update=reveneu" class="nav-link product__list-item--link">Doanh thu</a> 
                         </li>
 
                     </ul>
@@ -204,92 +201,105 @@
 
             </div>
             </c:if>
+            <!--sửa sản phẩm-->
             <c:if test="${update=='update'}">
                 <div class="col-sm-9">
+                    
                     <form action="ShopManagerProduct" method="post">
+                        <input type="hidden" value="${sessionScope.user.userId}" name="input-shopId"/>
+                        <input type="hidden" value="setting" name="update"/>
+                        <input name="input-id" type="hidden" value="${requestScope.product.getProductId()}">
                         <span>
                             <h4 class="input-name">Id sản phẩm</h4>
-                            <input name="productId" type="text" value="${requestScope.product.getProductId()}">
+                            <input disabled="true" type="text" value="${requestScope.product.getProductId()}">
                         </span><br>
                         <span>
                             <h4 class="input-name">Tên sản phẩm</h4>
-                            <input name="productId" type="text" value="${requestScope.product.getProductName()}">
-                        </span class="input-name"><br>
+                            <input name="input-name" type="text" value="${requestScope.product.getProductName()}">
+                        </span><br>
                         <span>
                             <h4 class="input-name">Mô tả sản phẩm</h4>
-                            <input name="productId" type="text" value="${requestScope.product.getProductDescript()}">
-                        </span class="input-name"><br>
+                            <input name="input-descript" type="text" value="${requestScope.product.getProductDescript()}">
+                        </span><br>
                         <span>
                             <h4 class="input-name">Ảnh</h4>
-                            <input name="productId" type="text" value="${requestScope.product.getProductImg()}">
-                        </span class="input-name"><br>
+                            <input name="input-img" type="text" value="${requestScope.product.getProductImg()}">
+                        </span><br>
                         <span>
                             <h4 class="input-name">Số lượng sản phẩm</h4>
-                            <input name="productId" type="number" value="${requestScope.product.getProductQuantity()}">
+                            <input name="input-quantity" type="number" value="${requestScope.product.getProductQuantity()}">
                         </span><br>
                         <span>
                             <h4 class="input-name">Giá sản phẩm</h4>
-                            <input name="productId" type="text" value="${requestScope.product.getProductNewPrice()}">
+                            <input name="input-price" type="text" value="${requestScope.product.getProductNewPrice()}">
                         </span><br>
                         <span>
                             <h4 class="input-name">Thương hiệu sản phẩm</h4>
-                            <input name="productId" type="text" value="${requestScope.product.getProductBrand()}">
+                            <input name="input-brand" type="text" value="${requestScope.product.getProductBrand()}">
                         </span><br>
                         <span>
                             <h4 class="input-name">Xuất xứ</h4>
-                            <input name="productId" type="text" value="${requestScope.product.getProductOrigin()}">
+                            <input name="input-origin" type="text" value="${requestScope.product.getProductOrigin()}">
                         </span><br>
                         <span> 
-                            <h4 class="input-name">Loại sản phẩm</h4>
-                            <select name="productId" class="form-select">
-                                <option>12</option>
-                                <c:forEach items="${requestScope.categorylist}" var="catelist">
-                                    <option value="<c:out value="${catelist.getCategoryId()}"/>"><c:out value="${catelist.getCategoryName()}"/></option>
-                                </c:forEach>
-                                <option value=""><a href="" class="nav-link">Thêm mới</a></option>
-                            </select>
-                        </span> 
+                        <h4 class="input-name">Loại sản phẩm</h4>
+                        <select name="input-type" class="form-select">
+                            <option value="Nội thất phòng học">Nội thất phòng học</option>
+                            <option value="Nội thất phòng ngủ">Nội thất phòng ngủ</option>
+                            <option value="Nội thất phòng bếp">Nội thất phòng bếp</option>
+                            <option value="Nội thất phòng làm việc">Nội thất phòng làm việc</option>
+                            <option value="Nội thất phòng khách">Nội thất phòng khách</option>
+                        </select>
+                    </span>
                         <input type="submit" class="submit-btn" value="Cập nhật">
                     </form>
 
                 </div>
             </c:if>
+            
+            <!--thêm mới sản phẩm-->
             <c:if test="${update=='insert'}">
             <div class="col-sm-9">
                
-                <form action="">
+                <form action="ShopManagerProduct" method="post">
+                    <input type="hidden" value="insert-new" name="update"/>
+                    <input type="hidden" value="${sessionScope.user.userId}" name="input-shopId">
+                    <span>
+                        <h4 class="input-name">Tên sản phẩm</h4>
+                        <input name="input-name" type="text">
+                    </span><br>
                     <span>
                         <h4 class="input-name">Mô tả sản phẩm</h4>
-                        <input type="text" placeholder="${requestScope.product.getProductName()}">
-                    </span class="input-name"><br>
-                    <span>
-                        <h4 class="input-name">Ảnh sản phẩm</h4>
-                        <input type="text" placeholder="">
-                    </span class="input-name"><br>
-                    <span>
-                        <h4 class="input-name">Số lượng sản phầm</h4>
-                        <input type="number" value>
+                        <input name="input-descript" type="text">
                     </span><br>
                     <span>
-                        <h4 class="input-name">Giá sản phẩm</h4>
-                        <input type="text" placeholder="">
+                        <h4 class="input-img">Ảnh sản phẩm</h4>
+                        <input name="input-img" type="text">
                     </span><br>
                     <span>
-                        <h4 class="input-name">Thương hiệu</h4>
-                        <input type="text" placeholder="">
+                        <h4 class="input-quantity">Số lượng sản phẩm</h4>
+                        <input name="input-quantity" type="number">
                     </span><br>
                     <span>
-                        <h4 class="input-name">Xuất xứ</h4>
-                        <input type="text" placeholder="">
+                        <h4 class="input-price">Giá sản phẩm</h4>
+                        <input name="input-price" type="text">
+                    </span><br>
+                    <span>
+                        <h4 class="input-brand">Thương hiệu</h4>
+                        <input name="input-brand" type="text">
+                    </span><br>
+                    <span>
+                        <h4 class="input-origin">Xuất xứ</h4>
+                        <input name="input-origin" type="text">
                     </span><br>
                     <span> 
                         <h4 class="input-name">Loại sản phẩm</h4>
-                        <select class="form-select">
-                            <option>Phòng học</option>
-                            <option>Phòng ngủ</option>
-                            <option>Phòng ăn</option>
-                            <option>Phòng bếp</option>
-                            <option><a href="" class="nav-link">Thêm mới</a></option>
+                        <select name="input-type" class="form-select">
+                            <option value="Nội thất phòng học">Nội thất phòng học</option>
+                            <option value="Nội thất phòng ngủ">Nội thất phòng ngủ</option>
+                            <option value="Nội thất phòng bếp">Nội thất phòng bếp</option>
+                            <option value="Nội thất phòng làm việc">Nội thất phòng làm việc</option>
+                            <option value="Nội thất phòng khách">Nội thất phòng khách</option>
                         </select>
                     </span> 
                     <input type="submit" class="submit-btn" value="Thêm mới">

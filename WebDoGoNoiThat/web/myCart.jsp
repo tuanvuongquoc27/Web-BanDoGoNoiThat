@@ -41,11 +41,11 @@
             </div>
             <div class="container product__information">
                 <div class="row product__thead">
-                    <div class="col-sm-6"><h2>Sản phẩm </h2></div>
+                    <div class="col-sm-5"><h2>Sản phẩm </h2></div>
                     <div class="col-sm-2"><h2>Đơn giá</h2></div>
-                    <div class="col-sm-2"><h2>Số lượng</h2></div>
+                    <div class="col-sm-1"><h2>Số lượng</h2></div>
                     <div class="col-sm-2"><h2>Thành tiền</h2></div>
-                    <div class="col-sm-1"></div>
+                    <div class="col-sm-2"></div>
                 </div>
                 <c:if test="${requestScope.orderlist!=null}">
                     <c:set var="totalmoney" value="${0}"></c:set>
@@ -58,15 +58,16 @@
                             request.setAttribute("order", ordlist.get(i)); %>
 
                     <div class="row product__row">
-                        <div class="col-sm-6 product__cart">
+                        <div class="col-sm-5 product__cart">
                             <img src="${requestScope.pro.getProductImg()}" alt="" class="header__cart-img img-fluid">
                             <h5 class="home-product-item__name">${requestScope.pro.getProductName()}</h5>
 
                         </div>
                         <div class="col-sm-2 product__price"><fmt:formatNumber type="number" pattern="###,###,###đ" value="${requestScope.order.getProductPrice()}" /></div>
-                        <div class="col-sm-2 product__quantity">${requestScope.order.getProductQuantity()}</div>
-                        <div class="col-sm-2 product__total"><fmt:formatNumber type="number" pattern="###,###,###đ" value="${requestScope.order.getProductTotal()}" />
-                            <a href="CartServletController?deleteId=${requestScope.pro.getProductId()}&userId=${sessionScope.user.userId}" class="nav-link delete-link">Xóa</a></div>
+                        <div class="col-sm-1 product__quantity">${requestScope.order.getProductQuantity()}</div>
+                        <div class="col-sm-2 product__total"><fmt:formatNumber type="number" pattern="###,###,###đ" value="${requestScope.order.getProductTotal()}" /></div>
+                        <div class="col-sm-1"> <a href="CartServletController?deleteId=${requestScope.pro.getProductId()}&userId=${sessionScope.user.userId}" class="nav-link delete-link">Xóa</a></div>
+                        <div class="col-sm-1"> <a href="CartServletController?deleteId=${requestScope.pro.getProductId()}&userId=${sessionScope.user.userId}" class="nav-link delete-link">Thêm</a></div>
                     </div>
 
                     <c:set var="totalmoney" value="${requestScope.order.getProductTotal()+totalmoney}"></c:set>
@@ -83,23 +84,25 @@
                     </div>  
 
                     <div class="product__pay">
-                        <form action="#">
+                        <form action="BillController" method="post">
+                            <input type="hidden" value="${totalmoney+20000}" name="totalmoney"/>
+                            <input type="hidden" value="${sessionScope.user.userId}" name="userId"/>
                             <h2>Phương thức thanh toán</h2>
-                            <select name="" id="" class="pay-option">
-                                <option value="">Thanh toán ví điện tử</option>
-                                <option value="">Thanh toán khi nhận hàng</option>
+                            <select name="option-pay" id="" class="pay-option">
+                                <option value="type1">Thanh toán ví điện tử</option>
+                                <option value="type2">Thanh toán khi nhận hàng</option>
                             </select>
                             <input type="submit" class="sub-btn" value="Thanh toán">
                         </form>
-
-
+                            
+                                
                     </div>
                 </c:if>
                 <c:if test="${requestScope.order==null}">
                     
                     
                 </c:if>
-
+                <h2>${mess}</h2>
 
             </div>
 

@@ -207,7 +207,7 @@
                                 <div class="product__cart-address">
                                     <span class="product__cart-address--name">Địa chỉ</span>
                                     <c:if test="${requestScope.customer==null&&requestScope.seller==null}">
-                                        <input type="text" value="" class="product__cart-address--place">
+                                        <input type="text" value="" class="product__cart-address--place" required="">
                                     </c:if>
                                     <c:if test="${requestScope.customer!=null||requestScope.seller!=null}">
                                         <input type="text" value="${requestScope.seller.getSellerAddress()}${requestScope.cusotmer.getCustomerAddress()} " class="product__cart-address--place">

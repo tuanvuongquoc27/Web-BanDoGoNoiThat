@@ -295,55 +295,59 @@ and open the template in the editor.
                                     <c:forEach items="${requestScope.list}" varStatus="loop" var="p">
                                         <c:set var="percent" value="${100-(p.getProductNewPrice()/p.getProductOldPrice())*100}"/>
                                         <fmt:parseNumber var="j" integerOnly="true" pattern="." type="number" value="${percent}"/>
-                                        <div class="col-sm-3">
-                                            <c:if test="${sessionScope.user==null}">
-                                                <a href="ProductServletController?productId=<c:out value="${p.getProductId()}"/>" class="home-product-item">
-                                                </c:if> 
-                                                <c:if test="${sessionScope.user!=null}">
-                                                    <a href="ProductServletController?productId=<c:out value="${p.getProductId()}"/>&userId=${sessionScope.user.userId}" class="home-product-item">
-                                                    </c:if> 
-                                                    <div class="home-product-item__img" style="background-image: url('<c:out value="${p.getProductImg()}"/>');"></div>
-                                                    <h5 class="home-product-item__name"><c:out value="${p.getProductName()}"/></h5>
-                                                    <div class="home-product-item__price">
-                                                        <c:if test="${j!=0}">
-                                                            <span class="home-product-item__price-old"><fmt:formatNumber type="number" pattern="###,###,###đ" value="${p.getProductOldPrice()}" /></span>
-                                                            <span class="home-product-item__price-current"><fmt:formatNumber type="number" pattern="###,###,###đ" value="${p.getProductNewPrice()}" /></span>
-                                                        </c:if>
-                                                        <c:if test="${j==0}">
-                                                            <span class="home-product-item__price-current"><fmt:formatNumber type="number" pattern="###,###,###đ" value="${p.getProductOldPrice()}" /></span>
-                                                        </c:if>
-                                                    </div>
-                                                    <div class="home-product-item__action">
-                                                        <!-- home-product-item__like--liked -->
-                                                        <span class="home-product-item__like ">
-                                                            <i class="home-product-item__like-icon-empty fa-regular fa-heart"></i>
-                                                            <i class="home-product-item__like-icon-fill fa-solid fa-heart"></i>
-                                                        </span>
-                                                        <div class="home-product-item__rating">
-                                                            <i class="home-product-item__star-gold fa-solid fa-star"></i>
-                                                            <i class="home-product-item__star-gold fa-solid fa-star"></i>
-                                                            <i class="home-product-item__star-gold fa-solid fa-star"></i>
-                                                            <i class="home-product-item__star-gold fa-solid fa-star"></i>
-                                                            <i class="fa-solid fa-star"></i>
-                                                        </div>
-                                                    </div>
-                                                    <div class="home-product-item__origin">
-                                                        <span class="home-product-item__brand"><c:out value="${p.getProductBrand()}"/></span>
-                                                        <span class="home-product-item__origin-name"><c:out value="${p.getProductOrigin()}"/></span>
-                                                    </div>
-                                                    <div class="home-product-item__favorite">
-                                                        <i class="fa-solid fa-check"></i>
-                                                        Yêu thích 
-                                                    </div>
-                                                    <c:if test="${j!=0}">
-                                                        <div class="home-product-item__sell-off">
-                                                            <span class="home-product-item__sell-off--percent"><c:out value="${j}"/> %</span>
-                                                            <span class="home-product-item__sell-off--label">Giảm</span>
-                                                        </div>
-                                                    </c:if>
+                                        <c:if test="${p.getProductQuantity()>0}">
 
-                                                </a>
-                                        </div>
+
+                                            <div class="col-sm-3">
+                                                <c:if test="${sessionScope.user==null}">
+                                                    <a href="ProductServletController?productId=<c:out value="${p.getProductId()}"/>" class="home-product-item">
+                                                    </c:if> 
+                                                    <c:if test="${sessionScope.user!=null}">
+                                                        <a href="ProductServletController?productId=<c:out value="${p.getProductId()}"/>&userId=${sessionScope.user.userId}" class="home-product-item">
+                                                        </c:if> 
+                                                        <div class="home-product-item__img" style="background-image: url('<c:out value="${p.getProductImg()}"/>');"></div>
+                                                        <h5 class="home-product-item__name"><c:out value="${p.getProductName()}"/></h5>
+                                                        <div class="home-product-item__price">
+                                                            <c:if test="${j!=0}">
+                                                                <span class="home-product-item__price-old"><fmt:formatNumber type="number" pattern="###,###,###đ" value="${p.getProductOldPrice()}" /></span>
+                                                                <span class="home-product-item__price-current"><fmt:formatNumber type="number" pattern="###,###,###đ" value="${p.getProductNewPrice()}" /></span>
+                                                            </c:if>
+                                                            <c:if test="${j==0}">
+                                                                <span class="home-product-item__price-current"><fmt:formatNumber type="number" pattern="###,###,###đ" value="${p.getProductOldPrice()}" /></span>
+                                                            </c:if>
+                                                        </div>
+                                                        <div class="home-product-item__action">
+                                                            <!-- home-product-item__like--liked -->
+                                                            <span class="home-product-item__like ">
+                                                                <i class="home-product-item__like-icon-empty fa-regular fa-heart"></i>
+                                                                <i class="home-product-item__like-icon-fill fa-solid fa-heart"></i>
+                                                            </span>
+                                                            <div class="home-product-item__rating">
+                                                                <i class="home-product-item__star-gold fa-solid fa-star"></i>
+                                                                <i class="home-product-item__star-gold fa-solid fa-star"></i>
+                                                                <i class="home-product-item__star-gold fa-solid fa-star"></i>
+                                                                <i class="home-product-item__star-gold fa-solid fa-star"></i>
+                                                                <i class="fa-solid fa-star"></i>
+                                                            </div>
+                                                        </div>
+                                                        <div class="home-product-item__origin">
+                                                            <span class="home-product-item__brand"><c:out value="${p.getProductBrand()}"/></span>
+                                                            <span class="home-product-item__origin-name"><c:out value="${p.getProductOrigin()}"/></span>
+                                                        </div>
+                                                        <div class="home-product-item__favorite">
+                                                            <i class="fa-solid fa-check"></i>
+                                                            Yêu thích 
+                                                        </div>
+                                                        <c:if test="${j!=0}">
+                                                            <div class="home-product-item__sell-off">
+                                                                <span class="home-product-item__sell-off--percent"><c:out value="${j}"/> %</span>
+                                                                <span class="home-product-item__sell-off--label">Giảm</span>
+                                                            </div>
+                                                        </c:if>
+
+                                                    </a>
+                                            </div>
+                                        </c:if>
                                     </c:forEach>
 
 

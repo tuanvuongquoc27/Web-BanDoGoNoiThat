@@ -53,10 +53,6 @@
         <servlet-class>Controller.CategoryServletController</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>ManagerStoreServlet</servlet-name>
-        <servlet-class>Controller.ManagerStoreServlet</servlet-class>
-    </servlet>
-    <servlet>
         <servlet-name>ShopManagerProduct</servlet-name>
         <servlet-class>Controller.ShopManagerProduct</servlet-class>
     </servlet>
@@ -91,6 +87,18 @@
     <servlet>
         <servlet-name>InforUserController</servlet-name>
         <servlet-class>Controller.InforUserController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ManagerStoreServlet</servlet-name>
+        <servlet-class>Controller.ManagerStoreServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>OrderController</servlet-name>
+        <servlet-class>Controller.OrderController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>BillController</servlet-name>
+        <servlet-class>Controller.BillController</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
@@ -137,10 +145,6 @@
         <url-pattern>/CategoryServletController</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>ManagerStoreServlet</servlet-name>
-        <url-pattern>/ManagerStoreServlet</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
         <servlet-name>ShopManagerProduct</servlet-name>
         <url-pattern>/ShopManagerProduct</url-pattern>
     </servlet-mapping>
@@ -175,6 +179,18 @@
     <servlet-mapping>
         <servlet-name>InforUserController</servlet-name>
         <url-pattern>/InforUserController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ManagerStoreServlet</servlet-name>
+        <url-pattern>/ManagerStoreServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>OrderController</servlet-name>
+        <url-pattern>/OrderController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>BillController</servlet-name>
+        <url-pattern>/BillController</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
