@@ -44,7 +44,7 @@ public class SignupSeller extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet SignupSeller</title>");            
+            out.println("<title>Servlet SignupSeller</title>");
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet SignupSeller at " + request.getContextPath() + "</h1>");
@@ -87,41 +87,48 @@ public class SignupSeller extends HttpServlet {
         String shopAddress = request.getParameter("input-shopAddress");
         String shopPhone = request.getParameter("input-shopPhone");
         String shopEmail = request.getParameter("input-shopEmail");
-        int userId =Integer.parseInt(request.getParameter("userId"));
-        
+        int userId = Integer.parseInt(request.getParameter("userId"));
+
         ShopDAO sd = new ShopDAO();
         UserDAO ud = new UserDAO();
         CustomerDAO csd = new CustomerDAO();
         SellerDAO sld = new SellerDAO();
         RequestDAO rqd = new RequestDAO();
-        
-        User user= ud.getUserByUserId(userId);
-        
-        if(user.getUserBanlance()<200000){
+
+        User user = ud.getUserByUserId(userId);
+
+        if (user.getUserBanlance() < 200000) {
             request.setAttribute("mess", "Tài khoản không đủ tiền vui lòng nạp thêm tiền vào tài khoản");
             request.getRequestDispatcher("Seller.jsp").forward(request, response);
-        }else {
+        } else {
+            Customer customer = csd.getCustomerById(userId);
+            sld.insertSeller(userId, customer.getCustomerName(), customer.getCustomerAddress(),
+                    customer.getCustomerEmail(), customer.getCustomerPhone(),
+                    customer.getCustomerData(), convertGender(customer.isCustomerGender()), customer.getCustomerDOB());
+            sd.insertShop(userId, shopName, shopAddress, shopPhone, shopEmail, getDateNow());
+            rqd.insertRequest(userId, "Yêu cầu mở cửa hàng");
             request.setAttribute("wait", "Vui lòng đợi phản hồi từ admin");
         }
-        //Customer customer = csd.getCustomerById(userId);
-        //csd.deleteCustomer(userId);
-        //ud.updateRole(userId, "seller");
-        //sld.insertSeller(userId, customer.getCustomerName(), customer.getCustomerAddress(),
-                //customer.getCustomerEmail(), customer.getCustomerPhone(), customer.getCustomerData());
-        sd.insertShop(userId, shopName,shopPhone, shopAddress, shopEmail, getDateNow());
-        rqd.updateRequest(userId,"Yêu cầu mở cửa hàng");
+
         request.getRequestDispatcher("Seller.jsp").forward(request, response);
     }
-    
-    private boolean checkPhone(String shopPhone){
-        
+
+    private boolean checkPhone(String shopPhone) {
+
         return false;
     }
-    
-    public String getDateNow(){
-        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy"); 
+
+    public String getDateNow() {
+        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
         Date date = new Date();
         return sdf.format(date);
+    }
+
+    public String convertGender(boolean gender) {
+        if (gender) {
+            return "nam";
+        }
+        return "nữ";
     }
 
     /**

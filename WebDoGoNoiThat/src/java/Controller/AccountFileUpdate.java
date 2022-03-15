@@ -89,14 +89,13 @@ public class AccountFileUpdate extends HttpServlet {
             CustomerDAO csd = new CustomerDAO();
             csd.updateCustomer(userId, name, address, email, phone, gender, convertDate(DOB));
             request.setAttribute("customer", csd.getCustomerById(userId));
-        } else if (role.equals("seller")) {
+        } else {
             SellerDAO sld = new SellerDAO();
             sld.updateSeller(userId, name, address, email, phone, gender, convertDate(DOB));
             request.setAttribute("seller", sld.getSellerById(userId));
         }
-        User user = ud.getUserByUserId(userId);
         HttpSession session = request.getSession();
-        user = ud.getUserByUserId(userId);
+        User user = ud.getUserByUserId(userId);
         session.removeAttribute("user");
         session.setAttribute("user", user);
         request.setAttribute("account", "file");

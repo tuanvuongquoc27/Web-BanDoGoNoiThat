@@ -17,7 +17,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Document</title>
+        <title>Quản lý admin</title>
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
@@ -59,18 +59,31 @@
                                     </header>
                                     <ul class="header__notify-list">
                                         <li class="header__notify-item header__notify-item--viewed">
-                                            
-                                            <a href="#" class="header__notify-link">
-                                                <img src="image/login-img.jpg" alt="" class="header__notify-img">
-                                                <div class="header__notify-infor">
-                                                    <span class="header__notify-name">Thông tin</span>
-                                                    <span class="header__notify-description">description</span>
-                                                </div>
-                                            </a>
+                                            <c:if test="${requestScope.requestlist.size()==0}">
+                                                <h3>Không có thông báo mới</h3>
+                                            </c:if>
+                                            <c:if test="${requestScope.requestlist.size()!=0}">
+                                                <c:forEach items="${requestScope.requestlist}" var="list">
+                                                    <a href="ManagerRequest?userId=${sessionScope.user.Id}" class="header__notify-link">
+                                                        <img src="image/login-img.jpg" alt="" class="header__notify-img">
+                                                        <div class="header__notify-infor">
+                                                            <span class="header__notify-name">Yêu cầu trở thành nhà bán hàng</span>
+                                                            <c:forEach items="${requestScope.customerlist}" var="cuslist">
+                                                                <c:if test="${list.getCustomerId()==cuslist.getCustomerId()}">
+                                                                    <span class="header__notify-description">Người yêu cầu: ${cuslist.getCustomerName()}</span>
+                                                                </c:if>
+                                                            </c:forEach>
+
+                                                        </div>
+                                                    </a>
+                                                </c:forEach>
+
+                                            </c:if>
+
                                         </li>
                                     </ul>
                                     <footer class="header__notify-footer">
-                                        <a href="" class="header__notify-footer-btn">Xem tất cả</a>
+                                        <a href="ManagerRequest?userId=${sessionScope.user.Id}" class="header__notify-footer-btn">Xem tất cả</a>
                                     </footer>
                                 </div>
                             </li>
@@ -88,7 +101,7 @@
                                     <span class="header_navbar-user-name">${sessionScope.user.userName}</span>
                                     <ul class="header__navbar-user-menu">
                                         <li class="header__navbar-user-item">
-                                            <a href="AccountFileController?userId=${sessionScope.user.userId}">Tài khoản của tôi</a>
+                                            <a href="AccountFileController?role=${sessionScope.user.role}userId=${sessionScope.user.userId}">Tài khoản của tôi</a>
                                         </li>
                                         <li class="header__navbar-user-item">
                                             <a href="LogoutServlet">Đăng xuất</a>
@@ -98,7 +111,7 @@
                             </c:if> 
                         </ul>
                     </nav>
-                    
+
                 </div>
 
 
@@ -108,10 +121,10 @@
                     <div class="col-sm-2">
                         <div class="product__list-item nav-item">
                             <div class="dropdown product__list-item">
-                                <a href="ManagerStoreServlet?infor=all" data-bs-toggle="dropdown"
-                                   class="dropdown-toggle nav-link product__list-item--link">Thông tin cửa hàng</a>
+                                <div  data-bs-toggle="dropdown"
+                                      class="dropdown-toggle nav-link product__list-item--link">Thông tin cửa hàng</div>
                                 <ul class="dropdown-menu product__list-child">
-                                    <li class="dropdown-item product__list-item--child "><a href="#"
+                                    <li class="dropdown-item product__list-item--child "><a href="ManagerStoreServlet?infor=all"
                                                                                             class="product__list-item-link--child nav-link">Tháng 1</a>
                                     </li>
 
@@ -120,114 +133,170 @@
                             </div>
                         </div>
                         <div class="product__list-item nav-item">
-                            <div class="dropdown product__list-item">
-                                <a href="#" data-bs-toggle="dropdown"
-                                   class="dropdown-toggle nav-link product__list-item--link">Thông tin chủ cửa hàng</a>
-                                <ul class="dropdown-menu product__list-child">
-                                    <li class="dropdown-item product__list-item--child "><a href="#"
-                                                                                            class="product__list-item-link--child nav-link">Tháng 1</a>
-                                    </li>
+                            <div class="product__list-item">
+                                <a href="InforUserController?infor=seller" class=" nav-link product__list-item--link">Thông tin chủ cửa hàng</a>
 
-                                    </li>
-                                </ul>
                             </div>
                         </div>
                         <div class="product__list-item nav-item">
-                            <div class="dropdown product__list-item">
-                                <a href="#" data-bs-toggle="dropdown"
-                                   class="dropdown-toggle nav-link product__list-item--link">Thông tin khách hàng</a>
-                                <ul class="dropdown-menu product__list-child">
-                                    <li class="dropdown-item product__list-item--child "><a href="#"
-                                                                                            class="product__list-item-link--child nav-link">Tháng 1</a>
-                                    </li>
+                            <div class="product__list-item">
+                                <a href="InforUserController?infor=customer" 
+                                   class=" nav-link product__list-item--link">Thông tin khách hàng</a>
+                            </div>
+                        </div>
+                        <div class="product__list-item nav-item">
+                            <div class="product__list-item">
+                                <a href="ManagerRequest?store=request-infor&userId=${sessionScope.user.userId}" 
+                                   class="nav-link product__list-item--link">Thông tin yêu cầu</a>
 
-                                    </li>
-                                </ul>
                             </div>
                         </div>
                     </div>
+
                     <!-- thoong tin cuar hang-->
                     <div class="col-sm-10">
-                        <div class="store-infor">
-                            <h1>Thông tin cửa hàng</h1>
-                        </div>
-
-                        <table>
-                            <tr>
-                                <td>ID</td>
-                                <td>Tên của hàng</td>
-                                <td>Tên chu cua hang</td>
-                                <td>Số lượng sản phẩm</td>
-                                <td>Doanh thu của cửa hàng</td>
-                                <td>Lợi nhuận của cửa hàng</td>
-                                <td>Lợi nhuận từ cửa hàng</td>
-                                <td></td>
-                            </tr>
-                            <c:forEach items="${requestScope.shoplist}" var="shoplist">
+                        <!--information cuawr hang-->
+                        <c:if test="${requestScope.store=='information'}" >
+                            <div class="store-infor">
+                                <h1>Thông tin cửa hàng</h1>
+                            </div>
+                            <table>
                                 <tr>
-                                    <td><c:out value="${shoplist.getShopId()}"/></td>
-                                    <td><a href="ManagerStore?infor=shop&shopId=${shoplist.getShopId()}" class="nav-link store-manager"><c:out value="${shoplist.getShopName()}"/></a></td>
-                                    <c:forEach items="${requestScope.sellerlist}" var="sllist">
-                                        <c:if test="${shoplist.getShopId()==sllist.getSellerId()}">
-                                            <td><c:out value="${sllist.getSellerName()}"/></td>
-                                        </c:if>
-                                    </c:forEach>    
-
-
-                                    <td><c:out value="${shoplist.getShopProductQuantity()}"/></td>
-                                    <td><c:out value="${shoplist.getShopRevenue()}"/></td>
-                                    <td><c:out value="${shoplist.getShopProfit()}"/></td>
-                                    <td><c:out value="${shoplist.getShopProfit()}"/></td>
-                                    <td><a onclick="if (!confirm('Bạn có muốn xóa cửa hàng này')) { return false; }" href="ManagerStoreServlet?infor=delete&shopId=${shoplist.getShopId()}" class="nav-link">Xóa cửa hàng</a></td>
+                                    <td>ID</td>
+                                    <td>Tên của hàng</td>
+                                    <td>Tên chu cua hang</td>
+                                    <td>Số lượng sản phẩm</td>
+                                    <td>Doanh thu của cửa hàng</td>
+                                    <td>Lợi nhuận của cửa hàng</td>
+                                    <td>Lợi nhuận từ cửa hàng</td>
+                                    <td></td>
                                 </tr>
-                            </c:forEach>
+                                <c:forEach items="${requestScope.shoplist}" var="shoplist">
+                                    <tr>
+                                        <td><c:out value="${shoplist.getShopId()}"/></td>
+                                        <td><a href="ManagerStore?infor=shop&shopId=${shoplist.getShopId()}" class="nav-link store-manager"><c:out value="${shoplist.getShopName()}"/></a></td>
+                                            <c:forEach items="${requestScope.sellerlist}" var="sllist">
+                                                <c:if test="${shoplist.getShopId()==sllist.getSellerId()}">
+                                                <td><c:out value="${sllist.getSellerName()}"/></td>
+                                            </c:if>
+                                        </c:forEach>    
+                                        <td><c:out value="${shoplist.getShopProductQuantity()}"/></td>
+                                        <td><c:out value="${shoplist.getShopRevenue()}"/></td>
+                                        <td><c:out value="${shoplist.getShopProfit()}"/></td>
+                                        <td><c:out value="${shoplist.getShopProfit()}"/></td>
+                                        <td><a onclick="if (!confirm('Bạn có muốn xóa cửa hàng này')) {
+                                                    return false;
+                                                }" href="ManagerStoreServlet?infor=delete&shopId=${shoplist.getShopId()}" class="nav-link">Xóa cửa hàng</a></td>
+                                    </tr>
+                                </c:forEach>
+                            </table>
+                            <div class="add__store">
+                                <a href="#" class="nav-link add__store-link">Thêm cửa hàng</a>
+                            </div>
+                        </c:if>
 
+                        <!--inforseller-->
 
-                        </table>
-                        <div class="add__store">
-                            <a href="#" class="nav-link add__store-link">Thêm cửa hàng</a>
-                        </div>
-                        
-                        
-                        <div class="store-infor">
-                            <h1>Thông tin cửa hàng</h1>
-                        </div>
-
-                        <table>
-                            <tr>
-                                <td>ID</td>
-                                <td>Tên của hàng</td>
-                                <td>Tên chu cua hang</td>
-                                <td>Số lượng sản phẩm</td>
-                                <td>Doanh thu của cửa hàng</td>
-                                <td>Lợi nhuận của cửa hàng</td>
-                                <td>Lợi nhuận từ cửa hàng</td>
-                                <td></td>
-                            </tr>
-                            <c:forEach items="${requestScope.shoplist}" var="shoplist">
+                        <c:if test="${requestScope.infor=='infor-seller'}" >
+                            <div class="store-infor">
+                                <h1>Thông tin người bán </h1>
+                            </div>
+                            <table>
                                 <tr>
-                                    <td><c:out value="${shoplist.getShopId()}"/></td>
-                                    <td><a href="" class="nav-link store-manager"><c:out value="${shoplist.getShopName()}"/></a></td>
-                                    <c:forEach items="${requestScope.sellerlist}" var="sllist">
-                                        <c:if test="${shoplist.getShopId()==sllist.getSellerId()}">
-                                            <td><c:out value="${sllist.getSellerName()}"/></td>
-                                        </c:if>
-                                    </c:forEach>    
-
-
-                                    <td><c:out value="${shoplist.getShopProductQuantity()}"/></td>
-                                    <td><c:out value="${shoplist.getShopRevenue()}"/></td>
-                                    <td><c:out value="${shoplist.getShopProfit()}"/></td>
-                                    <td><c:out value="${shoplist.getShopProfit()}"/></td>
-                                    <td><a href="?shopId=${shoplist.getShopId()}" class="nav-link">Xóa cửa hàng</a></td>
+                                    <td>ID</td>
+                                    <td>Họ và tên </td>
+                                    <td>Địa chỉ </td>
+                                    <td>Email</td>
+                                    <td>Phone</td>
+                                    <td>Ngày tham gia</td>
+                                    <td>Giới tính</td>
+                                    <td>Ngày sinh nhật</td>
                                 </tr>
-                            </c:forEach>
+                                <c:forEach begin="1" items="${requestScope.sellerlist}" var="sllist">
+                                    <tr>
+                                        <td>${sllist.getSellerId()}</td>
+                                        <td><a href="" class="nav-link store-manager">${sllist.getSellerName()}</a></td>
+                                        <td>${sllist.getSellerAddress()}</td>    
+
+                                        <td>${sllist.getSellerEmail()}</td>
+                                        <td>${sllist.getSellerPhone()}</td>
+                                        <td>${sllist.getSellerDate()}</td>
+                                        <td>
+                                            <c:choose>  
+                                                <c:when test="${sllist.isSellerGender()==true}">  
+                                                    Nam
+                                                </c:when>
+                                                <c:otherwise>  
+                                                    Nữ
+                                                </c:otherwise>  
+                                            </c:choose> 
+                                        </td>
+                                        <td>${sllist    .getSellerDOB()}</tr>
+                                    </c:forEach>
+                            </table>
+                        </c:if>
+                        <!--inforcustomer-->
 
 
-                        </table>
-                        <div class="add__store">
-                            <a href="#" class="nav-link add__store-link">Thêm cửa hàng</a>
-                        </div>
+                        <!--request-->
+                        <c:if test="${requestScope.store=='request'}">
+
+                            <c:if test="${requestScope.requestlist.size()==0}">
+                                <h3>Không có thông báo mới</h3>
+                            </c:if>
+                            <c:if test="${requestScope.requestlist.size()!=0}">
+                                <div class="store-infor">
+                                    <h1>Thông tin yêu cầu</h1>
+                                </div>
+
+                                <table>
+                                    <tr>
+                                        <td>ID</td>
+                                        <td>Người yêu cầu</td>
+                                        <td>Nội dung yêu cầu</td>
+                                        <td>Số dư tài khoản</td>
+                                        <td>Trả lời</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <c:if test="${requestScope.requestlist==null}">
+                                        <h3>Không có thông báo mới</h3>
+                                    </c:if>
+
+                                    <c:if test="${requestScope.requestlist!=null}">
+                                        <c:forEach items="${requestScope.requestlist}" var="list">
+                                            <tr>
+                                                <td>${list.getCustomerId()}</td>
+                                                <td>
+                                                    <c:forEach items="${requestScope.customerlist}" var="cuslist">
+                                                        <c:if test="${list.getCustomerId()==cuslist.getCustomerId()}">
+                                                            ${cuslist.getCustomerName()}
+                                                        </c:if>
+                                                    </c:forEach>
+                                                </td>
+                                                <td>${list.getRequestSeller()}</td>
+                                                <td><c:forEach items="${requestScope.userlist}" var="userlist">
+                                                        <c:if test="${list.getCustomerId()==userlist.getUserId()}">
+                                                            ${userlist.getUserBanlance()}
+                                                        </c:if>
+                                                    </c:forEach>
+                                                </td> 
+                                                <td>response</td>
+                                                <td><a onclick="if (!confirm('Bạn có muốn xóa cửa hàng này')) {
+                                                            return false;
+                                                        }" 
+                                                       href="ManagerRequest?rquest=delete&userId=${list.getCustomerId()}" class="nav-link">Xóa yêu cầu</a></td>
+                                                <td><a href="ManagerRequest?rquest=accept&userId=${list.getCustomerId()}" class="nav-link">Chấp nhận</a></td>
+                                            </tr>
+                                        </c:forEach>
+                                    </c:if>
+
+                                </table>
+                            </c:if>
+
+                        </c:if>
+
+                        <!--paging-->
                         <ul class="pagination">
                             <li class="pagination-item">
                                 <a href="" class="pagination-item__link">

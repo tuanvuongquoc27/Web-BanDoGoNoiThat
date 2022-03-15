@@ -53,7 +53,6 @@ public class LoginServlet extends HttpServlet {
                 HttpSession session = request.getSession();
                 session.setAttribute("user", user);
                 if(user.getRole().equals("admin")){
-                    
                     request.getRequestDispatcher("ManagerStoreServlet").forward(request, response);
                 }else{
                     request.getRequestDispatcher("HomeServletController").forward(request, response);
@@ -66,7 +65,7 @@ public class LoginServlet extends HttpServlet {
             }else {
                 request.setAttribute("error", "Tài khoản không tồn tại");
             }
-            request.getRequestDispatcher("Login.jsp").forward(request, response);
+            //request.getRequestDispatcher("Login.jsp").forward(request, response);
             
         }
     }

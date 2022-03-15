@@ -62,12 +62,12 @@ public class RequestDAO {
         return null;
     }
     
-    public void updateRequest(int customerId , String request){
+    public void insertRequest(int customerId , String request){
         DBContext db = new DBContext();
         try {
             conn=db.getConnection();
-            state=conn.prepareStatement("update request set request="+ request +" where customerId="+customerId);
-            state.executeUpdate();  
+            state=conn.prepareStatement("insert into request values("+ customerId +",N'"+request+"','null',0)");
+            state.executeUpdate();
         } catch (Exception ex) {
             Logger.getLogger(RequestDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -83,4 +83,27 @@ public class RequestDAO {
             Logger.getLogger(RequestDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    
+    public void updateState(int customerId , int st){
+        DBContext db = new DBContext();
+        try {
+            conn=db.getConnection();
+            state=conn.prepareStatement("update request set requestState="+ st +" where customerId="+customerId);
+            state.executeUpdate();  
+        } catch (Exception ex) {
+            Logger.getLogger(RequestDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void deleteRequestId(int userId) {
+        DBContext db = new DBContext();
+        try {
+            conn=db.getConnection();
+            state=conn.prepareStatement("delete request where requestId="+userId);
+            state.executeUpdate();  
+        } catch (Exception ex) {
+            Logger.getLogger(RequestDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
 }

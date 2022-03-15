@@ -6,12 +6,7 @@
 package Controller;
 
 import DAO.CustomerDAO;
-import DAO.OrderDAO;
-import DAO.ProductDAO;
-import DAO.RequestDAO;
 import DAO.SellerDAO;
-import DAO.ShopDAO;
-import DAO.UserDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -20,17 +15,13 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import model.Customer;
-import model.Order;
-import model.Request;
 import model.Seller;
-import model.Shop;
-import model.User;
 
 /**
  *
  * @author Admin
  */
-public class ManagerStoreServlet extends HttpServlet {
+public class InforUserController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -45,51 +36,18 @@ public class ManagerStoreServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
+            /* TODO output your page here. You may use following sample code. */
             SellerDAO sld = new SellerDAO();
-            OrderDAO od = new OrderDAO();
-            ShopDAO sd = new ShopDAO();
             CustomerDAO csd = new CustomerDAO();
-            UserDAO ud = new UserDAO();
-            ProductDAO prd = new ProductDAO();
-            RequestDAO rqd = new RequestDAO();
-
-            String infor = request.getParameter("infor");
-            if (infor == null) {
-                
-            } else {
-                if (infor.equals("delete")) {
-                    int deleteId = Integer.parseInt(request.getParameter("shopId"));
-                    Seller seller = sld.getSellerById(deleteId);
-//                  delete shop va thay doi role for user
-                    prd.deleteProductByShopId(deleteId);
-                    sd.deleteShop(deleteId);
-                    sld.deleteSeller(deleteId);
-                    ud.deleteUser(deleteId);
-                    //csd.insertCustomer(seller.getSellerId(), seller.getSellerName(), seller.getSellerAddress(), seller.getSellerEmail(), seller.getSellerPhone());
-                    ud.updateRole(deleteId, "customer");
-                    //get thong tin chuyen sang trang cho admin
-
-                } else if (infor.equals("all")) {
-//                    ArrayList<Shop> shoplist = sd.getAllShop();
-//                    ArrayList<Seller> sellerlist = sld.getAllSeller();
-//                    request.setAttribute("store", "information");
-//                    request.setAttribute("sellerlist", sellerlist);
-//                    request.setAttribute("shoplist", shoplist);
-//                    request.getRequestDispatcher("managerStore.jsp").forward(request, response);
-                }
-            }
             
-            ArrayList<Shop> shoplist = sd.getAllShop();
-            ArrayList<Seller> sellerlist = sld.getAllSeller();
-            ArrayList<Request> listrequest = rqd.getAllRequest();
             ArrayList<Customer> customerlist = csd.getAllCustomer();
-            request.setAttribute("customerlist", customerlist);
-            request.setAttribute("requestlist", listrequest);
-            request.setAttribute("sellerlist", sellerlist);
-            request.setAttribute("shoplist", shoplist);
-            request.setAttribute("store", "information");
-            request.getRequestDispatcher("managerStore.jsp").forward(request, response);
-
+            ArrayList<Seller> sellerlist = sld.getAllSeller();
+            String infor = request.getParameter("infor");
+            if(infor.equals("seller")){
+                request.setAttribute("sellerlist",sellerlist);
+                request.setAttribute("infor", "infor-seller");
+                request.getRequestDispatcher("managerStore.jsp").forward(request, response);
+            }
         }
     }
 

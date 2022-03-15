@@ -66,17 +66,31 @@ and open the template in the editor.
                                     </header>
                                     <ul class="header__notify-list">
                                         <li class="header__notify-item header__notify-item--viewed">
-                                            <a href="#" class="header__notify-link">
-                                                <img src="image/login-img.jpg" alt="" class="header__notify-img">
-                                                <div class="header__notify-infor">
-                                                    <span class="header__notify-name">Thông tin</span>
-                                                    <span class="header__notify-description">description</span>
-                                                </div>
-                                            </a>
+                                            <c:if test="${requestScope.requestlist.size()==0}">
+                                                <h3>Không có thông báo mới</h3>
+                                            </c:if>
+                                            <c:if test="${requestScope.requestlist.size()!=0}">
+                                                <c:forEach items="${requestScope.requestlist}" var="list">
+                                                    <a href="ManagerRequest?store=request-infor&userId=${sessionScope.user.userId}" class="header__notify-link">
+                                                        <img src="image/login-img.jpg" alt="" class="header__notify-img">
+                                                        <div class="header__notify-infor">
+                                                            <span class="header__notify-name">Yêu cầu trở thành nhà bán hàng</span>
+                                                            <c:forEach items="${requestScope.customerlist}" var="cuslist">
+                                                                <c:if test="${list.getCustomerId()==cuslist.getCustomerId()}">
+                                                                    <span class="header__notify-description">Người yêu cầu: ${cuslist.getCustomerName()}</span>
+                                                                </c:if>
+                                                            </c:forEach>
+
+                                                        </div>
+                                                    </a>
+                                                </c:forEach>
+
+                                            </c:if>
+
                                         </li>
                                     </ul>
                                     <footer class="header__notify-footer">
-                                        <a href="" class="header__notify-footer-btn">Xem tất cả</a>
+                                        <a href="ManagerRequest?store=request-infor&userId=${sessionScope.user.userId}" class="header__notify-footer-btn">Xem tất cả</a>
                                     </footer>
                                 </div>
                             </li>
@@ -191,7 +205,7 @@ and open the template in the editor.
                                 <ul class="dropdown-menu category__list-child">
                                     <c:if test="${sessionScope.user.role=='admin'}">
                                         <li class="dropdown-item category__list-item--child ">
-                                            <a href="ManagerStoreServlet" class="category__list-item-link--child nav-link">Quản lí tài khoản</a>
+                                            <a href="ManagerStoreServlet?infor=all" class="category__list-item-link--child nav-link">Quản lí tài khoản</a>
                                         </li>
                                     </c:if>
                                     <c:if test="${sessionScope.user.role=='seller'||sessionScope.user.role=='admin'}">

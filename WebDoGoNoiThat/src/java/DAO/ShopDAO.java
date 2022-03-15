@@ -27,7 +27,7 @@ public class ShopDAO {
         DBContext db = new DBContext();
         try {   
             conn=db.getConnection();
-            state=conn.prepareStatement("select * from shop");
+            state=conn.prepareStatement("select * from shop where shopActive=1");
             rs = state.executeQuery();
             ArrayList<Shop> listshop = new ArrayList<>();
             while(rs.next()){
@@ -106,6 +106,17 @@ public class ShopDAO {
                     + shopPhone + "','"
                     + shopEmail + "','"
                     + shopDate + "',0,0,0)");
+            state.executeUpdate();
+        } catch (Exception ex) {
+            Logger.getLogger(ShopDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void updateActice(int shopId, int shopActive){
+        DBContext db = new DBContext();
+        try {
+            conn = db.getConnection();
+            state = conn.prepareStatement("update shop set shopActive="+ shopActive + " where shopId = "+shopId);
             state.executeUpdate();
         } catch (Exception ex) {
             Logger.getLogger(ShopDAO.class.getName()).log(Level.SEVERE, null, ex);

@@ -9,6 +9,7 @@ import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.Customer;
@@ -127,5 +128,30 @@ public class CustomerDAO {
         } catch (Exception ex) {
             Logger.getLogger(CustomerDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    public ArrayList<Customer> getAllCustomer() {
+        DBContext db = new DBContext();
+        try {
+            conn = db.getConnection();
+            state = conn.prepareStatement("select * from customer");
+            rs = state.executeQuery();
+            ArrayList<Customer> list = new ArrayList<>();
+            while (rs.next()) {
+                list.add( new Customer(
+                        rs.getInt(1),
+                        rs.getString(2),
+                        rs.getString(3),
+                        rs.getString(4),
+                        rs.getString(5),
+                        rs.getString(6),
+                        rs.getBoolean(7),
+                        rs.getString(8)));
+            }
+            return list;
+        } catch (Exception ex) {
+            Logger.getLogger(CustomerDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
     }
 }

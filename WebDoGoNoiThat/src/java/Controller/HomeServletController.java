@@ -6,8 +6,10 @@
 package Controller;
 
 import DAO.CategoryDAO;
+import DAO.CustomerDAO;
 import DAO.OrderDAO;
 import DAO.ProductDAO;
+import DAO.RequestDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -16,8 +18,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import model.Category;
+import model.Customer;
 import model.Order;
 import model.Product;
+import model.Request;
 
 /**
  *
@@ -41,7 +45,8 @@ public class HomeServletController extends HttpServlet {
             /* TODO output your page here. You may use following sample code. */
             ProductDAO prd = new ProductDAO();
             CategoryDAO ctd = new CategoryDAO();
-             
+            RequestDAO rqd = new RequestDAO(); 
+            CustomerDAO csd = new CustomerDAO();
             String userIdstring = request.getParameter("userId");
             ArrayList<Order> orderlist = null;
            
@@ -55,8 +60,13 @@ public class HomeServletController extends HttpServlet {
             }else{
                 orderlist = (ArrayList<Order>) request.getAttribute("orderlist");
             }
+            ArrayList<Request> requestlist = rqd.getAllRequest();
+            ArrayList<Customer> customerlist = csd.getAllCustomer();
             ArrayList<Category> categorylist = ctd.getAllCategory();
             ArrayList<Product> list = prd.getAllProduct();
+            
+            request.setAttribute("customerlist", customerlist);
+            request.setAttribute("requestlist", requestlist);
             request.setAttribute("categorylist", categorylist);
             request.setAttribute("list", list);
             request.setAttribute("orderlist", orderlist);

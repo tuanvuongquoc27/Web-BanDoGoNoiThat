@@ -6,16 +6,19 @@
 package Controller;
 
 import DAO.CustomerDAO;
+import DAO.RequestDAO;
 import DAO.SellerDAO;
 import DAO.UserDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import model.Customer;
+import model.Request;
 import model.Seller;
 
 /**
@@ -41,17 +44,22 @@ public class AccountFileController extends HttpServlet {
             int userId = Integer.parseInt(request.getParameter("userId"));
             String role = request.getParameter("role");
             UserDAO ud = new UserDAO();
-            if(role.equals("customer")||userId==1){
-                CustomerDAO csd = new CustomerDAO();
+            SellerDAO sld = new SellerDAO();
+            CustomerDAO csd = new CustomerDAO();
+            RequestDAO rqd = new RequestDAO();
+            if (role.equals("customer")) {
                 Customer customer = csd.getCustomerById(userId);
                 request.setAttribute("customer", customer);
-            }else {
-                SellerDAO sld = new SellerDAO();
+            } else {
                 Seller seller = sld.getSellerById(userId);
                 request.setAttribute("seller", seller);
             }
+            ArrayList<Request> listrequest = rqd.getAllRequest();
+            ArrayList<Customer> customerlist = csd.getAllCustomer();
+            request.setAttribute("customerlist", customerlist);
+            request.setAttribute("requestlist", listrequest);
+            request.setAttribute("account", "file");
             
-            request.setAttribute("account","file");
             request.getRequestDispatcher("myAccount.jsp").forward(request, response);
         }
     }
@@ -82,12 +90,8 @@ public class AccountFileController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
-        
-        
+
     }
-    
-    
 
     /**
      * Returns a short description of the servlet.

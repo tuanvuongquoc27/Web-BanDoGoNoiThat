@@ -88,6 +88,10 @@
         <servlet-name>ManagerRequest</servlet-name>
         <servlet-class>Controller.ManagerRequest</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>InforUserController</servlet-name>
+        <servlet-class>Controller.InforUserController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
         <url-pattern>/LoginServlet</url-pattern>
@@ -167,6 +171,10 @@
     <servlet-mapping>
         <servlet-name>ManagerRequest</servlet-name>
         <url-pattern>/ManagerRequest</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>InforUserController</servlet-name>
+        <url-pattern>/InforUserController</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

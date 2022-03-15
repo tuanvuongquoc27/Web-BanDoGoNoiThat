@@ -5,12 +5,22 @@
  */
 package Controller;
 
+import DAO.CustomerDAO;
+import DAO.RequestDAO;
+import DAO.SellerDAO;
+import DAO.ShopDAO;
+import DAO.UserDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import model.Customer;
+import model.Request;
+import model.User;
 
 /**
  *
@@ -31,16 +41,42 @@ public class ManagerRequest extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet ManagerRequest</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet ManagerRequest at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+            ShopDAO sd = new ShopDAO();
+            UserDAO ud = new UserDAO();
+            CustomerDAO csd = new CustomerDAO();
+            SellerDAO sld = new SellerDAO();
+            RequestDAO rqd = new RequestDAO();
+            String rquest = request.getParameter("rquest");
+            int userId = Integer.parseInt(request.getParameter("userId"));
+            if (rquest != null) {
+                if (rquest.equals("accept")) {
+                    ud.updateRole(userId, "seller");
+                    sd.updateActice(userId, 1);
+                    rqd.deleteRequestId(userId);
+                    csd.deleteCustomer(userId);
+                    ud.updateBalance(userId, -200000);
+                    ud.updateBalance(1, 200000);
+                    HttpSession session = request.getSession();
+                    User user = ud.getUserByUserId(1);
+                    session.removeAttribute("user");
+                    session.setAttribute("user", user);
+                    request.setAttribute("store", "request");
+
+                } else if (rquest.equals("delete")) {
+                    sd.deleteShop(userId);
+                    rqd.deleteRequestId(userId);
+                    sld.deleteSeller(userId);
+                }
+            } else {
+                request.setAttribute("store", "request");
+            }
+            ArrayList<User> userlist = ud.getAllUser();
+            ArrayList<Request> listrequest = rqd.getAllRequest();
+            ArrayList<Customer> customerlist = csd.getAllCustomer();
+            request.setAttribute("customerlist", customerlist);
+            request.setAttribute("requestlist", listrequest);
+            request.setAttribute("userlist", userlist);
+            request.getRequestDispatcher("managerStore.jsp").forward(request, response);
         }
     }
 

@@ -6,6 +6,7 @@
 package Controller;
 
 import DAO.CustomerDAO;
+import DAO.SellerDAO;
 import DAO.UserDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -14,6 +15,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import model.Customer;
+import model.Seller;
 import model.User;
 
 /**
@@ -41,30 +43,43 @@ public class ForgotPassServlet extends HttpServlet {
             String password = request.getParameter("input-password");
             String password_again = request.getParameter("input-password-again");
             UserDAO ud = new UserDAO();
-            out.println(username);
             CustomerDAO ctd = new CustomerDAO();
             User user = ud.getUserByUserName(username);
+            SellerDAO sld = new SellerDAO();
+            //kieerm tra de cap nhat mat khau 
             if (email == null) {
-                out.println(user.getUserId()+"/");
                 if(password.equals(password_again)){
-                    out.println(user.getUserId());
                     ud.updatePassword(password, user.getUserId());
                     request.setAttribute("success", "Cập nhật thành công");
                     request.getRequestDispatcher("Login.jsp").forward(request, response);
                 }else {
-                    out.println(user.getUserId()+"//");
                     request.setAttribute("error", "Mật khẩu không khớp");
                     request.getRequestDispatcher("ForgotPass.jsp").forward(request, response);
                 }
-                
+            // kiem tra de nhap mat khau moi    
             } else {
+                Seller seller = sld.getSellerById(user.getUserId());
                 Customer customer = ctd.getCustomerById(user.getUserId());
-                if (username.equals(user.getUserName()) && email.equals(customer.getCustomerEmail())) {
-                    
-                    request.setAttribute("message", "Cập nhật mật khẩu");
-                    request.setAttribute("username", username);
-                    request.getRequestDispatcher("ForgotPass.jsp").forward(request, response);
+                out.println(seller.getSellerEmail());
+                out.println(username);
+                out.println(user.getUserName());
+                out.println(email);
+                if(customer==null){
+                    if(username.equals(user.getUserName()) && seller.getSellerEmail().equals(email)){
+                        request.setAttribute("message", "Cập nhật mật khẩu");
+                        request.setAttribute("username", username);
+                        request.getRequestDispatcher("ForgotPass.jsp").forward(request, response);
+                    }
+                        
+                }else {
+                    if(username.equals(user.getUserName()) && customer.getCustomerEmail().equals(email)){
+                        request.setAttribute("message", "Cập nhật mật khẩu");
+                        request.setAttribute("username", username);
+                        request.getRequestDispatcher("ForgotPass.jsp").forward(request, response);
+                    }
                 }
+                
+                
             }
 
         }

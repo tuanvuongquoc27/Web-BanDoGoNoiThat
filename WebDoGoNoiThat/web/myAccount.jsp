@@ -58,13 +58,27 @@
                                     </header>
                                     <ul class="header__notify-list">
                                         <li class="header__notify-item header__notify-item--viewed">
-                                            <a href="#" class="header__notify-link">
-                                                <img src="image/login-img.jpg" alt="" class="header__notify-img">
-                                                <div class="header__notify-infor">
-                                                    <span class="header__notify-name">Thông tin</span>
-                                                    <span class="header__notify-description">description</span>
-                                                </div>
-                                            </a>
+                                            <c:if test="${requestScope.requestlist.size()==0}">
+                                                <h3>Không có thông báo mới</h3>
+                                            </c:if>
+                                            <c:if test="${requestScope.requestlist.size()!=0}">
+                                                <c:forEach items="${requestScope.requestlist}" var="list">
+                                                    <a href="ManagerRequest?store=request-infor&userId=${sessionScope.user.userId}" class="header__notify-link">
+                                                        <img src="image/login-img.jpg" alt="" class="header__notify-img">
+                                                        <div class="header__notify-infor">
+                                                            <span class="header__notify-name">Yêu cầu trở thành nhà bán hàng</span>
+                                                            <c:forEach items="${requestScope.customerlist}" var="cuslist">
+                                                                <c:if test="${list.getCustomerId()==cuslist.getCustomerId()}">
+                                                                    <span class="header__notify-description">Người yêu cầu: ${cuslist.getCustomerName()}</span>
+                                                                </c:if>
+                                                            </c:forEach>
+
+                                                        </div>
+                                                    </a>
+                                                </c:forEach>
+
+                                            </c:if>
+
                                         </li>
                                     </ul>
                                     <footer class="header__notify-footer">
@@ -201,15 +215,15 @@
                                 <td>
                                     <c:choose>  
                                         <c:when test="${requestScope.seller.getSellerAddress()!=null}">  
-                                            <c:if test="${requestScope.customer.isSellerGender()=='true'}">
+                                            <c:if test="${requestScope.seller.isSellerGender()==true}">
                                                 Nam
                                             </c:if>
-                                            <c:if test="${requestScope.customer.isSellerGender()==false}">
+                                            <c:if test="${requestScope.seller.isSellerGender()==false}">
                                                 Nữ
                                             </c:if>
                                         </c:when>  
                                         <c:when test="${requestScope.customer.getCustomerAddress()!=null}">  
-                                            <c:if test="${requestScope.customer.isCustomerGender()=='true'}">
+                                            <c:if test="${requestScope.customer.isCustomerGender()==true}">
                                                 Nam
                                             </c:if>
                                             <c:if test="${requestScope.customer.isCustomerGender()==false}">
@@ -274,7 +288,7 @@
                                 </tr>
                                 <tr>
                                     <td>Giới tính</td>
-                                    <td><input name="input-gender" type="radio"> Nam <input name="input-gender" type="radio" /> Nữ </td>
+                                    <td><input name="input-gender" value="nam" type="radio"> Nam <input value="nu" name="input-gender" type="radio" /> Nữ </td>
                                 </tr>
                                 <tr>
                                     <td>Ngày sinh</td>
