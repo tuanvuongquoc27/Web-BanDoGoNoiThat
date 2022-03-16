@@ -110,7 +110,7 @@ public class BillController extends HttpServlet {
                             ArrayList<Order> orderlist = od.getAllOrder(customerId);
                             request.setAttribute("orderlist", orderlist);
                             request.getRequestDispatcher("myCart.jsp").forward(request, response);
-                        } else if (customer.getCustomerAddress()==null){
+                        } else if (customer.getAddress()==null){
                             request.setAttribute("mess", "Vui lòng cập nhật địa chỉ");
                             ArrayList<Order> orderlist = od.getAllOrder(customerId);
                             request.setAttribute("orderlist", orderlist);
@@ -124,10 +124,10 @@ public class BillController extends HttpServlet {
                             ud.updateBalance(customerId, -total);
                             ud.updateBalance(pro.getShopId(), total);
                             HttpSession session = request.getSession();
-                            user = ud.getUserByUserId(pro.getShopId());
+                            out.println(user.getUserId());
                             session.removeAttribute("user");
                             session.setAttribute("user", user);
-                            request.setAttribute("mess", "Thanh toán thành công, Kiện hàng sẽ được chuyển đến "+customer.getCustomerAddress());
+                            request.setAttribute("mess", "Thanh toán thành công, Kiện hàng sẽ được chuyển đến "+customer.getAddress());
                         }
 
                     } else {

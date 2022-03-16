@@ -40,7 +40,11 @@ public class CartServletController extends HttpServlet {
             OrderDAO od = new OrderDAO();
             if(deleteIdstring!=null){
                 int deleteId = Integer.parseInt(deleteIdstring);
-                od.deleteOrder(deleteId);
+                Order order = od.getOneOrder( deleteId);
+                if(!order.isSold()){
+                    od.deleteOrder(deleteId);
+                }
+                
             }
             int userId = Integer.parseInt(userIdstring);
             ArrayList<Order> orderlist = od.getAllOrder(userId);

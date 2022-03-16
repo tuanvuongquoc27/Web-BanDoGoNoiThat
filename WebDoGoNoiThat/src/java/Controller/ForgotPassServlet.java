@@ -60,19 +60,19 @@ public class ForgotPassServlet extends HttpServlet {
             } else {
                 Seller seller = sld.getSellerById(user.getUserId());
                 Customer customer = ctd.getCustomerById(user.getUserId());
-                out.println(seller.getSellerEmail());
+                out.println(seller.getEmail());
                 out.println(username);
                 out.println(user.getUserName());
                 out.println(email);
                 if(customer==null){
-                    if(username.equals(user.getUserName()) && seller.getSellerEmail().equals(email)){
+                    if(username.equals(user.getUserName()) && seller.getEmail().equals(email)){
                         request.setAttribute("message", "Cập nhật mật khẩu");
                         request.setAttribute("username", username);
                         request.getRequestDispatcher("ForgotPass.jsp").forward(request, response);
                     }
                         
                 }else {
-                    if(username.equals(user.getUserName()) && customer.getCustomerEmail().equals(email)){
+                    if(username.equals(user.getUserName()) && customer.getEmail().equals(email)){
                         request.setAttribute("message", "Cập nhật mật khẩu");
                         request.setAttribute("username", username);
                         request.getRequestDispatcher("ForgotPass.jsp").forward(request, response);

@@ -10,6 +10,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Đăng nhập</title>
+        <link rel="shortcut icon" href="./image/main.png" type="image/x-icon">
         <link rel="stylesheet" href="css/Login.css">
     </head>
     <body>
@@ -18,7 +19,7 @@
                 <header>Đăng nhập</header>
                 <form action="LoginServlet" method="post">
                     <input type="text" placeholder="Tên đăng nhập" name="input-username" class="input-infor-acc" required><br>
-                    <input type="password" placeholder="Mật khảu" name="input-password" class="input-infor-acc" required><br>
+                    <input type="password" placeholder="Mật khẩu" name="input-password" class="input-infor-acc" required><br>
                     <input type="submit" value="Đăng nhập" class="btn btn-login"><br>
                     <a class="back_home" href="HomeServletController">Trở lại</a>
                     <div style="clear: both;"></div>

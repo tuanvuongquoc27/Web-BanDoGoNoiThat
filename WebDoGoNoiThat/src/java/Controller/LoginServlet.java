@@ -41,30 +41,21 @@ public class LoginServlet extends HttpServlet {
             UserDAO ud = new UserDAO();
 
             String username = request.getParameter("input-username");
-            String password = request.getParameter("input-password");
+
             User user = ud.getUserByUserName(username);
-            if (ud.getUser(username, password) != null) {
+            HttpSession session = request.getSession();
+            session.setAttribute("user", user);
+            if (user.isAdmin()) { // trường hơp là admin chuyển sang trang của admin
+                request.getRequestDispatcher("ManagerStoreServlet").forward(request, response);
+            } else {// trường hơp con lại đến trang home
                 OrderDAO od = new OrderDAO();
-                if (!od.getAllOrder(ud.getUser(username, password).getUserId()).isEmpty()) {
-                    request.setAttribute("orderlist", od.getAllOrder(ud.getUser(username, password).getUserId()));
+                if (!od.getAllOrder(user.getUserId()).isEmpty()) {
+                    request.setAttribute("orderlist", od.getAllOrder(user.getUserId()));
                 } else {
                     request.setAttribute("orderlist", null);
                 }
-                HttpSession session = request.getSession();
-                session.setAttribute("user", user);
-                if (user.getRole().equals("role")) {
-                    request.getRequestDispatcher("ManagerStoreServlet").forward(request, response);
-                } else {
-                    request.getRequestDispatcher("HomeServletController").forward(request, response);
-                }
-
-            } else if (user != null) {
-                request.setAttribute("error", "Tài khoản hoặc mật khẩu sai");
-            } else {
-                request.setAttribute("error", "Tài khoản không tồn tại");
+                request.getRequestDispatcher("HomeServletController").forward(request, response);
             }
-            request.getRequestDispatcher("Login.jsp").forward(request, response);
-
         }
     }
 

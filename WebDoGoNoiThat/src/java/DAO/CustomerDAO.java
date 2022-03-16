@@ -38,8 +38,9 @@ public class CustomerDAO {
                         rs.getString(4),
                         rs.getString(5),
                         rs.getString(6),
-                        rs.getBoolean(7),
-                        rs.getString(8));
+                        rs.getString(7),
+                        rs.getBoolean(8),
+                        rs.getString(9));
             }
         } catch (Exception ex) {
             Logger.getLogger(CustomerDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -61,8 +62,9 @@ public class CustomerDAO {
                         rs.getString(4),
                         rs.getString(5),
                         rs.getString(6),
-                        rs.getBoolean(7),
-                        rs.getString(8));
+                        rs.getString(7),
+                        rs.getBoolean(8),
+                        rs.getString(9));
             }
         } catch (Exception ex) {
             Logger.getLogger(CustomerDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -71,18 +73,19 @@ public class CustomerDAO {
     }
 
     public void insertCustomer(int customerId, String customerName,
-            String customerAddress, String customerEmail, String customerPhone,
+            String customerAddress,String customerAddressShip, String customerEmail, String customerPhone,
             String customerDate, String customerGender, String customerDOB) {
         DBContext db = new DBContext();
         try {
             conn = db.getConnection();
             state = conn.prepareStatement("insert into customer values("
-                    + customerId + ",'"
-                    + customerName + "','"
-                    + customerAddress + "','"
-                    + customerEmail + "','"
-                    + customerPhone + "','"
-                    + customerDate + "',"
+                    + customerId                    + ",N'"
+                    + customerName                  + "',N'"
+                    + customerAddress               + "',N'"
+                    + customerAddressShip           + "','"
+                    + customerEmail                 + "','"
+                    + customerPhone                 + "','"
+                    + customerDate                  + "',"
                     + convertGender(customerGender) +",'"
                     + customerDOB +"')");
             state.executeUpdate();
@@ -93,7 +96,7 @@ public class CustomerDAO {
     }
     
     public void updateCustomer(int customerId, String customerName,
-            String customerAddress, String customerEmail, String customerPhone,
+            String customerAddress,String customerAddressShip, String customerEmail, String customerPhone,
             String customerGender, String customerDOB) {
         DBContext db = new DBContext();
         try {
@@ -101,6 +104,7 @@ public class CustomerDAO {
             state = conn.prepareStatement("update customer set "
                     + "customerName=N'"   + customerName + "',"
                     + "customerAddress=N'"+ customerAddress + "',"
+                    + "customerAddressShip=N'"+ customerAddressShip + "',"
                     + "customerEmail='"  + customerEmail + "',"
                     + "customerPhone='"  + customerPhone + "',"
                     + "customerGender="  + convertGender(customerGender) +","
@@ -145,8 +149,9 @@ public class CustomerDAO {
                         rs.getString(4),
                         rs.getString(5),
                         rs.getString(6),
-                        rs.getBoolean(7),
-                        rs.getString(8)));
+                        rs.getString(7),
+                        rs.getBoolean(8),
+                        rs.getString(9)));
             }
             return list;
         } catch (Exception ex) {

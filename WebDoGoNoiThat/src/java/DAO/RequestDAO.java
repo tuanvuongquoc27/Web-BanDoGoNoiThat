@@ -33,7 +33,12 @@ public class RequestDAO {
                 list.add(new Request(
                 rs.getInt(1),
                 rs.getString(2),
-                rs.getString(3)));
+                rs.getString(3),
+                rs.getInt(4),
+                rs.getBoolean(5),
+                rs.getBoolean(6),
+                rs.getBoolean(7),
+                rs.getBoolean(8)));
             }
             return list;
         } catch (Exception ex) {
@@ -53,7 +58,12 @@ public class RequestDAO {
                 list.add(new Request(
                 rs.getInt(1),
                 rs.getString(2),
-                rs.getString(3)));
+                rs.getString(3),
+                rs.getInt(4),
+                rs.getBoolean(5),
+                rs.getBoolean(6),
+                rs.getBoolean(7),
+                rs.getBoolean(8)));
             }
             return list;
         } catch (Exception ex) {
@@ -62,11 +72,33 @@ public class RequestDAO {
         return null;
     }
     
-    public void insertRequest(int customerId , String request){
+    public void insertRequestSell(int customerId , String request){
         DBContext db = new DBContext();
         try {
             conn=db.getConnection();
-            state=conn.prepareStatement("insert into request values("+ customerId +",N'"+request+"','null',0)");
+            state=conn.prepareStatement("insert into request values("+ customerId +",N'"+request+"',null,"+customerId+",1,0,0,0)");
+            state.executeUpdate();
+        } catch (Exception ex) {
+            Logger.getLogger(RequestDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void insertRequestNew(int customerId , String request){
+        DBContext db = new DBContext();
+        try {
+            conn=db.getConnection();
+            state=conn.prepareStatement("insert into request values("+ customerId +",N'"+request+"','null',"+customerId+",0,0,1,0)");
+            state.executeUpdate();
+        } catch (Exception ex) {
+            Logger.getLogger(RequestDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void insertRequestBuy(int customerId , String request){
+        DBContext db = new DBContext();
+        try {
+            conn=db.getConnection();
+            state=conn.prepareStatement("insert into request values("+ customerId +",N'"+request+"','null',"+customerId+",0,1,0,0)");
             state.executeUpdate();
         } catch (Exception ex) {
             Logger.getLogger(RequestDAO.class.getName()).log(Level.SEVERE, null, ex);

@@ -11,6 +11,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Quên mật khẩu</title>
+        <link rel="shortcut icon" href="./image/main.png" type="image/x-icon">
         <link rel="stylesheet" href="css/Login.css">
     </head>
    <div class="container">

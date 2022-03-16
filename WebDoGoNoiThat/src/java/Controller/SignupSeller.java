@@ -88,7 +88,7 @@ public class SignupSeller extends HttpServlet {
         String shopPhone = request.getParameter("input-shopPhone");
         String shopEmail = request.getParameter("input-shopEmail");
         int userId = Integer.parseInt(request.getParameter("userId"));
-
+        
         ShopDAO sd = new ShopDAO();
         UserDAO ud = new UserDAO();
         CustomerDAO csd = new CustomerDAO();
@@ -101,12 +101,10 @@ public class SignupSeller extends HttpServlet {
             request.setAttribute("mess", "Tài khoản không đủ tiền vui lòng nạp thêm tiền vào tài khoản");
             request.getRequestDispatcher("Seller.jsp").forward(request, response);
         } else {
-            Customer customer = csd.getCustomerById(userId);
-            sld.insertSeller(userId, customer.getCustomerName(), customer.getCustomerAddress(),
-                    customer.getCustomerEmail(), customer.getCustomerPhone(),
-                    customer.getCustomerData(), convertGender(customer.isCustomerGender()), customer.getCustomerDOB());
+            Customer c = csd.getCustomerById(userId);
+            sld.insertSeller(userId, c.getName(),c.getAddress(), c.getEmail(), c.getPhone(),c.getDate(), convertGender(c.isGender()), c.getDOB());
             sd.insertShop(userId, shopName, shopAddress, shopPhone, shopEmail, getDateNow());
-            rqd.insertRequest(userId, "Yêu cầu mở cửa hàng");
+            rqd.insertRequestSell(userId, "Yêu cầu mở cửa hàng");
             request.setAttribute("wait", "Vui lòng đợi phản hồi từ admin");
         }
 
@@ -117,6 +115,13 @@ public class SignupSeller extends HttpServlet {
 
         return false;
     }
+    
+    public String convertGender(boolean gender ){
+        if(gender){
+            return "nam";
+        }
+        return "nu";
+    }
 
     public String getDateNow() {
         SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
@@ -124,12 +129,7 @@ public class SignupSeller extends HttpServlet {
         return sdf.format(date);
     }
 
-    public String convertGender(boolean gender) {
-        if (gender) {
-            return "nam";
-        }
-        return "nữ";
-    }
+    
 
     /**
      * Returns a short description of the servlet.

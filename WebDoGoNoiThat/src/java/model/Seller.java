@@ -12,93 +12,93 @@ package model;
  * @author Admin
  */
 public class Seller {
-    private int sellerId ;
-    private String sellerName ;
-    private String sellerAddress ;
-    private String sellerEmail ;
-    private String sellerPhone ;
-    private String sellerDate;
-    private boolean sellerGender;
-    private String sellerDOB;
+    private int Id ;
+    private String Name ;
+    private String Address ;
+    private String Email ;
+    private String Phone ;
+    private String Date;
+    private boolean Gender;
+    private String DOB;
 
     public Seller() {
     }
 
-    public Seller(int sellerId, String sellerName, String sellerAddress, String sellerEmail, String sellerPhone, String sellerDate, boolean sellerGender, String sellerDOB) {
-        this.sellerId = sellerId;
-        this.sellerName = sellerName;
-        this.sellerAddress = sellerAddress;
-        this.sellerEmail = sellerEmail;
-        this.sellerPhone = sellerPhone;
-        this.sellerDate = sellerDate;
-        this.sellerGender = sellerGender;
-        this.sellerDOB = sellerDOB;
+    public Seller(int Id, String Name, String Address, String Email, String Phone, String Date, boolean Gender, String DOB) {
+        this.Id = Id;
+        this.Name = Name;
+        this.Address = Address;
+        this.Email = Email;
+        this.Phone = Phone;
+        this.Date = Date;
+        this.Gender = Gender;
+        this.DOB = DOB;
     }
 
     
 
-    public int getSellerId() {
-        return sellerId;
+    public int getId() {
+        return Id;
     }
 
-    public void setSellerId(int sellerId) {
-        this.sellerId = sellerId;
+    public void setId(int Id) {
+        this.Id = Id;
     }
 
-    public String getSellerName() {
-        return sellerName;
+    public String getName() {
+        return Name;
     }
 
-    public void setSellerName(String sellerName) {
-        this.sellerName = sellerName;
+    public void setName(String Name) {
+        this.Name = Name;
     }
 
-    public String getSellerAddress() {
-        return sellerAddress;
+    public String getAddress() {
+        return Address;
     }
 
-    public void setSellerAddress(String sellerAddress) {
-        this.sellerAddress = sellerAddress;
+    public void setAddress(String Address) {
+        this.Address = Address;
     }
 
-    public String getSellerEmail() {
-        return sellerEmail;
+    public String getEmail() {
+        return Email;
     }
 
-    public void setSellerEmail(String sellerEmail) {
-        this.sellerEmail = sellerEmail;
+    public void setEmail(String Email) {
+        this.Email = Email;
     }
 
-    public String getSellerPhone() {
-        return sellerPhone;
+    public String getPhone() {
+        return Phone;
     }
 
-    public void setSellerPhone(String sellerPhone) {
-        this.sellerPhone = sellerPhone;
+    public void setPhone(String Phone) {
+        this.Phone = Phone;
     }
 
-    public String getSellerDate() {
-        return sellerDate;
+    public String getDate() {
+        return Date;
     }
 
-    public void setSellerDate(String sellerDate) {
-        this.sellerDate = sellerDate;
+    public void setDate(String Date) {
+        this.Date = Date;
     }
 
-    public boolean isSellerGender() {
-        return sellerGender;
+    public boolean isGender() {
+        return Gender;
     }
 
-    public void setSellerGender(boolean sellerGender) {
-        this.sellerGender = sellerGender;
+    public void setGender(boolean Gender) {
+        this.Gender = Gender;
     }
 
-    public String getSellerDOB() {
-        return sellerDOB;
+    public String getDOB() {
+        return DOB;
     }
 
-    public void setSellerDOB(String sellerDOB) {
-        this.sellerDOB = sellerDOB;
+    public void setDOB(String DOB) {
+        this.DOB = DOB;
     }
     
     

@@ -44,12 +44,14 @@ public class InforUserController extends HttpServlet {
             ArrayList<Seller> sellerlist = sld.getAllSeller();
             String infor = request.getParameter("infor");
             if(infor.equals("seller")){
-                request.setAttribute("sellerlist",sellerlist);
-                request.setAttribute("infor", "infor-seller");
+                request.setAttribute("list",sellerlist);
+                request.setAttribute("ship", "no");
             }else{
-                request.setAttribute("customerlist",customerlist);
-                request.setAttribute("infor", "infor-customer");
+                request.setAttribute("list",customerlist);
+                request.setAttribute("ship", "yes");
             }
+            
+            request.setAttribute("infor", "infor-seller-customer");
             request.getRequestDispatcher("managerStore.jsp").forward(request, response);
         }
     }

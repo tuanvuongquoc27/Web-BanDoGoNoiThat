@@ -136,5 +136,58 @@ public class OrderDAO {
             Logger.getLogger(OrderDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
+    public ArrayList<Order> getAllOrderRecord() {
+        DBContext db = new DBContext();
+        try {   
+            conn=db.getConnection();
+            state=conn.prepareStatement("select * from [order] where sold=1");
+            rs = state.executeQuery();
+            ArrayList<Order> orderlist = new ArrayList<>();
+            while(rs.next()){
+                orderlist.add(new Order(
+                        rs.getInt(1),
+                        rs.getInt(2),
+                        rs.getInt(3),
+                        rs.getInt(4),
+                        rs.getInt(5),
+                        rs.getInt(6),
+                        rs.getInt(7),
+                        rs.getBoolean(8)));
+            }
+            return orderlist;
+        } catch (SQLException ex) {
+            Logger.getLogger(OrderDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(OrderDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+
+    public Order getOneOrder(int deleteId) {
+        DBContext db = new DBContext();
+        try {   
+            conn=db.getConnection();
+            state=conn.prepareStatement("select * from [order] where productId = "+deleteId);
+            rs = state.executeQuery();
+            ArrayList<Order> orderlist = new ArrayList<>();
+            while(rs.next()){
+                return  new Order(
+                        rs.getInt(1),
+                        rs.getInt(2),
+                        rs.getInt(3),
+                        rs.getInt(4),
+                        rs.getInt(5),
+                        rs.getInt(6),
+                        rs.getInt(7),
+                        rs.getBoolean(8));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(OrderDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(OrderDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
     
 }

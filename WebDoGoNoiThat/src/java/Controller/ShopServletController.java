@@ -61,12 +61,15 @@ public class ShopServletController extends HttpServlet {
                 Shop shop =  sd.getShop(userId);
                 ArrayList<Product> productlist = prd.getProductbyShopId(userId);
                 ArrayList<Order> orderlist = od.getAllOrder(userId);
+                ArrayList<Order> orderall = od.getAllOrderRecord();
                 ArrayList<Category> categorylist = ctd.getAllCategory();
                 request.setAttribute("shop", shop);
                 request.setAttribute("categorylist", categorylist);
                 request.setAttribute("productlist", productlist);
                 request.setAttribute("orderlist", orderlist);
+                request.setAttribute("orderlistall", orderall);
                 request.setAttribute("update", "getAll");
+                out.println(orderlist);
                 request.getRequestDispatcher("myShop.jsp").forward(request, response);
             }
 

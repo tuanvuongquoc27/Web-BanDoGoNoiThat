@@ -41,25 +41,29 @@ public class AccountFileController extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
-            int userId = Integer.parseInt(request.getParameter("userId"));
-            String role = request.getParameter("role");
             UserDAO ud = new UserDAO();
             SellerDAO sld = new SellerDAO();
             CustomerDAO csd = new CustomerDAO();
             RequestDAO rqd = new RequestDAO();
-            if (role.equals("customer")) {
+            
+            int userId = Integer.parseInt(request.getParameter("userId"));
+            String role = request.getParameter("role");
+            
+            
+            
+            if(role.equals("customer")||role.equals("admin")){
                 Customer customer = csd.getCustomerById(userId);
-                request.setAttribute("customer", customer);
-            } else {
+                request.setAttribute("acc", customer);
+            } else if(role.equals("seller")) {
                 Seller seller = sld.getSellerById(userId);
-                request.setAttribute("seller", seller);
+                request.setAttribute("acc", seller);
             }
             ArrayList<Request> listrequest = rqd.getAllRequest();
             ArrayList<Customer> customerlist = csd.getAllCustomer();
+            
             request.setAttribute("customerlist", customerlist);
             request.setAttribute("requestlist", listrequest);
             request.setAttribute("account", "file");
-            
             request.getRequestDispatcher("myAccount.jsp").forward(request, response);
         }
     }

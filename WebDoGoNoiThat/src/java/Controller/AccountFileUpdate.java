@@ -6,16 +6,19 @@
 package Controller;
 
 import DAO.CustomerDAO;
+import DAO.RequestDAO;
 import DAO.SellerDAO;
 import DAO.UserDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import model.Customer;
+import model.Request;
 import model.Seller;
 import model.User;
 
@@ -39,6 +42,26 @@ public class AccountFileUpdate extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
+            UserDAO ud = new UserDAO();
+            SellerDAO sld = new SellerDAO();
+            CustomerDAO csd = new CustomerDAO();
+            RequestDAO rqd = new RequestDAO();
+            
+            int userId = Integer.parseInt(request.getParameter("userId"));
+            String role = request.getParameter("role");
+            
+            if(role.equals("customer")||role.equals("admin")){
+                Customer customer = csd.getCustomerById(userId);
+                request.setAttribute("acc", customer);
+            } else if(role.equals("seller")) {
+                Seller seller = sld.getSellerById(userId);
+                request.setAttribute("acc", seller);
+            }
+            ArrayList<Request> listrequest = rqd.getAllRequest();
+            ArrayList<Customer> customerlist = csd.getAllCustomer();
+            
+            request.setAttribute("customerlist", customerlist);
+            request.setAttribute("requestlist", listrequest);
             request.setAttribute("account", "update");
             request.getRequestDispatcher("myAccount.jsp").forward(request, response);
         }
@@ -73,31 +96,48 @@ public class AccountFileUpdate extends HttpServlet {
         request.setCharacterEncoding("UTF-8");
         response.setCharacterEncoding("UTF-8");
         response.setContentType("text/html; charset=UTF-8");
-        PrintWriter out = response.getWriter();
+        
+        SellerDAO sld = new SellerDAO();
+        CustomerDAO csd = new CustomerDAO();
         
         String name = request.getParameter("input-name");
         String email = request.getParameter("input-email");
         String address = request.getParameter("input-address");
+        String addressship = request.getParameter("input-address-ship");
+        String image = request.getParameter("input-img");
         String phone = request.getParameter("input-phone");
         String gender = request.getParameter("input-gender");
         String DOB = request.getParameter("input-DOB");
         String role = request.getParameter("role");
         UserDAO ud = new UserDAO();
+        PrintWriter out = response.getWriter();
+        
         
         int userId = Integer.parseInt(request.getParameter("userId"));
-        if (role.equals("customer")) {
-            CustomerDAO csd = new CustomerDAO();
-            csd.updateCustomer(userId, name, address, email, phone, gender, convertDate(DOB));
-            request.setAttribute("customer", csd.getCustomerById(userId));
-        } else {
-            SellerDAO sld = new SellerDAO();
+        out.println(role);
+            out.println(userId);
+        if (role.equals("admin")){
+            ud.updateImg(userId,image);
+            csd.updateCustomer(userId, name, address,addressship, email, phone, gender, convertDate(DOB));
             sld.updateSeller(userId, name, address, email, phone, gender, convertDate(DOB));
-            request.setAttribute("seller", sld.getSellerById(userId));
-        }
+        } else if (role.equals("customer")) {
+            ud.updateImg(userId,image);
+            csd.updateCustomer(userId, name, address,addressship, email, phone, gender, convertDate(DOB));
+            request.setAttribute("acc", csd.getCustomerById(userId));
+        } else if (role.equals("seller")) {
+            ud.updateImg(userId,image);
+            sld.updateSeller(userId, name, address, email, phone, gender, convertDate(DOB));
+        } 
         HttpSession session = request.getSession();
         User user = ud.getUserByUserId(userId);
         session.removeAttribute("user");
         session.setAttribute("user", user);
+        if (role.equals("customer")||role.equals("admin")) {
+            request.setAttribute("acc", csd.getCustomerById(userId));
+        } else if (role.equals("seller")) {
+            request.setAttribute("acc", sld.getSellerById(userId));
+        } 
+        
         request.setAttribute("account", "file");
         request.getRequestDispatcher("myAccount.jsp").forward(request, response);
     }

@@ -47,14 +47,19 @@ public class ManagerRequest extends HttpServlet {
             CustomerDAO csd = new CustomerDAO();
             SellerDAO sld = new SellerDAO();
             RequestDAO rqd = new RequestDAO();
+            
             String rquest = request.getParameter("rquest");
             
             int userId = Integer.parseInt(request.getParameter("userId"));
             if (rquest != null) {
                 if (rquest.equals("accept")) {
-                    ud.updateRole(userId, "seller");
+                    ud.updateRole(userId, "isSeller",1);
                     sd.updateActice(userId, 1);
                     rqd.deleteRequestId(userId);
+                    Customer customer = csd.getCustomerById(userId);
+                    sld.insertSeller(userId, customer.getName(), customer.getAddress(),
+                    customer.getEmail(), customer.getPhone(),
+                    customer.getDate(), convertGender(customer.isGender()), customer.getDOB());
                     csd.deleteCustomer(userId);
                     ud.updateBalance(userId, -200000);
                     ud.updateBalance(1, 200000);
@@ -69,19 +74,26 @@ public class ManagerRequest extends HttpServlet {
                     rqd.deleteRequestId(userId);
                     sld.deleteSeller(userId);
                 }
-            } else {
+            } else {// admin enter thông tin yêu cầu 
                 request.setAttribute("store", "request");
             }
             ArrayList<User> userlist = ud.getAllUser();
             ArrayList<Request> listrequest = rqd.getAllRequest();
             ArrayList<Customer> customerlist = csd.getAllCustomer();
             ArrayList<Seller> sellerlist = sld.getAllSeller();
+            
             request.setAttribute("seller", sellerlist);
             request.setAttribute("customerlist", customerlist);
             request.setAttribute("requestlist", listrequest);
             request.setAttribute("userlist", userlist);
             request.getRequestDispatcher("managerStore.jsp").forward(request, response);
         }
+    }
+    public String convertGender(boolean gender) {
+        if (gender) {
+            return "nam";
+        }
+        return "nữ";
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

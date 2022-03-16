@@ -13,27 +13,24 @@ public class User {
     private int userId;
     private String userName;
     private String password;
-    private String role;
+    private boolean Admin;
+    private boolean Customer;
+    private boolean Seller;
+    private String userImg;
     private int userBanlance;
 
     public User() {
     }
 
-    public User(int userId, String userName, String password, String role, int userBanlance) {
+    public User(int userId, String userName, String password, boolean Admin, boolean Customer, boolean Seller, String userImg, int userBanlance) {
         this.userId = userId;
         this.userName = userName;
         this.password = password;
-        this.role = role;
+        this.Admin = Admin;
+        this.Customer = Customer;
+        this.Seller = Seller;
+        this.userImg = userImg;
         this.userBanlance = userBanlance;
-    }
-
-    
-
-    
-
-    public User(String userName, String password) {
-        this.userName = userName;
-        this.password = password;
     }
 
     public int getUserId() {
@@ -60,12 +57,38 @@ public class User {
         this.password = password;
     }
 
-    public String getRole() {
-        return role;
+    public boolean isAdmin() {
+        return Admin;
     }
 
-    public void setRole(String role) {
-        this.role = role;
+    public void setAdmin(boolean Admin) {
+        this.Admin = Admin;
+    }
+
+    public boolean isCustomer() {
+        return Customer;
+    }
+
+    public void setCustomer(boolean Customer) {
+        this.Customer = Customer;
+    }
+
+    public boolean isSeller() {
+        return Seller;
+    }
+
+    public void setSeller(boolean Seller) {
+        this.Seller = Seller;
+    }
+
+    
+
+    public void setUserImg(String userImg) {
+        this.userImg = userImg;
+    }
+
+    public String getUserImg() {
+        return userImg;
     }
 
     public int getUserBanlance() {
@@ -75,4 +98,12 @@ public class User {
     public void setUserBanlance(int userBanlance) {
         this.userBanlance = userBanlance;
     }
+
+    
+
+    
+
+    
+
+    
 }

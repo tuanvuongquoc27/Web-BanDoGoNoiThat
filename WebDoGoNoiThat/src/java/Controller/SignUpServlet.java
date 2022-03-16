@@ -39,38 +39,24 @@ public class SignUpServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
+            UserDAO ud = new UserDAO();
+            CustomerDAO ctd = new CustomerDAO();
+
             String username = request.getParameter("input-username");
             String password = request.getParameter("input-password");
             String email = request.getParameter("input-email");
-            String password_again = request.getParameter("input-password-2");
-            UserDAO ud = new UserDAO();
-            CustomerDAO ctd = new CustomerDAO();
             
-            if(password.equals(password_again)){
-                User user = ud.getUserByUserName(username);
-                if(user==null ){
-                    Customer customer = ctd.getCustomerByEmail(email);
-                    if(customer!=null){
-                        request.setAttribute("error", "Email đã tồn tại");
-                    }else{
-                        ud.insertUser(username, password,email);
-                        User newuser = ud.getUser(username, password);
-                        ctd.insertCustomer(newuser.getUserId(), username, null, email,null,getDateNow(),null,null);
-                        request.setAttribute("success", "Tạo tài khoản thành công");
-                        request.getRequestDispatcher("Login.jsp").forward(request, response);
-                    }
-                }else{
-                    request.setAttribute("error", "Tài khoản đã tồn tại");
-                }
-            }else {
-                request.setAttribute("error", "Mật khẩu không trùng khớp");
-            }
-            request.getRequestDispatcher("SignUp.jsp").forward(request, response);
+            //thêm mới user với isCustomer = 1
+            ud.insertUserRoleCustomer(username, password);
+            User newuser = ud.getUserByNameAndPass(username, password);
+            ctd.insertCustomer(newuser.getUserId(), username, null,null, email, null, getDateNow(), null, null);
+            request.setAttribute("success", "Tạo tài khoản thành công");
+            request.getRequestDispatcher("Login.jsp").forward(request, response);
         }
     }
-    
-    public String getDateNow(){
-        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy"); 
+
+    public String getDateNow() {
+        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
         Date date = new Date();
         return sdf.format(date);
     }

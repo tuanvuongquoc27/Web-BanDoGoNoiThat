@@ -50,6 +50,7 @@ public class HomeServletController extends HttpServlet {
             String userIdstring = request.getParameter("userId");
             ArrayList<Order> orderlist = null;
            
+            //trường hợp có đã đăng nhập
             if(userIdstring!=null ){
                 int userId = Integer.parseInt(userIdstring);
                 OrderDAO od = new OrderDAO();

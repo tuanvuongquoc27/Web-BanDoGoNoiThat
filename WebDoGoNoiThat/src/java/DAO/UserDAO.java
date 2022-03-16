@@ -39,8 +39,11 @@ public class UserDAO {
                 rs.getInt(1),
                 rs.getString(2),
                 rs.getString(3),
-                rs.getString(4),
-                rs.getInt(5));
+                rs.getBoolean(4),
+                rs.getBoolean(5),
+                rs.getBoolean(6),
+                rs.getString(7),
+                rs.getInt(8));
                 listacc.add(acc);
             }
             return listacc;
@@ -52,7 +55,7 @@ public class UserDAO {
         return null;
     }
     
-    public User getUser(String username,String password){
+    public User getUserByNameAndPass(String username,String password){
         DBContext db = new DBContext();
         try {   
             conn=db.getConnection();
@@ -63,8 +66,11 @@ public class UserDAO {
                 rs.getInt(1),
                 rs.getString(2),
                 rs.getString(3),
-                rs.getString(4),
-                rs.getInt(5)); 
+                rs.getBoolean(4),
+                rs.getBoolean(5),
+                rs.getBoolean(6),
+                rs.getString(7),
+                rs.getInt(8)); 
             }
         } catch (SQLException ex) {
             Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -85,8 +91,11 @@ public class UserDAO {
                 rs.getInt(1),
                 rs.getString(2),
                 rs.getString(3),
-                rs.getString(4),
-                rs.getInt(5)); 
+                rs.getBoolean(4),
+                rs.getBoolean(5),
+                rs.getBoolean(6),
+                rs.getString(7),
+                rs.getInt(8)); 
             }
         } catch (SQLException ex) {
             Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -107,8 +116,11 @@ public class UserDAO {
                 rs.getInt(1),
                 rs.getString(2),
                 rs.getString(3),
-                rs.getString(4),
-                rs.getInt(5)); 
+                rs.getBoolean(4),
+                rs.getBoolean(5),
+                rs.getBoolean(6),
+                rs.getString(7),
+                rs.getInt(8)); 
             }
         } catch (SQLException ex) {
             Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -118,11 +130,11 @@ public class UserDAO {
         return null;
     }
     
-    public void insertUser(String username, String password, String email) {
+    public void insertUserRoleCustomer(String username, String password) {
         DBContext db = new DBContext();
         try {
             conn=db.getConnection();
-            state=conn.prepareStatement("insert into [user] values('"+username+"','"+password+"','customer',0)");
+            state=conn.prepareStatement("insert into [user] values('"+username+"','"+password+"',0,1,0,null,0)");
             state.executeUpdate();  
         } catch (Exception ex) {
             Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -164,22 +176,26 @@ public class UserDAO {
     
     
     
-    public void updateRole(int userId , String  newRole){
+    public void updateRole(int userId ,String role, int newrole){
         DBContext db = new DBContext();
         try {
             conn=db.getConnection();
-            state=conn.prepareStatement("update [user] set role='"+ newRole +"' where userId="+userId);
+            state=conn.prepareStatement("update [user] set "+role+" = "+ newrole +" where userId="+userId);
             state.executeUpdate();  
         } catch (Exception ex) {
             Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-    public void UpdateSession(User user,HttpServletRequest request ){
-        HttpSession sesion = request.getSession();
-        sesion.removeAttribute("user");
-        sesion.setAttribute("user", user);
-        
+
+    public void updateImg(int userId, String image) {
+        DBContext db = new DBContext();
+        try {
+            conn=db.getConnection();
+            state=conn.prepareStatement("update [user] set userImg = '"+ image +"' where userId="+userId);
+            state.executeUpdate();  
+        } catch (Exception ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     

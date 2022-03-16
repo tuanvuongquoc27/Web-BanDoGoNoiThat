@@ -27,9 +27,9 @@
         <div class="container">
             <h1 class="">Đăng kí thông tin</h1>
             <div class="shop-information">
-                <h2>${requestScope.wait}</h2>
-                <c:if test="${requestScope.mess!=null}">
-                    <h2>${requestScope.mess}</h2>
+                <h2>${wait}</h2>
+                <c:if test="${mess!=null}">
+                    <h2>${mess}</h2>
                     <a type="button" class="btn btn-secondary" href="AccountMoneyController?userId=${sessionScope.user.userId}">Nạp Tiền</a>
                 </c:if>
                 

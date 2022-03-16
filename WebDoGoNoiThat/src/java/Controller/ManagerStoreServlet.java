@@ -53,6 +53,7 @@ public class ManagerStoreServlet extends HttpServlet {
             RequestDAO rqd = new RequestDAO();
             
             String infor = request.getParameter("infor");
+            
             if(infor!=null){
                 if(infor.equals("delete")){
                     int deleteId = Integer.parseInt(request.getParameter("shopId"));
@@ -61,15 +62,18 @@ public class ManagerStoreServlet extends HttpServlet {
                     prd.deleteProductByShopId(deleteId);
                     sd.deleteShop(deleteId);
                     sld.deleteSeller(deleteId);
-                    csd.insertCustomer(seller.getSellerId(), seller.getSellerName(),
-                            seller.getSellerAddress(), seller.getSellerEmail(),
-                            seller.getSellerPhone(),seller.getSellerDate(),convertGender(seller.isSellerGender()),seller.getSellerDOB());
-                    ud.updateRole(deleteId, "customer");
+//                    csd.insertCustomer(seller.getId(), seller.getName(),
+//                            seller.getAddress(),seller.getAddress(), seller.getEmail(),
+//                            seller.getPhone(),seller.getDate(),convertGender(seller.isGender()),seller.getDOB());
+//                    ud.updateRole(deleteId, "isCustomer",1);
+                    ud.updateRole(deleteId,"isSeller", 0);
                     //get thong tin chuyen sang trang cho admin
                 }else if(infor.equals("all")) {
                     request.setAttribute("store", "information");
                 }
             }
+            
+            
             ArrayList<Shop> shoplist = sd.getAllShop();
             ArrayList<Seller> sellerlist = sld.getAllSeller();
             ArrayList<Request> listrequest = rqd.getAllRequest();
@@ -81,25 +85,6 @@ public class ManagerStoreServlet extends HttpServlet {
             request.setAttribute("store", "information");
             
             request.getRequestDispatcher("managerStore.jsp").forward(request, response);
-            
-            
-            
-            
-            
-            if (infor == null) {
-
-            } else {
-                if (infor.equals("delete")) {
-                    
-
-                } else if (infor.equals("all")) {
-                    
-                }
-            }
-
-            
-
-
         }
     }
     

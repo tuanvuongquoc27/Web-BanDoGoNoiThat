@@ -12,95 +12,101 @@ package model;
  * @author Admin
  */
 public class Customer {
-    private int customerId ;
-    private String customerName ;
-    private String customerAddress ;
-    private String customerEmail ;
-    private String customerPhone ;
-    private String customerData;
-    private boolean customerGender;
-    private String customerDOB;
+    private int Id ;
+    private String Name ;
+    private String Address ;
+    private String AddressShip ;
+    private String Email ;
+    private String Phone ;
+    private String Date;
+    private boolean Gender;
+    private String DOB;
 
-    public Customer() {
+    public Customer () {
     }
 
-    public Customer(int customerId, String customerName, String customerAddress, String customerEmail, String customerPhone, String customerData, boolean customerGender, String customerDOB) {
-        this.customerId = customerId;
-        this.customerName = customerName;
-        this.customerAddress = customerAddress;
-        this.customerEmail = customerEmail;
-        this.customerPhone = customerPhone;
-        this.customerData = customerData;
-        this.customerGender = customerGender;
-        this.customerDOB = customerDOB;
+    public Customer(int Id, String Name, String Address, String AddressShip, String Email, String Phone, String Date, boolean Gender, String DOB) {
+        this.Id = Id;
+        this.Name = Name;
+        this.Address = Address;
+        this.AddressShip = AddressShip;
+        this.Email = Email;
+        this.Phone = Phone;
+        this.Date = Date;
+        this.Gender = Gender;
+        this.DOB = DOB;
     }
 
-    
-
-    
-
-    public int getCustomerId() {
-        return customerId;
+    public int getId() {
+        return Id;
     }
 
-    public void setCustomerId(int customerId) {
-        this.customerId = customerId;
+    public void setId(int Id) {
+        this.Id = Id;
     }
 
-    public String getCustomerName() {
-        return customerName;
+    public String getName() {
+        return Name;
     }
 
-    public void setCustomerName(String customerName) {
-        this.customerName = customerName;
+    public void setName(String Name) {
+        this.Name = Name;
     }
 
-    public String getCustomerAddress() {
-        return customerAddress;
+    public String getAddress() {
+        return Address;
     }
 
-    public void setCustomerAddress(String customerAddress) {
-        this.customerAddress = customerAddress;
+    public void setAddress(String Address) {
+        this.Address = Address;
     }
 
-    public String getCustomerEmail() {
-        return customerEmail;
+    public void setAddressShip(String AddressShip) {
+        this.AddressShip = AddressShip;
     }
 
-    public void setCustomerEmail(String customerEmail) {
-        this.customerEmail = customerEmail;
+    public String getAddressShip() {
+        return AddressShip;
     }
 
-    public String getCustomerPhone() {
-        return customerPhone;
+    public String getEmail() {
+        return Email;
     }
 
-    public void setCustomerPhone(String customerPhone) {
-        this.customerPhone = customerPhone;
+    public void setEmail(String Email) {
+        this.Email = Email;
     }
 
-    public String getCustomerData() {
-        return customerData;
+    public String getPhone() {
+        return Phone;
     }
 
-    public void setCustomerData(String customerData) {
-        this.customerData = customerData;
+    public void setPhone(String Phone) {
+        this.Phone = Phone;
     }
 
-    public boolean isCustomerGender() {
-        return customerGender;
+    public String getDate() {
+        return Date;
     }
 
-    public void setCustomerGender(boolean customerGender) {
-        this.customerGender = customerGender;
+    public void setDate(String Date) {
+        this.Date = Date;
     }
 
-    public String getCustomerDOB() {
-        return customerDOB;
+    public boolean isGender() {
+        return Gender;
     }
 
-    public void setCustomerDOB(String customerDOB) {
-        this.customerDOB = customerDOB;
+    public void setGender(boolean Gender) {
+        this.Gender = Gender;
+    }
+
+    public String getDOB() {
+        return DOB;
+    }
+
+    public void setDOB(String DOB) {
+        this.DOB = DOB;
     }
     
     

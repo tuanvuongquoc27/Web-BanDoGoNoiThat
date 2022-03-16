@@ -95,8 +95,8 @@ public class SellerDAO {
         try {
             conn = db.getConnection();
             state = conn.prepareStatement("insert into seller values("
-                    + sellerId + ",'"
-                    + sellerName + "','"
+                    + sellerId + ",N'"
+                    + sellerName + "',N'"
                     + sellerAddress + "','"
                     + sellerEmail + "','"
                     + sellerPhone + "','"
