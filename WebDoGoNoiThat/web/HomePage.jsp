@@ -64,6 +64,9 @@ and open the template in the editor.
                                 <c:if test="${user.isCustomer()&&!user.isSeller()}">
                                 <li class="header__navbar-item"><a class="header__navbar-item-link" href="SignupSeller?userId=${user.userId}">Đăng kí bán hàng</a></li>
                                 </c:if>
+                                <c:if test="${!user.isAdmin()&&user!=null}">
+                                <li class="header__navbar-item"><a class="header__navbar-item-link" href="NewRequest?userId=${user.userId}">Gửi yêu cầu</a></li>
+                                </c:if>
 
                         </ul>
                         <ul class="header__navbar-list">
@@ -91,7 +94,7 @@ and open the template in the editor.
                                                                     <c:if test="${list.getCustomerId()==cuslist.getId()}">
                                                                         <span class="header__notify-description">Người yêu cầu: ${cuslist.getName()}</span>
                                                                         
-                                                                            <h6>${list.getResponse()}</h6>
+                                                                            <h6>${list.getReponse()}</h6>
                                                                         
 
                                                                     </c:if>
@@ -245,7 +248,7 @@ and open the template in the editor.
                         </c:if>
 
                         <div class="category__list-item--header">
-                            <a href="#" class="nav-link">Trang chủ</a>
+                            <a href="CategoryServletController?categoryId=0" class="nav-link category__list-item--link">Tất cả sản phẩm</a>
                         </div>
                         <!--hiển thị category của sản phẩm -->
                         <c:forEach begin="0" end="3" items="${categorylist}" varStatus="loop" var="cate">

@@ -116,6 +116,14 @@
         <servlet-name>BillController</servlet-name>
         <servlet-class>Controller.BillController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>TypeServletController</servlet-name>
+        <servlet-class>Controller.TypeServletController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>NewRequest</servlet-name>
+        <servlet-class>Controller.NewRequest</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
         <url-pattern>/LoginServlet</url-pattern>
@@ -207,6 +215,14 @@
     <servlet-mapping>
         <servlet-name>BillController</servlet-name>
         <url-pattern>/BillController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>TypeServletController</servlet-name>
+        <url-pattern>/TypeServletController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>NewRequest</servlet-name>
+        <url-pattern>/NewRequest</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

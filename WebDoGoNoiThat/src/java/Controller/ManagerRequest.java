@@ -85,6 +85,7 @@ public class ManagerRequest extends HttpServlet {
             ArrayList<Seller> sellerlist = sld.getAllSeller("select * from seller as a, shop as b where a.sellerId = b.shopId and b.shopActive=1");
             
             request.setAttribute("seller", sellerlist);
+            request.setAttribute("se",ud.getAllUser() );
             request.setAttribute("customerlist", customerlist);
             request.setAttribute("requestlist", listrequest);
             request.setAttribute("userlist", userlist);

@@ -51,12 +51,12 @@ public class ShopManagerProduct extends HttpServlet {
             String update = request.getParameter("update");
             String shopId = request.getParameter("userId");
             int userId = Integer.parseInt(shopId);
-            
-            if (productIddelete != null) {
+
+            if (productIddelete != null && !productIddelete.equals("null")) {
                 int productId = Integer.parseInt(productIddelete);
                 prd.deleteProduct(productId);
                 request.setAttribute("update", "getAll");
-                
+
                 ArrayList<Product> productlist = prd.getProductbyShopId(userId);
                 ArrayList<Order> orderlist = od.getAllOrder(userId);
                 ArrayList<Category> categorylist = ctd.getAllCategory();
@@ -64,21 +64,21 @@ public class ShopManagerProduct extends HttpServlet {
                 request.setAttribute("productlist", productlist);
                 request.setAttribute("orderlist", orderlist);
             }
-            if (productIdupdate != null) {
+            else if (productIdupdate != null) {
                 int productId = Integer.parseInt(productIdupdate);
                 Product product = prd.getProduct(productId);
                 request.setAttribute("update", "update");
                 request.setAttribute("product", product);
             }
-            if (update.equals("insert")) {
+            else if (update.equals("insert")) {
                 request.setAttribute("update", "insert");
             }
-            if (update.equals("getAll")) {
+            else if (update.equals("getAll")) {
                 request.setAttribute("update", update);
                 ArrayList<Product> productlist = prd.getProductbyShopId(userId);
                 ArrayList<Order> orderlist = od.getAllOrder(userId);
                 ArrayList<Category> categorylist = ctd.getAllCategory();
-                
+
                 request.setAttribute("categorylist", categorylist);
                 request.setAttribute("productlist", productlist);
                 request.setAttribute("orderlist", orderlist);
@@ -118,7 +118,7 @@ public class ShopManagerProduct extends HttpServlet {
         request.setCharacterEncoding("UTF-8");
         response.setCharacterEncoding("UTF-8");
         response.setContentType("text/html; charset=UTF-8");
-        
+
         String productIdstring = request.getParameter("input-id");
         String productName = request.getParameter("input-name");
         String productDescript = request.getParameter("input-descript");
@@ -137,23 +137,36 @@ public class ShopManagerProduct extends HttpServlet {
         int shopId = Integer.parseInt(request.getParameter("input-shopId"));
         String update = request.getParameter("update");
         if (update.equals("insert-new")) {
-
-            prd.insertProduct(productName, productDescript,
-                    productImg, shopId, productQuantity, productOldPrice, productBrand,
+            int check = prd.checkProduct(productName, productDescript,
+                    productImg, shopId, productBrand,
                     productOrigin, convertType(productType));
-            sd.updateQuantity(shopId);
+            if (check==0) {
+                prd.insertProduct(productName, productDescript,
+                        productImg, shopId, productQuantity, 0, productOldPrice, productBrand,
+                        productOrigin, convertType(productType));
+                sd.updateQuantity(shopId);
+            }else {
+                
+                Product product = prd.getProduct(check);
+                request.setAttribute("update", "update");
+                request.setAttribute("product", product);
+                Shop shop = sd.getShop(shopId);
+                request.setAttribute("shop", shop);
+                request.getRequestDispatcher("myShop.jsp").forward(request, response);
+            }
+
         } else {
             int productId = Integer.parseInt(productIdstring);
             Product product = prd.getProduct(productId);
-            prd.updateProduct(productId, productName, productDescript, productImg, productQuantity,
+            prd.updateProduct(productId, productName, productDescript, productImg, productQuantity, product.getProductQuantitySold(),
                     product.getProductOldPrice(), productOldPrice, productBrand, productOrigin, convertType(productType));
             sd.updateQuantity(shopId);
         }
-        
+
         Shop shop = sd.getShop(shopId);
         ArrayList<Product> productlist = prd.getProductbyShopId(shopId);
         ArrayList<Category> categorylist = ctd.getAllCategory();
-        
+
         request.setAttribute("shop", shop);
         request.setAttribute("categorylist", categorylist);
         request.setAttribute("productlist", productlist);

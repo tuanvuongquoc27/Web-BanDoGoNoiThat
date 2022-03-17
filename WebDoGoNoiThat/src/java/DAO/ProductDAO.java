@@ -41,9 +41,10 @@ public class ProductDAO {
                         rs.getInt(6),
                         rs.getInt(7),
                         rs.getInt(8),
-                        rs.getString(9),
+                        rs.getInt(9),
                         rs.getString(10),
-                        rs.getInt(11)));
+                        rs.getString(11),
+                        rs.getInt(12)));
             }
             return listproduct;
         } catch (SQLException ex) {
@@ -71,9 +72,10 @@ public class ProductDAO {
                         rs.getInt(6),
                         rs.getInt(7),
                         rs.getInt(8),
-                        rs.getString(9),
+                        rs.getInt(9),
                         rs.getString(10),
-                        rs.getInt(11));
+                        rs.getString(11),
+                        rs.getInt(12));
             }
         } catch (SQLException ex) {
             Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -100,9 +102,10 @@ public class ProductDAO {
                         rs.getInt(6),
                         rs.getInt(7),
                         rs.getInt(8),
-                        rs.getString(9),
+                        rs.getInt(9),
                         rs.getString(10),
-                        rs.getInt(11)));
+                        rs.getString(11),
+                        rs.getInt(12)));
             }
             return productlist;
         } catch (SQLException ex) {
@@ -130,9 +133,10 @@ public class ProductDAO {
                         rs.getInt(6),
                         rs.getInt(7),
                         rs.getInt(8),
-                        rs.getString(9),
+                        rs.getInt(9),
                         rs.getString(10),
-                        rs.getInt(11)));
+                        rs.getString(11),
+                        rs.getInt(12)));
             }
             return productlist;
         } catch (SQLException ex) {
@@ -170,7 +174,7 @@ public class ProductDAO {
     }
 
     public void updateProduct(int productId, String productName, String productDescript,
-            String productImg, int productQuantity, int productOldPrice, int productNewPrice,
+            String productImg, int productQuantity,int productQuantitySold, int productOldPrice, int productNewPrice,
             String productBrand, String productOrigin, int productType) {
         DBContext db = new DBContext();
 
@@ -181,6 +185,7 @@ public class ProductDAO {
                     + "productDescript=N'" + productDescript + "', "
                     + "productImg ='" + productImg + "', "
                     + "productQuantity=" + productQuantity + ", "
+                    + "productQuantitySold=" + productQuantitySold + ", "
                     + "productOldPrice =" + productOldPrice + ", "
                     + "productNewPrice=" + productNewPrice + ", "
                     + " productBrand=N'" + productBrand + "',"
@@ -194,7 +199,7 @@ public class ProductDAO {
     }
     
     public void insertProduct(String productName, String productDescript,
-            String productImg,int shopId, int productQuantity, int productNewPrice,
+            String productImg,int shopId, int productQuantity, int productQuantitySold, int productNewPrice,
             String productBrand, String productOrigin, int productType) {
         DBContext db = new DBContext();
 
@@ -206,6 +211,7 @@ public class ProductDAO {
                     + productImg      + "', "
                     + shopId          + " , "
                     + productQuantity + " , "
+                    + productQuantitySold + " , "
                     + productNewPrice + " , "
                     + productNewPrice + " ,N'"
                     + productBrand    + "',N'"
@@ -227,6 +233,42 @@ public class ProductDAO {
         } catch (Exception ex) {
             Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+    
+    public void updateQuantityProductSold(int productId) {
+        DBContext db = new DBContext();
+        try {
+            String query = "(select sum(a.productQuantity) from [order] as a where a.productId in (select a.productId from product as a where a.shopId = 1))";
+            conn = db.getConnection();
+            
+            state = conn.prepareStatement("update product set productQuantitySold = "+query);
+            state.executeUpdate();
+        } catch (Exception ex) {
+            Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public int checkProduct(String productName, String productDescript, String productImg, int shopId, String productBrand, String productOrigin, int convertType) {
+        DBContext db = new DBContext();
+
+        try {
+            conn = db.getConnection();
+            state = conn.prepareStatement("select * from product where "
+                    + "productName =N'" + productName + "' and "
+                    + "productDescript=N'" + productDescript + "' and "
+                    + "productImg ='" + productImg + "' and "
+                    + "shopId =" + shopId + " and "        
+                    + " productBrand=N'" + productBrand + "' and "
+                    + "productOrigin=N'" + productOrigin + "' and "
+                    + " productType=" + convertType);
+            rs = state.executeQuery();
+            while(rs.next()){
+                return rs.getInt(1);
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return 0;
     }
 
 }

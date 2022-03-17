@@ -152,7 +152,14 @@
                         <div class="product__list-item nav-item">
                             <div class="product__list-item">
                                 <a href="ManagerRequest?store=request-infor&userId=${user.userId}" 
-                                   class="nav-link product__list-item--link">Thông tin yêu cầu</a>
+                                   class="nav-link product__list-item--link">Yêu cầu mở cửa hàng</a>
+
+                            </div>
+                        </div>
+                        <div class="product__list-item nav-item">
+                            <div class="product__list-item">
+                                <a href="ManagerRequest?store=request-infor&userId=${user.userId}" 
+                                   class="nav-link product__list-item--link">Yêu cầu khác</a>
 
                             </div>
                         </div>
@@ -202,9 +209,9 @@
                                     </tr>
                                 </c:forEach>
                             </table>
-                            <div class="add__store">
+<!--                            <div class="add__store">
                                 <a href="#" class="nav-link add__store-link">Thêm cửa hàng</a>
-                            </div>
+                            </div>-->
                         </c:if>
 
                         <!--inforseller-->
@@ -302,11 +309,23 @@
                                                 </c:forEach>
                                             </td> 
                                             <td>response</td>
-                                            <td><a onclick="if (!confirm('Bạn có muốn xóa cửa hàng này')) {
-                                                        return false;
-                                                    }" 
+                                            
+                                            <c:forEach items="${se}" var="listse">
+                                                <c:if test="${listse.isSeller()}">
+                                                    <c:set var="l" value="true"/>
+                                                </c:if>
+                                            </c:forEach>
+                                            <c:if test="${l=='true'}">
+                                                <td>Xóa yêu cầu</td>
+                                            <td>Chấp nhận</td>
+                                            </c:if>
+                                            <c:if test="${l!='true'}">
+                                                <td><a  onclick="if (!confirm('Bạn có muốn xóa cửa hàng này')) {return false;}" 
                                                    href="ManagerRequest?rquest=delete&userId=${list.getCustomerId()}" class="nav-link">Xóa yêu cầu</a></td>
-                                            <td><a href="ManagerRequest?rquest=accept&userId=${list.getCustomerId()}" class="nav-link">Chấp nhận</a></td>
+                                            <td><a onclick="if (!confirm('Bạn có muốn chấp nhận yêu cầu này')) {return false;}" 
+                                                   href="ManagerRequest?rquest=accept&userId=${list.getCustomerId()}" class="nav-link">Chấp nhận</a></td>
+                                            </c:if>       
+                                            
                                         </tr>
                                     </c:forEach>
 

@@ -16,6 +16,7 @@ public class Product {
     private String productImg ;
     private int shopId ;
     private int productQuantity ;
+    private int productQuantitySold;
     private int productOldPrice ;
     private int productNewPrice ;
     private String productBrand;
@@ -26,19 +27,22 @@ public class Product {
     public Product() {
     }
 
-    public Product(int productId, String productName, String productDescript, String productImg, int shopId, int productQuantity, int productOldPrice, int productNewPrice, String productBrand, String productOrigin, int productType) {
+    public Product(int productId, String productName, String productDescript, String productImg, int shopId, int productQuantity, int productQuantitySold, int productOldPrice, int productNewPrice, String productBrand, String productOrigin, int productType) {
         this.productId = productId;
         this.productName = productName;
         this.productDescript = productDescript;
         this.productImg = productImg;
         this.shopId = shopId;
         this.productQuantity = productQuantity;
+        this.productQuantitySold = productQuantitySold;
         this.productOldPrice = productOldPrice;
         this.productNewPrice = productNewPrice;
         this.productBrand = productBrand;
         this.productOrigin = productOrigin;
         this.productType = productType;
     }
+
+    
 
     
 
@@ -88,6 +92,14 @@ public class Product {
 
     public void setProductQuantity(int productQuantity) {
         this.productQuantity = productQuantity;
+    }
+
+    public void setProductQuantitySold(int productQuantitySold) {
+        this.productQuantitySold = productQuantitySold;
+    }
+
+    public int getProductQuantitySold() {
+        return productQuantitySold;
     }
 
     public int getProductOldPrice() {

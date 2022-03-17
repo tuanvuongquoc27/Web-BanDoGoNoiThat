@@ -161,7 +161,7 @@ public class ShopDAO {
     public void updateQuantitySold(int shopId) {
         DBContext db = new DBContext();
         try {
-            String query = "(select sum(a.productQuantity) from [order] as a where a.productId in (select a.productId from product as a where a.shopId = 1))";
+            String query = "(select sum(a.productQuantity) from [order] as a where a.productId in (select a.productId from product as a where a.shopId =" +shopId+")) where shopId = "+shopId;
             conn = db.getConnection();
             
             state = conn.prepareStatement("update shop set shopProductSold = "+query);

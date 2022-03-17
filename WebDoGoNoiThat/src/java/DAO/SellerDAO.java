@@ -167,4 +167,8 @@ public class SellerDAO {
         }
         return 0;
     }
+
+    public Object getAll() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }
