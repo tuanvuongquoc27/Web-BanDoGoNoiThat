@@ -19,6 +19,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import model.Customer;
+import model.Seller;
+import model.Shop;
 import model.User;
 
 /**
@@ -40,16 +42,21 @@ public class SignupSeller extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet SignupSeller</title>");
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet SignupSeller at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+            SellerDAO sld = new SellerDAO();
+            ShopDAO sd = new ShopDAO();
+            
+            String userId = request.getParameter("userId");
+            if(userId!= null){
+                int sellerId = Integer.parseInt(userId);
+                Seller seller = sld.getSellerById(sellerId);
+                Shop shop = sd.getShop(sellerId);
+                if(seller!=null){
+                    request.setAttribute("wait", "Bạn đã đăng kí vui lòng đợi");
+                    request.setAttribute("seller", seller);
+                    request.setAttribute("shop", shop);
+                }
+                request.getRequestDispatcher("Seller.jsp").forward(request, response);
+            }
         }
     }
 
@@ -102,8 +109,13 @@ public class SignupSeller extends HttpServlet {
             request.getRequestDispatcher("Seller.jsp").forward(request, response);
         } else {
             Customer c = csd.getCustomerById(userId);
-            sld.insertSeller(userId, c.getName(),c.getAddress(), c.getEmail(), c.getPhone(),c.getDate(), convertGender(c.isGender()), c.getDOB());
-            sd.insertShop(userId, shopName, shopAddress, shopPhone, shopEmail, getDateNow());
+            if(c.getAddress()==null){
+                sld.insertSellerNull(userId, c.getName(),null, c.getEmail(), null,null, null, null);
+            }else {
+                sld.insertSeller(userId, c.getName(),c.getAddress(), c.getEmail(), c.getPhone(),c.getDate(), convertGender(c.isGender()), c.getDOB());
+            }
+            
+            sd.insertShop(userId, shopName, shopAddress, shopPhone, shopEmail, null);
             rqd.insertRequestSell(userId, "Yêu cầu mở cửa hàng");
             request.setAttribute("wait", "Vui lòng đợi phản hồi từ admin");
         }

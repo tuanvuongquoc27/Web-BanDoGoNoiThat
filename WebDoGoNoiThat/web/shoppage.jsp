@@ -35,10 +35,10 @@
     <body>
         <c:set var="user" scope="session" value="${sessionScope.user}"/>
             <c:choose>  
-            <c:when test="${user.isAdmin}">  
+            <c:when test="${user.isAdmin()}">  
                 <c:set var="role" scope="session" value="admin"/>
             </c:when>  
-            <c:when test="${user.isCustomer}">  
+            <c:when test="${user.isCustomer()}">  
                 <c:set var="role" scope="session" value="customer"/>
             </c:when>  
             <c:otherwise>  
@@ -55,7 +55,7 @@
                                 <li class="header__navbar-item"><a href="HomeServletController?userId=${user.userId}" class="header__navbar-item-link">Trang chủ</a></li>
                                 <li class="header__navbar-item">Xin chào: ${user.userName}  </li>
                                 </c:if>
-                                <c:if test="${user.isCustomer&&!user.isAdmin}">
+                                <c:if test="${user.isCustomer()&&!user.isAdmin()}">
                                 <li class="header__navbar-item"><a class="header__navbar-item-link" href="Seller.jsp?userId=${user.userId}">Đăng kí bán hàng</a></li>
                                 </c:if>
                         </ul>
@@ -69,15 +69,32 @@
                                         <h3>Thông báo mới</h3>
                                     </header>
                                     <ul class="header__notify-list">
-                                        <li class="header__notify-item header__notify-item--viewed">
-                                            <a href="#" class="header__notify-link">
-                                                <img src="image/login-img.jpg" alt="" class="header__notify-img">
-                                                <div class="header__notify-infor">
-                                                    <span class="header__notify-name">Thông tin</span>
-                                                    <span class="header__notify-description">Mô tả</span>
-                                                </div>
-                                            </a>
-                                        </li>
+                                        <c:if test="${requestlist.size()==0}">
+                                            <li class="header__notify-item header__notify-item--viewed"> <h3>Không có thông báo mới</h3></li>
+                                            </c:if>
+                                            <c:if test="${requestlist.size()!=0}">
+                                                <c:forEach items="${requestlist}" var="list">
+                                                    <li class="header__notify-item header__notify-item--viewed">
+                                                    <a href="ManagerRequest?store=request-infor&userId=${user.userId}" class="header__notify-link">
+                                                        <img src="image/login-img.jpg" alt="" class="header__notify-img">
+                                                        <div class="header__notify-infor">
+                                                            <span class="header__notify-name">Yêu cầu trở thành nhà bán hàng</span>
+                                                            <c:forEach items="${customerlist}" var="cuslist">
+                                                                <c:if test="${list.getCustomerId()==cuslist.getId()}">
+                                                                    <span class="header__notify-description">Người yêu cầu: ${cuslist.getName()}</span>
+                                                                    <c:if test="${!list.isRequestState()}">
+                                                                        <h6>Chưa chấp nhận</h6>
+                                                                    </c:if>
+
+                                                                </c:if>
+                                                            </c:forEach>
+
+                                                        </div>
+                                                    </a>
+                                                </li>       
+                                            </c:forEach>
+
+                                        </c:if>
                                     </ul>
                                     <footer class="header__notify-footer">
                                         <a href="" class="header__notify-footer-btn">Xem tất cả</a>

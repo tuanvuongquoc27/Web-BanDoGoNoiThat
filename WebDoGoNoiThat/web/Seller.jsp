@@ -4,6 +4,8 @@
     Author     : Admin
 --%>
 
+<%@page import="model.Seller"%>
+<%@page import="DAO.SellerDAO"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -21,8 +23,9 @@
         <!-- Latest compiled and minified CSS -->
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-        
+
     </head>
+
     <body>
         <div class="container">
             <h1 class="">Đăng kí thông tin</h1>
@@ -32,24 +35,49 @@
                     <h2>${mess}</h2>
                     <a type="button" class="btn btn-secondary" href="AccountMoneyController?userId=${sessionScope.user.userId}">Nạp Tiền</a>
                 </c:if>
-                
+
                 <form action="SignupSeller" method="post">
                     <table>
                         <tr>
                             <td>Tên shop</td>
-                            <td><input name="input-shopName" type="text" required></td>
+
+                            <c:if test="${seller!=null}">
+                                <td><input name="input-shopName" value="${shop.getShopName()}" readonly="true" type="text" required></td>
+                                </c:if>
+                                <c:if test="${seller==null}">
+                                <td><input name="input-shopName" type="text" required></td>
+                                </c:if>
+
                         </tr>
                         <tr>
                             <td>Địa chỉ</td>
-                            <td><input name="input-shopAddress" type="text" required></td>
+                            <c:if test="${seller!=null}">
+                                <td><input name="input-shopName" value="${shop.getShopAddress()}" readonly="true" type="text" required></td>
+                                </c:if>
+                                <c:if test="${seller==null}">
+                                <td><input name="input-shopAddress" type="text" required></td>
+                                </c:if>
+
                         </tr>
                         <tr>
                             <td>Số điện thoại</td>
-                            <td><input name="input-shopPhone" type="text" required ></td>
+                            <c:if test="${seller!=null}">
+                                <td><input name="input-shopName" value="${shop.getShopPhone()}" readonly="true" type="text" required></td>
+                                </c:if>
+                                <c:if test="${seller==null}">
+                                <td><input name="input-shopPhone" type="text" required ></td>
+                                </c:if>
+
                         </tr>
                         <tr>
                             <td>Email</td>
-                            <td><input name="input-shopEmail" type="email" required></td>
+                            <c:if test="${seller!=null}">
+                                <td><input name="input-shopName" value="${shop.getShopEmail()}" readonly="true" type="text" required></td>
+                                </c:if>
+                                <c:if test="${seller==null}">
+                                <td><input name="input-shopEmail" type="email" required></td>
+                                </c:if>
+
                         </tr>
                         <tr>
                             <td></td>
@@ -60,7 +88,10 @@
 
                         </tr>
                     </table>
-                    <input class="btn btn-secondary" type="submit" value="Đăng kí">
+                    <c:if test="${seller==null}">
+                        <input class="btn btn-secondary" type="submit" value="Đăng kí">
+                    </c:if>
+
                     <a type="button" class="btn btn-secondary" href="HomeServletController?userId=${sessionScope.user.userId}">Trở về</a>
                 </form>
             </div>

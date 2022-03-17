@@ -35,10 +35,10 @@
     <body>
         <c:set var="user" scope="session" value="${sessionScope.user}"/>
         <c:choose>  
-            <c:when test="${user.Admin}">  
+            <c:when test="${user.isAdmin()}">  
                 <c:set var="role" scope="session" value="admin"/>
             </c:when>  
-            <c:when test="${user.Customer}">  
+            <c:when test="${user.isCustomer()}">  
                 <c:set var="role" scope="session" value="customer"/>
             </c:when>  
             <c:otherwise>  
@@ -56,7 +56,7 @@
                                 <li class="header__navbar-item"><a href="HomeServletController?userId=${user.userId}" class="header__navbar-item-link">Trang chủ</a></li>
                                 <li class="header__navbar-item">Xin chào: ${user.userName}  </li>
                                 </c:if>
-                                <c:if test="${user.Customer&&!user.Admin}">
+                                <c:if test="${user.isCustomer()&&!user.isAdmin()}">
                                 <li class="header__navbar-item"><a class="header__navbar-item-link" href="Seller.jsp?userId=${user.userId}">Đăng kí bán hàng</a></li>
                                 </c:if>
                         </ul>
@@ -68,12 +68,12 @@
                                     <header class="header__notify-header"><h3>Thông báo mới</h3>
                                     </header>
                                     <ul class="header__notify-list">
-                                        <li class="header__notify-item header__notify-item--viewed">
-                                            <c:if test="${requestlist.size()==0}">
-                                                <h3>Không có thông báo mới</h3>
+                                        <c:if test="${requestlist.size()==0}">
+                                            <li class="header__notify-item header__notify-item--viewed"> <h3>Không có thông báo mới</h3></li>
                                             </c:if>
                                             <c:if test="${requestlist.size()!=0}">
                                                 <c:forEach items="${requestlist}" var="list">
+                                                    <li class="header__notify-item header__notify-item--viewed">
                                                     <a href="ManagerRequest?store=request-infor&userId=${user.userId}" class="header__notify-link">
                                                         <img src="image/login-img.jpg" alt="" class="header__notify-img">
                                                         <div class="header__notify-infor">
@@ -81,16 +81,19 @@
                                                             <c:forEach items="${customerlist}" var="cuslist">
                                                                 <c:if test="${list.getCustomerId()==cuslist.getId()}">
                                                                     <span class="header__notify-description">Người yêu cầu: ${cuslist.getName()}</span>
+                                                                    <c:if test="${!list.isRequestState()}">
+                                                                        <h6>Chưa chấp nhận</h6>
+                                                                    </c:if>
+
                                                                 </c:if>
                                                             </c:forEach>
 
                                                         </div>
                                                     </a>
-                                                </c:forEach>
+                                                </li>       
+                                            </c:forEach>
 
-                                            </c:if>
-
-                                        </li>
+                                        </c:if>
                                     </ul>
                                     <footer class="header__notify-footer">
                                         <a href="" class="header__notify-footer-btn">Xem tất cả</a>
@@ -116,7 +119,7 @@
                                     <span class="header_navbar-user-name">${user.userName}</span>
                                     <ul class="header__navbar-user-menu">
                                         <li class="header__navbar-user-item">
-                                            <a href="AccountFileController?role=${role}userId=${user.userId}">Tài khoản của tôi</a>
+                                            <a href="AccountFileController?role=${role}&userId=${user.userId}">Tài khoản của tôi</a>
                                         </li>
                                         <li class="header__navbar-user-item">
                                             <a href="LogoutServlet">Đăng xuất</a>
@@ -197,7 +200,7 @@
                                         <c:otherwise>${acc.getAddress()}</c:otherwise>  
                                     </c:choose></td>
                             </tr>
-                            <c:if test="${user.Customer||user.Admin}">
+                            <c:if test="${user.isCustomer()||user.isAdmin()}">
                                 <tr><td>Địa chỉ ship</td>
                                 <td><c:choose>  
                                         <c:when test="${acc.getAddressShip()==null}">Chưa cập nhật</c:when> 
@@ -209,7 +212,6 @@
                             <tr><td>Số điện thoại</td>
                                 <td><c:choose>  
                                         <c:when test="${acc.getAddress()==null}">Chưa cập nhật</c:when>
-                                        <c:when test="${user.Admin}">${acc.getPhone()}</c:when>  
                                         <c:otherwise>${acc.getPhone()}</c:otherwise>  
                                     </c:choose></td>
                             </tr>
@@ -217,8 +219,8 @@
                                 <td><c:choose>  
                                         <c:when test="${acc.getAddress()==null}">Chưa cập nhật</c:when>
                                         <c:otherwise>
-                                            <c:if test="${acc.Gender()}">Nam</c:if>
-                                            <c:if test="${!acc.Gender()}">Nữ</c:if>
+                                            <c:if test="${acc.isGender()}">Nam</c:if>
+                                            <c:if test="${!acc.isGender()}">Nữ</c:if>
                                         </c:otherwise>  
                                     </c:choose></td>
                             </tr>
@@ -262,7 +264,7 @@
                                     <td>Địa chỉ</td>
                                     <td><input placeholder="${acc.getAddress()}" name="input-address" type="text" required="true"></td>
                                 </tr>
-                                <c:if test="${user.Customer||user.Admin}">
+                                <c:if test="${user.isCustomer()||user.isAdmin()}">
                                 <tr><td>Địa chỉ ship</td>
                                 <td>
                                     <input placeholder="${acc.getAddressShip()}" name="input-address-ship" type="text" required="true">
@@ -343,7 +345,7 @@
                                                 <option value="50000">50.000đ</option>
                                                 <option value="100000">100.000đ</option>
                                                 <option value="200000">200.000d</option>
-                                                <option value="500000">500.000đ</option>
+                                                <option value="50000000">50.000.000đ</option>
                                             </select>
                                         </td>
                                     </tr>

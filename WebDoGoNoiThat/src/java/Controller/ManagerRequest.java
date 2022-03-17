@@ -12,7 +12,9 @@ import DAO.ShopDAO;
 import DAO.UserDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -55,12 +57,13 @@ public class ManagerRequest extends HttpServlet {
                 if (rquest.equals("accept")) {
                     ud.updateRole(userId, "isSeller",1);
                     sd.updateActice(userId, 1);
-                    rqd.deleteRequestId(userId);
-                    Customer customer = csd.getCustomerById(userId);
-                    sld.insertSeller(userId, customer.getName(), customer.getAddress(),
-                    customer.getEmail(), customer.getPhone(),
-                    customer.getDate(), convertGender(customer.isGender()), customer.getDOB());
-                    csd.deleteCustomer(userId);
+                    rqd.updateState(userId,1);
+                    sld.updateDate(userId, getDateNow());
+                    sd.updateDate(userId, getDateNow());
+                    
+//                    sld.insertSeller(userId, customer.getName(), customer.getAddress(),
+//                    customer.getEmail(), customer.getPhone(),
+//                    customer.getDate(), convertGender(customer.isGender()), customer.getDOB());
                     ud.updateBalance(userId, -200000);
                     ud.updateBalance(1, 200000);
                     HttpSession session = request.getSession();
@@ -68,7 +71,6 @@ public class ManagerRequest extends HttpServlet {
                     session.removeAttribute("user");
                     session.setAttribute("user", user);
                     request.setAttribute("store", "request");
-
                 } else if (rquest.equals("delete")) {
                     sd.deleteShop(userId);
                     rqd.deleteRequestId(userId);
@@ -80,7 +82,7 @@ public class ManagerRequest extends HttpServlet {
             ArrayList<User> userlist = ud.getAllUser();
             ArrayList<Request> listrequest = rqd.getAllRequest();
             ArrayList<Customer> customerlist = csd.getAllCustomer();
-            ArrayList<Seller> sellerlist = sld.getAllSeller();
+            ArrayList<Seller> sellerlist = sld.getAllSeller("select * from seller as a, shop as b where a.sellerId = b.shopId and b.shopActive=1");
             
             request.setAttribute("seller", sellerlist);
             request.setAttribute("customerlist", customerlist);
@@ -94,6 +96,13 @@ public class ManagerRequest extends HttpServlet {
             return "nam";
         }
         return "nữ";
+    }
+    
+    public String getDateNow() {
+        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
+        Date date = new Date();
+        return sdf.format(date);
+        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

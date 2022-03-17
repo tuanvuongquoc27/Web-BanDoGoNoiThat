@@ -47,12 +47,12 @@ public class SellerDAO {
         return null;
     }
 
-    public ArrayList<Seller> getAllSeller() {
+    public ArrayList<Seller> getAllSeller( String query) {
         DBContext db = new DBContext();
         ArrayList<Seller> sellerlist = new ArrayList<>();
         try {   
-            conn=db.getConnection();
-            state=conn.prepareStatement("select * from seller");
+            conn=db.getConnection();//select * from seller as a, shop as b where a.sellerId = b.shopId and b.shopActive=1
+            state=conn.prepareStatement(query);
             rs = state.executeQuery();
             
             while (rs.next()) {
@@ -75,6 +75,8 @@ public class SellerDAO {
         }
         return null;
     }
+    
+    
     
     public void deleteSeller( int sellerId){
         DBContext db = new DBContext();
@@ -103,6 +105,36 @@ public class SellerDAO {
                     + sellerDate +"',"
                     + convertGender(sellerGender)+",'"
                     + sellerDOB +"')");
+            state.executeUpdate();
+        } catch (Exception ex) {
+            Logger.getLogger(SellerDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void insertSellerNull(int sellerId, String sellerName, String sellerAddress, String sellerEmail, String sellerPhone, String sellerDate, String sellerGender, String sellerDOB) {
+        DBContext db = new DBContext();
+        try {
+            conn = db.getConnection();
+            state = conn.prepareStatement("insert into seller values("
+                    + sellerId + ",N'"
+                    + sellerName + "',"
+                    + sellerAddress + ",'"
+                    + sellerEmail + "',"
+                    + sellerPhone + ","
+                    + sellerDate +","
+                    + sellerGender+","
+                    + sellerDOB +")");
+            state.executeUpdate();
+        } catch (Exception ex) {
+            Logger.getLogger(SellerDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void updateDate(int sellerId , String date){
+        DBContext db = new DBContext();
+        try {
+            conn = db.getConnection();
+            state = conn.prepareStatement("update seller set sellerDate='"+date+"' where sellerId=" + sellerId);
             state.executeUpdate();
         } catch (Exception ex) {
             Logger.getLogger(SellerDAO.class.getName()).log(Level.SEVERE, null, ex);

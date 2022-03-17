@@ -33,20 +33,20 @@
     </head>
 
     <body>
-        
+
         <div class="main">
             <c:set var="user" scope="session" value="${sessionScope.user}"/>
             <c:choose>  
-            <c:when test="${user.isAdmin()}">  
-                <c:set var="role" scope="session" value="admin"/>
-            </c:when>  
-            <c:when test="${user.isCustomer}">  
-                <c:set var="role" scope="session" value="customer"/>
-            </c:when>  
-            <c:otherwise>  
-                <c:set var="role" scope="session" value="seller"/>  
-            </c:otherwise>  
-        </c:choose> 
+                <c:when test="${user.isAdmin()}">  
+                    <c:set var="role" scope="session" value="admin"/>
+                </c:when>  
+                <c:when test="${user.isCustomer()}">  
+                    <c:set var="role" scope="session" value="customer"/>
+                </c:when>  
+                <c:otherwise>  
+                    <c:set var="role" scope="session" value="seller"/>  
+                </c:otherwise>  
+            </c:choose> 
             <!-- header -->
             <div class="header">
                 <div class="grid"  style="height: 50px;">
@@ -68,29 +68,32 @@
                                         <h3>Thông báo mới</h3>
                                     </header>
                                     <ul class="header__notify-list">
-                                        <li class="header__notify-item header__notify-item--viewed">
-                                            <c:if test="${requestlist.size()==0}">
-                                                <h3>Không có thông báo mới</h3>
+                                        <c:if test="${requestlist.size()==0}">
+                                            <li class="header__notify-item header__notify-item--viewed"> <h3>Không có thông báo mới</h3></li>
                                             </c:if>
                                             <c:if test="${requestlist.size()!=0}">
                                                 <c:forEach items="${requestlist}" var="list">
-                                                    <a href="ManagerRequest?userId=${user.userId}" class="header__notify-link">
+                                                <li class="header__notify-item header__notify-item--viewed">
+                                                    <a href="ManagerRequest?store=request-infor&userId=${user.userId}" class="header__notify-link">
                                                         <img src="image/login-img.jpg" alt="" class="header__notify-img">
                                                         <div class="header__notify-infor">
                                                             <span class="header__notify-name">Yêu cầu trở thành nhà bán hàng</span>
                                                             <c:forEach items="${customerlist}" var="cuslist">
                                                                 <c:if test="${list.getCustomerId()==cuslist.getId()}">
                                                                     <span class="header__notify-description">Người yêu cầu: ${cuslist.getName()}</span>
+                                                                    <c:if test="${!list.isRequestState()}">
+                                                                        <h6>Chưa chấp nhận</h6>
+                                                                    </c:if>
+
                                                                 </c:if>
                                                             </c:forEach>
 
                                                         </div>
                                                     </a>
-                                                </c:forEach>
+                                                </li>       
+                                            </c:forEach>
 
-                                            </c:if>
-
-                                        </li>
+                                        </c:if>
                                     </ul>
                                     <footer class="header__notify-footer">
                                         <a href="ManagerRequest?userId=${user.userId}" class="header__notify-footer-btn">Xem tất cả</a>
@@ -166,14 +169,15 @@
                                 <tr>
                                     <td>ID</td>
                                     <td>Tên của hàng</td>
-                                    <td>Tên chu cua hang</td>
+                                    <td>Tên chủ shop</td>
                                     <td>Số lượng sản phẩm</td>
                                     <td>Doanh thu của cửa hàng</td>
                                     <td>Lợi nhuận của cửa hàng</td>
                                     <td>Lợi nhuận từ cửa hàng</td>
+                                    <td>Trạng thái</td>
                                     <td></td>
                                 </tr>
-                                <c:forEach begin="1" items="${shoplist}" var="shoplist">
+                                <c:forEach begin="0" items="${shoplist}" var="shoplist">
                                     <tr>
                                         <td><c:out value="${shoplist.getShopId()}"/></td>
                                         <td><a href="ManagerStore?infor=shop&shopId=${shoplist.getShopId()}" class="nav-link store-manager"><c:out value="${shoplist.getShopName()}"/></a></td>
@@ -186,6 +190,12 @@
                                         <td><c:out value="${shoplist.getShopRevenue()}"/></td>
                                         <td><c:out value="${shoplist.getShopProfit()}"/></td>
                                         <td><c:out value="${shoplist.getShopProfit()}"/></td>
+                                        <c:if test="${shoplist.isShopActive()}" >
+                                            <td>Hoạt động</td>
+                                        </c:if>
+                                        <c:if test="${!shoplist.isShopActive()}" >
+                                            <td>Chưa cấp phép</td>
+                                        </c:if>
                                         <td><a onclick="if (!confirm('Bạn có muốn xóa cửa hàng này')) {
                                                     return false;
                                                 }" href="ManagerStoreServlet?infor=delete&shopId=${shoplist.getShopId()}" class="nav-link">Xóa cửa hàng</a></td>
@@ -203,12 +213,12 @@
                             <div class="store-infor">
                                 <c:if test="${ship=='yes'}"><h1>Thông tin người mua </h1></c:if>
                                 <c:if test="${ship=='no'}"><h1>Thông tin người bán </h1></c:if>
-                            </div>
-                            <table>
-                                <tr>
-                                    <td>ID</td>
-                                    <td>Họ và tên </td>
-                                    <td>Địa chỉ </td>
+                                </div>
+                                <table>
+                                    <tr>
+                                        <td>ID</td>
+                                        <td>Họ và tên </td>
+                                        <td>Địa chỉ </td>
                                     <c:if test="${ship=='yes'}"><td>Địa chỉ ship</td></c:if>
                                         <td>Email</td>
                                         <td>Phone</td>
@@ -216,7 +226,7 @@
                                         <td>Giới tính</td>
                                         <td>Ngày sinh nhật</td>
                                     </tr>
-                                <c:forEach begin="1" items="${list}" var="acc">
+                                <c:forEach begin="0" items="${list}" var="acc">
                                     <tr><td>${acc.getId()}</td>
                                         <td>${acc.getName()}</td>
                                         <td><c:choose>  
@@ -229,7 +239,7 @@
                                                     <c:otherwise>${acc.getAddressShip()}</c:otherwise>  
                                                 </c:choose></td>
                                             </c:if>
-                                            <td>${acc.getEmail()}</td>
+                                        <td>${acc.getEmail()}</td>
                                         <td><c:choose>  
                                                 <c:when test="${acc.getAddress()==null}">Chưa cập nhật</c:when>
                                                 <c:otherwise>${acc.getPhone()}</c:otherwise>  
@@ -240,9 +250,9 @@
                                                 </c:when> <c:otherwise>  
                                                     <c:if test="${acc.isGender()==true}">Nam</c:if>
                                                     <c:if test="${acc.isGender()==false}">Nữ</c:if>
-                                            </c:otherwise></c:choose>  
-                                        </td>
-                                        <td>
+                                                </c:otherwise></c:choose>  
+                                            </td>
+                                            <td>
                                             <c:choose>  
                                                 <c:when test="${acc.getAddress()==null}">Chưa cập nhật</c:when>
                                                 <c:otherwise> ${acc.getDOB()}</c:otherwise>  
@@ -253,7 +263,58 @@
                             </table>
                         </c:if>
 
-                        
+                        <!--request-->
+                        <c:if test="${requestScope.store=='request'}">
+
+                            <c:if test="${requestScope.requestlist.size()==0}">
+                                <h3>Không có thông báo mới</h3>
+                            </c:if>
+                            <c:if test="${requestScope.requestlist.size()!=0}">
+                                <div class="store-infor">
+                                    <h1>Thông tin yêu cầu</h1>
+                                </div>
+
+                                <table>
+                                    <tr>
+                                        <td>Id</td>
+                                        <td>Người yêu cầu</td>
+                                        <td>Nội dung yêu cầu</td>
+                                        <td>Số dư tài khoản</td>
+                                        <td>Trả lời</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <c:forEach items="${requestScope.requestlist}" var="list">
+                                        <tr>
+                                            <td>${list.getCustomerId()}</td>
+                                            <td>
+                                                <c:forEach items="${customerlist}" var="cuslist">
+                                                    <c:if test="${list.getCustomerId()==cuslist.getId()}">
+                                                        ${cuslist.getName()}
+                                                    </c:if>
+                                                </c:forEach>
+                                            </td>
+                                            <td>${list.getRequestSeller()}</td>
+                                            <td><c:forEach items="${requestScope.userlist}" var="userlist">
+                                                    <c:if test="${list.getCustomerId()==userlist.getUserId()}">
+                                                        ${userlist.getUserBanlance()}
+                                                    </c:if>
+                                                </c:forEach>
+                                            </td> 
+                                            <td>response</td>
+                                            <td><a onclick="if (!confirm('Bạn có muốn xóa cửa hàng này')) {
+                                                        return false;
+                                                    }" 
+                                                   href="ManagerRequest?rquest=delete&userId=${list.getCustomerId()}" class="nav-link">Xóa yêu cầu</a></td>
+                                            <td><a href="ManagerRequest?rquest=accept&userId=${list.getCustomerId()}" class="nav-link">Chấp nhận</a></td>
+                                        </tr>
+                                    </c:forEach>
+
+
+                                </table>
+                            </c:if>
+
+                        </c:if>
 
                         <!--paging-->
                         <ul class="pagination">

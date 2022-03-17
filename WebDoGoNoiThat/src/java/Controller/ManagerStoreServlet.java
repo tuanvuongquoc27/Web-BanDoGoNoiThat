@@ -75,7 +75,7 @@ public class ManagerStoreServlet extends HttpServlet {
             
             
             ArrayList<Shop> shoplist = sd.getAllShop();
-            ArrayList<Seller> sellerlist = sld.getAllSeller();
+            ArrayList<Seller> sellerlist = sld.getAllSeller("select * from seller");
             ArrayList<Request> listrequest = rqd.getAllRequest();
             ArrayList<Customer> customerlist = csd.getAllCustomer();
             request.setAttribute("customerlist", customerlist);

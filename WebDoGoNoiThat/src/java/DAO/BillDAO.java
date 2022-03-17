@@ -46,7 +46,9 @@ public class BillDAO {
                         rs.getInt(1),
                         rs.getInt(2),
                         rs.getInt(3),
-                        rs.getDate(4));
+                        rs.getInt(4),
+                        rs.getDate(5),
+                        rs.getDate(6));
             }
         } catch (Exception ex) {
             Logger.getLogger(CustomerDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -67,7 +69,9 @@ public class BillDAO {
                         rs.getInt(1),
                         rs.getInt(2),
                         rs.getInt(3),
-                        rs.getDate(4)));
+                        rs.getInt(4),
+                        rs.getDate(5),
+                        rs.getDate(6)));
             }
             return listbill;
         } catch (Exception ex) {
@@ -81,7 +85,7 @@ public class BillDAO {
         DBContext db = new DBContext();
         try {
             conn = db.getConnection();
-            state = conn.prepareStatement("select * from bill where customerId=" + userId +" and billDate is null");
+            state = conn.prepareStatement("select * from bill where customerId=" + userId +" and billDateOrder is null");
             
             rs = state.executeQuery();
             
@@ -89,7 +93,9 @@ public class BillDAO {
                 return new Bill(rs.getInt(1),
                         rs.getInt(2),
                         rs.getInt(3),
-                        rs.getDate(4));
+                        rs.getInt(4),
+                        rs.getDate(5),
+                        rs.getDate(6));
             }
         } catch (Exception ex) {
             Logger.getLogger(CustomerDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -97,11 +103,22 @@ public class BillDAO {
         return null;
     }
 
-    public void updateBill(int billId, int total, String dateNow) {
+    public void updateBill(int billId, int total, String dateNow, int billPay) {
         DBContext db = new DBContext();
         try {
             conn = db.getConnection();
-            state = conn.prepareStatement("update bill set billTotal = "+total + " , billDate = '"+dateNow+"' where billId = "+billId);
+            state = conn.prepareStatement("update bill set billTotal = "+total + ",billPay="+ billPay +" , billDateOrder = '"+dateNow+"' where billId = "+billId);
+            state.executeUpdate();
+        } catch (Exception ex) {
+            Logger.getLogger(CustomerDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void deleteBill(int userId) {
+        DBContext db = new DBContext();
+        try {
+            conn = db.getConnection();
+            state = conn.prepareStatement("delete bill where customerId="+userId+" and billPay is null " );
             state.executeUpdate();
         } catch (Exception ex) {
             Logger.getLogger(CustomerDAO.class.getName()).log(Level.SEVERE, null, ex);

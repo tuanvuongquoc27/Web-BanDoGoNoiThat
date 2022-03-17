@@ -41,6 +41,8 @@ public class AddProductToCart extends HttpServlet {
             String quantityString = request.getParameter("quantity_input");
             String userIdstring = request.getParameter("userId");
             String productIdstring = request.getParameter("productId");
+            String addressship = request.getParameter("addressship");
+
             int userId = Integer.parseInt(userIdstring);
             int quantity = Integer.parseInt(quantityString);
             int productId = Integer.parseInt(productIdstring);
@@ -49,25 +51,19 @@ public class AddProductToCart extends HttpServlet {
             OrderDAO od = new OrderDAO();
             Bill bill = bd.getBillEmpty(userId);
             Product product = prd.getProduct(productId);
-            
-            if(bill==null){
+
+            if (bill == null || (bill != null && bill.getBillDate() != null)) {
                 bd.insertBill(userId);
-            }else if(bill.getBillDate()!=null){
-                bd.insertBill(userId);
-                
             }
-            
-                bill = bd.getBillEmpty(userId);
-                Order oldorder = od.getOrderSold(userId, productId);
-                if(oldorder==null){
-                    od.insertOrder(userId, bill.getBillId(), productId, product.getProductNewPrice(), quantity, quantity*product.getProductNewPrice());
-                }else{
-                    od.updateOrder(productId, quantity, quantity*product.getProductNewPrice());
-                }
-                
-                request.getRequestDispatcher("HomeServletController").forward(request, response);
-            
-            
+            bill = bd.getBillEmpty(userId);
+            Order oldorder = od.getOrderSold(userId, productId);
+            if (oldorder == null) {
+                od.insertOrder(userId, bill.getBillId(), productId, product.getProductNewPrice(), quantity, quantity * product.getProductNewPrice());
+            } else {
+                od.updateOrder(productId, quantity, quantity * product.getProductNewPrice());
+            }
+            request.getRequestDispatcher("HomeServletController").forward(request, response);
+
         }
     }
 

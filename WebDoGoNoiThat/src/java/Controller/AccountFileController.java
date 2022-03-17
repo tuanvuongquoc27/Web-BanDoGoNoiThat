@@ -53,6 +53,7 @@ public class AccountFileController extends HttpServlet {
             
             if(role.equals("customer")||role.equals("admin")){
                 Customer customer = csd.getCustomerById(userId);
+                out.println(customer);
                 request.setAttribute("acc", customer);
             } else if(role.equals("seller")) {
                 Seller seller = sld.getSellerById(userId);

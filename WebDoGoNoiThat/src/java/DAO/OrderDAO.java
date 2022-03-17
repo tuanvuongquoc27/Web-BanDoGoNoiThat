@@ -23,11 +23,65 @@ public class OrderDAO {
     PreparedStatement state ;
     ResultSet rs;
     
-    public ArrayList<Order> getAllOrder(int customerId){
+    public ArrayList<Order> getAllOrder(int customerId){//lấy ra tất cả order của 1 khách hàng chưa đc thanh toán
         DBContext db = new DBContext();
         try {   
             conn=db.getConnection();
             state=conn.prepareStatement("select * from [order] where customerId="+customerId+"and sold=0");
+            rs = state.executeQuery();
+            ArrayList<Order> orderlist = new ArrayList<>();
+            while(rs.next()){
+                orderlist.add(new Order(
+                        rs.getInt(1),
+                        rs.getInt(2),
+                        rs.getInt(3),
+                        rs.getInt(4),
+                        rs.getInt(5),
+                        rs.getInt(6),
+                        rs.getInt(7),
+                        rs.getBoolean(8)));
+            }
+            return orderlist;
+        } catch (SQLException ex) {
+            Logger.getLogger(OrderDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(OrderDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+    
+    public ArrayList<Order> getAllOrderSoldout(int customerId){//lấy ra tất cả order của 1 khách hàng đã set thành 1
+        DBContext db = new DBContext();
+        try {   
+            conn=db.getConnection();
+            state=conn.prepareStatement("select * from [order] as a , bill as b  where a.customerId="+customerId+" and a.sold=1 and b.billDateOrder is null and b.billId = a.billId");
+            rs = state.executeQuery();
+            ArrayList<Order> orderlist = new ArrayList<>();
+            while(rs.next()){
+                orderlist.add(new Order(
+                        rs.getInt(1),
+                        rs.getInt(2),
+                        rs.getInt(3),
+                        rs.getInt(4),
+                        rs.getInt(5),
+                        rs.getInt(6),
+                        rs.getInt(7),
+                        rs.getBoolean(8)));
+            }
+            return orderlist;
+        } catch (SQLException ex) {
+            Logger.getLogger(OrderDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(OrderDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+    
+    public ArrayList<Order> getAllOrderHasBillNotPay(int customerId, int billId){
+        DBContext db = new DBContext();
+        try {   
+            conn=db.getConnection();
+            state=conn.prepareStatement("select * from [order] where customerId="+customerId+"and billId="+billId);
             rs = state.executeQuery();
             ArrayList<Order> orderlist = new ArrayList<>();
             while(rs.next()){
@@ -90,6 +144,20 @@ public class OrderDAO {
         
     }
     
+    public void updateOneOrderSold(int productId,int userId, int soldnew, int soldOld){
+        DBContext db = new DBContext();
+        try {   
+            conn=db.getConnection();
+            state=conn.prepareStatement("update [order] set sold = "+soldnew + " where productId = "+productId+" and customerId="+userId+"and sold = "+soldOld);
+            state.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(OrderDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(OrderDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    }
+    
     public void insertOrder(int customerId, int billId, int productId, int productPrice, int productQuantity, int productTotal){
         DBContext db = new DBContext();
         try {   
@@ -102,7 +170,7 @@ public class OrderDAO {
                     +productQuantity+","
                     +productTotal+",0)");
             
-           state.execute();
+           state.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(OrderDAO.class.getName()).log(Level.SEVERE, null, ex);
         } catch (Exception ex) {
@@ -115,8 +183,7 @@ public class OrderDAO {
         try {   
             conn=db.getConnection();
             state=conn.prepareStatement("update [order] set productQuantity = productQuantity+"+productQuantity+", productTotal=productTotal+"+productTotal+" where productId="+productId);
-            
-           state.execute();
+            state.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(OrderDAO.class.getName()).log(Level.SEVERE, null, ex);
         } catch (Exception ex) {
@@ -164,11 +231,36 @@ public class OrderDAO {
         return null;
     }
 
-    public Order getOneOrder(int deleteId) {
+    public Order getOneOrder(int productId,int customerId) {
         DBContext db = new DBContext();
         try {   
             conn=db.getConnection();
-            state=conn.prepareStatement("select * from [order] where productId = "+deleteId);
+            state=conn.prepareStatement("select * from [order] where productId ="+productId+" and sold=0 and customerId="+customerId);
+            rs = state.executeQuery();
+            while(rs.next()){
+                return  new Order(
+                        rs.getInt(1),
+                        rs.getInt(2),
+                        rs.getInt(3),
+                        rs.getInt(4),
+                        rs.getInt(5),
+                        rs.getInt(6),
+                        rs.getInt(7),
+                        rs.getBoolean(8));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(OrderDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(OrderDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+    
+    public Order checkOrder(int productId) {
+        DBContext db = new DBContext();
+        try {   
+            conn=db.getConnection();
+            state=conn.prepareStatement("select * from [order] where productId = "+productId +" and sold=0");
             rs = state.executeQuery();
             ArrayList<Order> orderlist = new ArrayList<>();
             while(rs.next()){

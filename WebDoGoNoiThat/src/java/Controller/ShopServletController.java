@@ -41,23 +41,23 @@ public class ShopServletController extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
+            ShopDAO sd = new ShopDAO();
+            OrderDAO od = new OrderDAO();
+            ProductDAO prd = new ProductDAO();
+            CategoryDAO ctd = new CategoryDAO();
+            
+            
             String idstring = request.getParameter("shopId");
             String userIdstring = request.getParameter("userId");
             if (idstring != null) {
                 int shopId = Integer.parseInt(idstring);
-                ShopDAO sd = new ShopDAO();
-                ProductDAO prd = new ProductDAO();
                 ArrayList<Product> productlist = prd.getProductbyShopId(shopId);
                 Shop shop = sd.getShop(shopId);
                 request.setAttribute("shop", shop);
                 request.setAttribute("productlist", productlist);
                 request.getRequestDispatcher("shoppage.jsp").forward(request, response);
-            }else{
+            }else if (idstring == null){
                 int userId = Integer.parseInt(userIdstring);
-                ShopDAO sd = new ShopDAO();
-                OrderDAO od = new OrderDAO();
-                ProductDAO prd = new ProductDAO();
-                CategoryDAO ctd = new CategoryDAO();
                 Shop shop =  sd.getShop(userId);
                 ArrayList<Product> productlist = prd.getProductbyShopId(userId);
                 ArrayList<Order> orderlist = od.getAllOrder(userId);

@@ -76,18 +76,19 @@ public class RequestDAO {
         DBContext db = new DBContext();
         try {
             conn=db.getConnection();
-            state=conn.prepareStatement("insert into request values("+ customerId +",N'"+request+"',null,"+customerId+",1,0,0,0)");
+            state=conn.prepareStatement("insert into request values("+ customerId +",N'"+request+"',N'Chưa chấp nhận',"+customerId+",1,0,0,0)");
             state.executeUpdate();
         } catch (Exception ex) {
             Logger.getLogger(RequestDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
+    
     public void insertRequestNew(int customerId , String request){
         DBContext db = new DBContext();
         try {
             conn=db.getConnection();
-            state=conn.prepareStatement("insert into request values("+ customerId +",N'"+request+"','null',"+customerId+",0,0,1,0)");
+            state=conn.prepareStatement("insert into request values("+ customerId +",N'"+request+"',N'Chưa chấp nhận',"+customerId+",0,0,1,0)");
             state.executeUpdate();
         } catch (Exception ex) {
             Logger.getLogger(RequestDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -98,7 +99,7 @@ public class RequestDAO {
         DBContext db = new DBContext();
         try {
             conn=db.getConnection();
-            state=conn.prepareStatement("insert into request values("+ customerId +",N'"+request+"','null',"+customerId+",0,1,0,0)");
+            state=conn.prepareStatement("insert into request values("+ customerId +",N'"+request+"','Chưa chấp nhận',"+customerId+",0,1,0,0)");
             state.executeUpdate();
         } catch (Exception ex) {
             Logger.getLogger(RequestDAO.class.getName()).log(Level.SEVERE, null, ex);

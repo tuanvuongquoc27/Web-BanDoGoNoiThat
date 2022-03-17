@@ -53,19 +53,22 @@ public class ProductServletController extends HttpServlet {
             ShopDAO sd = new ShopDAO();
             SellerDAO sld = new SellerDAO();
             ArrayList<Order> orderlist = null;
-            if(userIdstring!=null){
+            
+            if (userIdstring != null) {
                 int userId = Integer.parseInt(userIdstring);
-                Seller seller = sld.getSellerById(userId);
-                Customer customer = ctd.getCustomerById(userId);
-                request.setAttribute("customer", customer);
-                request.setAttribute("seller", seller);
                 OrderDAO od = new OrderDAO();
                 orderlist = od.getAllOrder(userId);
-                if(orderlist.isEmpty()){
-                    orderlist=null;
+                if (orderlist.isEmpty()) {
+                    orderlist = null;
                 }
-            }else{
+            } else {
+                request.getRequestDispatcher("Login.jsp").forward(request, response);
             }
+            int userId = Integer.parseInt(userIdstring);
+            Seller seller = sld.getSellerById(userId);
+            Customer customer = ctd.getCustomerById(userId);
+            request.setAttribute("customer", customer);
+            request.setAttribute("seller", seller);
             ArrayList<Product> list = prd.getAllProduct();
             request.setAttribute("list", list);
             request.setAttribute("orderlist", orderlist);
@@ -73,9 +76,9 @@ public class ProductServletController extends HttpServlet {
             Shop shop = sd.getShop(product.getShopId());
             request.setAttribute("product", product);
             request.setAttribute("shop", shop);
+            request.setAttribute("quantity", 1);
             request.getRequestDispatcher("product.jsp").forward(request, response);
-            
-            
+
         }
     }
 

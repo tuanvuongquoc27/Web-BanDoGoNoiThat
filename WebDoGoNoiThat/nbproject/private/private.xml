@@ -3,15 +3,12 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/java/WEB-Banhang/Web-BanDoGoNoiThat/WebDoGoNoiThat/src/java/Controller/HomeServletController.java</file>
-            <file>file:/D:/java/WEB-Banhang/Web-BanDoGoNoiThat/WebDoGoNoiThat/web/myAccount.jsp</file>
+            <file>file:/D:/java/WEB-Banhang/Web-BanDoGoNoiThat/WebDoGoNoiThat/src/java/DAO/ShopDAO.java</file>
+            <file>file:/D:/java/WEB-Banhang/Web-BanDoGoNoiThat/WebDoGoNoiThat/src/java/DAO/RequestDAO.java</file>
+            <file>file:/D:/java/WEB-Banhang/Web-BanDoGoNoiThat/WebDoGoNoiThat/src/java/Controller/BillController.java</file>
             <file>file:/D:/java/WEB-Banhang/Web-BanDoGoNoiThat/WebDoGoNoiThat/web/HomePage.jsp</file>
-            <file>file:/D:/java/WEB-Banhang/Web-BanDoGoNoiThat/WebDoGoNoiThat/src/java/Controller/ManagerStoreServlet.java</file>
-            <file>file:/D:/java/WEB-Banhang/Web-BanDoGoNoiThat/WebDoGoNoiThat/web/managerStore.jsp</file>
-            <file>file:/D:/java/WEB-Banhang/Web-BanDoGoNoiThat/WebDoGoNoiThat/src/java/model/Request.java</file>
-            <file>file:/D:/java/WEB-Banhang/Web-BanDoGoNoiThat/WebDoGoNoiThat/src/java/Controller/LoginServlet.java</file>
-            <file>file:/D:/java/WEB-Banhang/Web-BanDoGoNoiThat/WebDoGoNoiThat/src/java/model/User.java</file>
-            <file>file:/D:/java/WEB-Banhang/Web-BanDoGoNoiThat/WebDoGoNoiThat/src/java/Filter/LoginFilter.java</file>
+            <file>file:/D:/java/WEB-Banhang/Web-BanDoGoNoiThat/WebDoGoNoiThat/src/java/Controller/ManagerRequest.java</file>
+            <file>file:/D:/java/WEB-Banhang/Web-BanDoGoNoiThat/WebDoGoNoiThat/src/java/Controller/SignupSeller.java</file>
         </group>
     </open-files>
 </project-private>

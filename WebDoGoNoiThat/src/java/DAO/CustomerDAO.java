@@ -79,15 +79,15 @@ public class CustomerDAO {
         try {
             conn = db.getConnection();
             state = conn.prepareStatement("insert into customer values("
-                    + customerId                    + ",N'"
-                    + customerName                  + "',N'"
-                    + customerAddress               + "',N'"
-                    + customerAddressShip           + "','"
-                    + customerEmail                 + "','"
-                    + customerPhone                 + "','"
+                    + customerId                    + ",'"
+                    + customerName                  + "',"
+                    + customerAddress               + ","
+                    + customerAddressShip           + ",'"
+                    + customerEmail                 + "',"
+                    + customerPhone                 + ",'"
                     + customerDate                  + "',"
-                    + convertGender(customerGender) +",'"
-                    + customerDOB +"')");
+                    + customerGender +","
+                    + customerDOB +")");
             state.executeUpdate();
         } catch (Exception ex) {
             Logger.getLogger(CustomerDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -117,7 +117,7 @@ public class CustomerDAO {
     }
 
     public int convertGender(String gender) {
-        if (gender==null) {
+        if (gender.equals("nam")) {
             return 1;
         }
         return 0;

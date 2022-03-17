@@ -14,17 +14,21 @@ import java.sql.Date;
 public class Bill {
     private int billId;
     private int customerId;
+    private int billPay;
     private int billTotal;
     private Date billDate;
+    private Date billDateShip;
 
     public Bill() {
     }
 
-    public Bill(int billId, int customerId, int billTotal, Date billDate) {
+    public Bill(int billId, int customerId, int billPay, int billTotal, Date billDate, Date billDateShip) {
         this.billId = billId;
         this.customerId = customerId;
+        this.billPay = billPay;
         this.billTotal = billTotal;
         this.billDate = billDate;
+        this.billDateShip = billDateShip;
     }
 
     public int getBillId() {
@@ -43,6 +47,14 @@ public class Bill {
         this.customerId = customerId;
     }
 
+    public int getBillPay() {
+        return billPay;
+    }
+
+    public void setBillPay(int billPay) {
+        this.billPay = billPay;
+    }
+
     public int getBillTotal() {
         return billTotal;
     }
@@ -58,6 +70,17 @@ public class Bill {
     public void setBillDate(Date billDate) {
         this.billDate = billDate;
     }
+
+    public Date getBillDateShip() {
+        return billDateShip;
+    }
+
+    public void setBillDateShip(Date billDateShip) {
+        this.billDateShip = billDateShip;
+    }
+
+   
+
     
     
     

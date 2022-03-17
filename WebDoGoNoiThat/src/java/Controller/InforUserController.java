@@ -41,7 +41,7 @@ public class InforUserController extends HttpServlet {
             CustomerDAO csd = new CustomerDAO();
             
             ArrayList<Customer> customerlist = csd.getAllCustomer();
-            ArrayList<Seller> sellerlist = sld.getAllSeller();
+            ArrayList<Seller> sellerlist = sld.getAllSeller("select * from seller as a, shop as b where a.sellerId = b.shopId and b.shopActive=1");
             String infor = request.getParameter("infor");
             if(infor.equals("seller")){
                 request.setAttribute("list",sellerlist);

@@ -35,11 +35,11 @@
 
     <body>
         <c:set var="user" scope="session" value="${sessionScope.user}"/>
-            <c:choose>  
-            <c:when test="${user.isAdmin}">  
+        <c:choose>  
+            <c:when test="${user.isAdmin()}">  
                 <c:set var="role" scope="session" value="admin"/>
             </c:when>  
-            <c:when test="${user.isCustomer}">  
+            <c:when test="${user.isCustomer()}">  
                 <c:set var="role" scope="session" value="customer"/>
             </c:when>  
             <c:otherwise>  
@@ -57,9 +57,6 @@
                                 <li class="header__navbar-item"><a href="HomeServletController?userId=${user.userId}" class="header__navbar-item-link">Trang chủ</a></li>
                                 <li class="header__navbar-item">Xin chào: ${user.userName}  </li>
                                 </c:if>
-                                <c:if test="${user.isCustomer&&!user.isAdmin}">
-                                <li class="header__navbar-item"><a class="header__navbar-item-link" href="Seller.jsp?userId=${user.userId}">Đăng kí bán hàng</a></li>
-                                </c:if>
 
                         </ul>
                         <ul class="header__navbar-list">
@@ -72,29 +69,38 @@
                                         <h3>Thông báo mới</h3>
                                     </header>
                                     <ul class="header__notify-list">
-                                        <li class="header__notify-item header__notify-item--viewed">
-                                            <a href="#" class="header__notify-link">
-                                                <img src="image/login-img.jpg" alt="" class="header__notify-img">
-                                                <div class="header__notify-infor">
-                                                    <span class="header__notify-name">Thông tin</span>
-                                                    <span class="header__notify-description">Mô tả</span>
-                                                </div>
-                                            </a>
-                                        </li>
+                                        <c:if test="${requestlist.size()==0}">
+                                            <li class="header__notify-item header__notify-item--viewed"> <h3>Không có thông báo mới</h3></li>
+                                            </c:if>
+                                            <c:if test="${requestlist.size()!=0}">
+                                                <c:forEach items="${requestlist}" var="list">
+                                                <li class="header__notify-item header__notify-item--viewed">
+                                                    <a href="ManagerRequest?store=request-infor&userId=${user.userId}" class="header__notify-link">
+                                                        <img src="image/login-img.jpg" alt="" class="header__notify-img">
+                                                        <div class="header__notify-infor">
+                                                            <span class="header__notify-name">Yêu cầu trở thành nhà bán hàng</span>
+                                                            <c:forEach items="${customerlist}" var="cuslist">
+                                                                <c:if test="${list.getCustomerId()==cuslist.getId()}">
+                                                                    <span class="header__notify-description">Người yêu cầu: ${cuslist.getName()}</span>
+                                                                    <c:if test="${!list.isRequestState()}">
+                                                                        <h6>Chưa chấp nhận</h6>
+                                                                    </c:if>
+
+                                                                </c:if>
+                                                            </c:forEach>
+
+                                                        </div>
+                                                    </a>
+                                                </li>       
+                                            </c:forEach>
+
+                                        </c:if>
                                     </ul>
                                     <footer class="header__notify-footer">
                                         <a href="" class="header__notify-footer-btn">Xem tất cả</a>
                                     </footer>
                                 </div>
                             </li>
-                            <c:if test="${user==null}">
-                                <li class="header__navbar-item header__navbar-item--strong">
-                                    <a href="/WebDoGoNoiThat/Login.jsp" class="header__navbar-item-link">Đăng nhập</a>
-                                </li>
-                                <li class="header__navbar-item header__navbar-item--strong">
-                                    <a href="/WebDoGoNoiThat/SignUp.jsp" class="header__navbar-item-link">Đăng kí</a>
-                                </li> 
-                            </c:if>
                             <c:if test="${user!=null}">
                                 <li class="header__navbar-item header__navbar-user">
                                     <c:if test="${user.userImg==null}">
@@ -148,13 +154,32 @@
                 <div class="shop__infor2">
                     <ul>
 
-                        <li class="quantity"><i class="quantity-icon fa-solid fa-store"></i>Số lượng: ${requestScope.shop.getShopProductQuantity()}</li>
-                        <li class="sold"><i class="sold-icon fa-brands fa-sellcast"></i>Đã bán: ${requestScope.shop.getShopProductSold()} </li>
-                        <li class="join"><i class="join-icon fa-solid fa-user-check"></i>Ngày tham gia: ${requestScope.shop.getShopDate()}</li>
+                        <li class="quantity"><i class="quantity-icon fa-solid fa-store"></i>Số lượng: ${shop.getShopProductQuantity()}</li>
+                        <li class="sold"><i class="sold-icon fa-brands fa-sellcast"></i>Đã bán: ${shop.getShopProductSold()} </li>
+                        <li class="join"><i class="join-icon fa-solid fa-user-check"></i>Ngày tham gia: 
+                            <c:if test="${shop.getShopDate()==null}">
+                                Chưa cập nhật
+                            </c:if>
+                            <c:if test="${shop.getShopDate()!=null}}">
+                                ${shop.getShopDate()}
+                            </c:if> </li>
                     </ul>
                     <ul>
-                        <li class="phone-number">Số điện thoại: ${requestScope.shop.getShopPhone()}</li>
-                        <li class="address">Địa chỉ: ${requestScope.shop.getShopAddress()}</li>
+                        <li class="phone-number">Số điện thoại: 
+                            <c:if test="${shop.getShopPhone()==null}">
+                                Chưa cập nhật
+                            </c:if>
+                            <c:if test="${shop.getShopPhone()!=null}">
+                                ${shop.getShopPhone()}
+                            </c:if>   
+                        </li>
+                        <li class="address">Địa chỉ:
+                            <c:if test="${shop.getShopAddress()==null}">
+                                Chưa cập nhật
+                            </c:if>
+                            <c:if test="${shop.getShopAddress()!=null}">
+                                ${shop.getShopAddress()}
+                            </c:if>   </li>
                         <li class="rate">Đánh giá: </li>
                     </ul>
                 </div>
@@ -174,13 +199,13 @@
                     </h4>
                     <ul class="product__list nav flex-column">
                         <li class="product__list-item nav-item ">
-                            <a href="ShopManagerProduct?update=getAll&userId=${sessionScope.user.userId}" class="nav-link product__list-item--link">Tất cả sản phẩm</a> 
+                            <a href="ShopManagerProduct?update=getAll&userId=${user.userId}" class="nav-link product__list-item--link">Tất cả sản phẩm</a> 
                         </li>
                         <li class="product__list-item nav-item ">
-                            <a href="ShopManagerProduct?update=insert" class="nav-link product__list-item--link">Thêm sản phẩm</a> 
+                            <a href="ShopManagerProduct?update=insert&userId=${user.userId}" class="nav-link product__list-item--link">Thêm sản phẩm</a> 
                         </li>
                         <li class="product__list-item nav-item ">
-                            <a href="ShopManagerProduct?update=reveneu" class="nav-link product__list-item--link">Doanh thu</a> 
+                            <a href="ShopManagerProduct?update=reveneu&userId=${user.userId}" class="nav-link product__list-item--link">Doanh thu</a> 
                         </li>
 
                     </ul>
@@ -189,155 +214,158 @@
             </div>
             <!-- product -->
             <c:if test="${update=='getAll'}">
-            <div class="col-sm-9">
-                <div class="product__information">
-                    <div class="row product__thead">
-                        <div class="col-sm-4"><h2>Tên sản phẩm </h2></div>
-                        <div class="col-sm-2"><h2>Phân loại</h2></div>
-                        <div class="col-sm-2"><h2>Giá</h2></div>
-                        <div class="col-sm-1"><h2>Kho</h2></div>
-                        <div class="col-sm-1"><h2>Đã bán</h2></div>
-                        <div class="col-sm-2"></div>
-                    </div>
-                    <c:forEach items="${requestScope.productlist}" var="pro">
-                        <div class="row product__row">
-                            <div class="col-sm-4 product__cart">
-                                <img src="<c:out value="${pro.getProductImg()}"/>" alt="" class="header__cart-img img-fluid">
-                                <h5 class="home-product-item__name"><c:out value="${pro.getProductName()}"/> </h5>
-                            </div>
-                            <div class="col-sm-2 product__style">
-                                <c:forEach items="${categorylist}" var="cat">
-                                    <c:if test="${pro.getProductType()==cat.getCategoryId()}">
-                                        ${cat.getCategoryName()}
-                                    </c:if>
-                                </c:forEach>
-                            </div>
-                            <div class="col-sm-2 product__price"><fmt:formatNumber type="number" pattern="###,###,###đ" value="${pro.getProductNewPrice()}" /></div>
-                            <div class="col-sm-1 product__quantity"><c:out value="${pro.getProductQuantity()}"/></div>
-                            <div class="col-sm-1 product__total">
-                                <c:forEach items="${orderlistall}" var="ord">
-                                    
-                                    <c:if test="${ord.getProductId()==pro.getProductId()}">
-                                        <c:set var="sold" scope="page" value="${sold+ord.getProductQuantity()}"/>
-                                        
-                                    </c:if>
-                                </c:forEach>
-                                <c:out value="${sold}"></c:out>
-                                
-                            </div>
-                            <div class="col-sm-2 product__delete"> 
-                                <span><a onclick="if (!confirm('Are you sure?')) { return false; }" href="ShopManagerProduct?productIddelete=${pro.getProductId()}&userId=${sessionScope.user.userId}" class="nav-link">Xóa</a>
-                                </span><span><a href="ShopManagerProduct?productIdupdate=${pro.getProductId()}&userId=${sessionScope.user.userId}&update=update" class="nav-link">Sửa</a></span></div>
+                <div class="col-sm-9">
+                    <div class="product__information">
+                        <div class="row product__thead">
+                            <div class="col-sm-4"><h2>Tên sản phẩm </h2></div>
+                            <div class="col-sm-2"><h2>Phân loại</h2></div>
+                            <div class="col-sm-2"><h2>Giá</h2></div>
+                            <div class="col-sm-1"><h2>Kho</h2></div>
+                            <div class="col-sm-1"><h2>Đã bán</h2></div>
+                            <div class="col-sm-2"></div>
                         </div>
-                    </c:forEach>
-                </div>
+                        <c:forEach items="${productlist}" var="pro">
+                            <div class="row product__row">
+                                <div class="col-sm-4 product__cart">
+                                    <img src="<c:out value="${pro.getProductImg()}"/>" alt="" class="header__cart-img img-fluid">
+                                    <h5 class="home-product-item__name"><c:out value="${pro.getProductName()}"/> </h5>
+                                </div>
+                                <div class="col-sm-2 product__style">
+                                    <c:forEach items="${categorylist}" var="cat">
+                                        <c:if test="${pro.getProductType()==cat.getCategoryId()}">
+                                            ${cat.getCategoryName()}
+                                        </c:if>
+                                    </c:forEach>
+                                </div>
+                                <div class="col-sm-2 product__price"><fmt:formatNumber type="number" pattern="###,###,###đ" value="${pro.getProductNewPrice()}" /></div>
+                                <div class="col-sm-1 product__quantity"><c:out value="${pro.getProductQuantity()}"/></div>
+                                <div class="col-sm-1 product__total">
+                                    <c:set var="sold" scope="page" value="${0}"/>
+                                    <c:forEach items="${orderlist}" var="ord">
 
-            </div>
+                                        <c:if test="${ord.getProductId()==pro.getProductId()&&ord.isSold()}">
+                                            <c:set var="sold" scope="page" value="${sold+ord.getProductQuantity()}"/>
+
+                                        </c:if>
+                                    </c:forEach>
+                                    <c:out value="${sold}"></c:out>
+
+                                    </div>
+                                    <div class="col-sm-2 product__delete"> 
+                                        <span><a onclick="if (!confirm('Are you sure?')) {
+                                                    return false;
+                                                }" href="ShopManagerProduct?productIddelete=${pro.getProductId()}&userId=${sessionScope.user.userId}" class="nav-link">Xóa</a>
+                                    </span><span><a href="ShopManagerProduct?productIdupdate=${pro.getProductId()}&userId=${sessionScope.user.userId}&update=update" class="nav-link">Sửa</a></span></div>
+                            </div>
+                        </c:forEach>
+                    </div>
+
+                </div>
             </c:if>
             <!--sửa sản phẩm-->
             <c:if test="${update=='update'}">
                 <div class="col-sm-9">
-                    
+
                     <form action="ShopManagerProduct" method="post">
                         <input type="hidden" value="${sessionScope.user.userId}" name="input-shopId"/>
                         <input type="hidden" value="setting" name="update"/>
-                        <input name="input-id" type="hidden" value="${requestScope.product.getProductId()}">
+                        <input name="input-id" type="hidden" value="${product.getProductId()}">
                         <span>
                             <h4 class="input-name">Id sản phẩm</h4>
-                            <input disabled="true" type="text" value="${requestScope.product.getProductId()}">
+                            <input disabled="true" type="text" value="${product.getProductId()}">
                         </span><br>
                         <span>
                             <h4 class="input-name">Tên sản phẩm</h4>
-                            <input name="input-name" type="text" value="${requestScope.product.getProductName()}">
+                            <input name="input-name" type="text" value="${product.getProductName()}">
                         </span><br>
                         <span>
                             <h4 class="input-name">Mô tả sản phẩm</h4>
-                            <input name="input-descript" type="text" value="${requestScope.product.getProductDescript()}">
+                            <input name="input-descript" type="text" value="${product.getProductDescript()}">
                         </span><br>
                         <span>
                             <h4 class="input-name">Ảnh</h4>
-                            <input name="input-img" type="text" value="${requestScope.product.getProductImg()}">
+                            <input name="input-img" type="text" value="${product.getProductImg()}">
                         </span><br>
                         <span>
                             <h4 class="input-name">Số lượng sản phẩm</h4>
-                            <input name="input-quantity" type="number" value="${requestScope.product.getProductQuantity()}">
+                            <input name="input-quantity" type="number" value="${product.getProductQuantity()}">
                         </span><br>
                         <span>
                             <h4 class="input-name">Giá sản phẩm</h4>
-                            <input name="input-price" type="text" value="${requestScope.product.getProductNewPrice()}">
+                            <input name="input-price" type="text" value="${product.getProductNewPrice()}">
                         </span><br>
                         <span>
                             <h4 class="input-name">Thương hiệu sản phẩm</h4>
-                            <input name="input-brand" type="text" value="${requestScope.product.getProductBrand()}">
+                            <input name="input-brand" type="text" value="${product.getProductBrand()}">
                         </span><br>
                         <span>
                             <h4 class="input-name">Xuất xứ</h4>
-                            <input name="input-origin" type="text" value="${requestScope.product.getProductOrigin()}">
+                            <input name="input-origin" type="text" value="${product.getProductOrigin()}">
                         </span><br>
                         <span> 
-                        <h4 class="input-name">Loại sản phẩm</h4>
-                        <select name="input-type" class="form-select">
-                            <option value="Nội thất phòng học">Nội thất phòng học</option>
-                            <option value="Nội thất phòng ngủ">Nội thất phòng ngủ</option>
-                            <option value="Nội thất phòng bếp">Nội thất phòng bếp</option>
-                            <option value="Nội thất phòng làm việc">Nội thất phòng làm việc</option>
-                            <option value="Nội thất phòng khách">Nội thất phòng khách</option>
-                        </select>
-                    </span>
+                            <h4 class="input-name">Loại sản phẩm</h4>
+                            <select name="input-type" class="form-select">
+                                <option value="Nội thất phòng học">Nội thất phòng học</option>
+                                <option value="Nội thất phòng ngủ">Nội thất phòng ngủ</option>
+                                <option value="Nội thất phòng bếp">Nội thất phòng bếp</option>
+                                <option value="Nội thất phòng làm việc">Nội thất phòng làm việc</option>
+                                <option value="Nội thất phòng khách">Nội thất phòng khách</option>
+                            </select>
+                        </span>
                         <input type="submit" class="submit-btn" value="Cập nhật">
                     </form>
 
                 </div>
             </c:if>
-            
+
             <!--thêm mới sản phẩm-->
             <c:if test="${update=='insert'}">
-            <div class="col-sm-9">
-               
-                <form action="ShopManagerProduct" method="post">
-                    <input type="hidden" value="insert-new" name="update"/>
-                    <input type="hidden" value="${sessionScope.user.userId}" name="input-shopId">
-                    <span>
-                        <h4 class="input-name">Tên sản phẩm</h4>
-                        <input name="input-name" type="text">
-                    </span><br>
-                    <span>
-                        <h4 class="input-name">Mô tả sản phẩm</h4>
-                        <input name="input-descript" type="text">
-                    </span><br>
-                    <span>
-                        <h4 class="input-img">Ảnh sản phẩm</h4>
-                        <input name="input-img" type="text">
-                    </span><br>
-                    <span>
-                        <h4 class="input-quantity">Số lượng sản phẩm</h4>
-                        <input name="input-quantity" type="number">
-                    </span><br>
-                    <span>
-                        <h4 class="input-price">Giá sản phẩm</h4>
-                        <input name="input-price" type="text">
-                    </span><br>
-                    <span>
-                        <h4 class="input-brand">Thương hiệu</h4>
-                        <input name="input-brand" type="text">
-                    </span><br>
-                    <span>
-                        <h4 class="input-origin">Xuất xứ</h4>
-                        <input name="input-origin" type="text">
-                    </span><br>
-                    <span> 
-                        <h4 class="input-name">Loại sản phẩm</h4>
-                        <select name="input-type" class="form-select">
-                            <option value="Nội thất phòng học">Nội thất phòng học</option>
-                            <option value="Nội thất phòng ngủ">Nội thất phòng ngủ</option>
-                            <option value="Nội thất phòng bếp">Nội thất phòng bếp</option>
-                            <option value="Nội thất phòng làm việc">Nội thất phòng làm việc</option>
-                            <option value="Nội thất phòng khách">Nội thất phòng khách</option>
-                        </select>
-                    </span> 
-                    <input type="submit" class="submit-btn" value="Thêm mới">
-                </form>
-            </div>
+                <div class="col-sm-9">
+
+                    <form action="ShopManagerProduct" method="post">
+                        <input type="hidden" value="insert-new" name="update"/>
+                        <input type="hidden" value="${user.userId}" name="input-shopId">
+                        <span>
+                            <h4 class="input-name">Tên sản phẩm</h4>
+                            <input name="input-name" type="text">
+                        </span><br>
+                        <span>
+                            <h4 class="input-name">Mô tả sản phẩm</h4>
+                            <input name="input-descript" type="text">
+                        </span><br>
+                        <span>
+                            <h4 class="input-img">Ảnh sản phẩm</h4>
+                            <input name="input-img" type="text">
+                        </span><br>
+                        <span>
+                            <h4 class="input-quantity">Số lượng sản phẩm</h4>
+                            <input name="input-quantity" type="number">
+                        </span><br>
+                        <span>
+                            <h4 class="input-price">Giá sản phẩm</h4>
+                            <input name="input-price" type="text">
+                        </span><br>
+                        <span>
+                            <h4 class="input-brand">Thương hiệu</h4>
+                            <input name="input-brand" type="text">
+                        </span><br>
+                        <span>
+                            <h4 class="input-origin">Xuất xứ</h4>
+                            <input name="input-origin" type="text">
+                        </span><br>
+                        <span> 
+                            <h4 class="input-name">Loại sản phẩm</h4>
+                            <select name="input-type" class="form-select">
+                                <option value="Nội thất phòng học">Nội thất phòng học</option>
+                                <option value="Nội thất phòng ngủ">Nội thất phòng ngủ</option>
+                                <option value="Nội thất phòng bếp">Nội thất phòng bếp</option>
+                                <option value="Nội thất phòng làm việc">Nội thất phòng làm việc</option>
+                                <option value="Nội thất phòng khách">Nội thất phòng khách</option>
+                            </select>
+                        </span> 
+                        <input type="submit" class="submit-btn" value="Thêm mới">
+                    </form>
+                </div>
             </c:if>
         </div>
 

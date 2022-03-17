@@ -34,11 +34,11 @@
 
     <body>
         <c:set var="user" scope="session" value="${sessionScope.user}"/>
-            <c:choose>  
-            <c:when test="${user.isAdmin}">  
+        <c:choose>  
+            <c:when test="${user.isAdmin()}">  
                 <c:set var="role" scope="session" value="admin"/>
             </c:when>  
-            <c:when test="${user.isCustomer}">  
+            <c:when test="${user.isCustomer()}">  
                 <c:set var="role" scope="session" value="customer"/>
             </c:when>  
             <c:otherwise>  
@@ -54,9 +54,9 @@
                         <ul class="header__navbar-list">
                             <c:if test="${user!=null}">
                                 <li class="header__navbar-item"><a href="HomeServletController?userId=${user.userId}" class="header__navbar-item-link">Trang chủ</a></li>
-                                <li class="header__navbar-item">Xin chào: ${user.userName}  </li>
+                                <li class="header__navbar-item">Xin chào ${user.userName}  </li>
                                 </c:if>
-                                <c:if test="${user.isCustomer&&!user.isAdmin}">
+                                <c:if test="${user.isCustomer()&&!user.isSeller()}">
                                 <li class="header__navbar-item"><a class="header__navbar-item-link" href="Seller.jsp?userId=${user.userId}">Đăng kí bán hàng</a></li>
                                 </c:if>
                         </ul>
@@ -70,15 +70,32 @@
                                         <h3>Thông báo</h3>
                                     </header>
                                     <ul class="header__notify-list">
-                                        <li class="header__notify-item header__notify-item--viewed">
-                                            <a href="#" class="header__notify-link">
-                                                <img src="image/login-img.jpg" alt="" class="header__notify-img">
-                                                <div class="header__notify-infor">
-                                                    <span class="header__notify-name">information</span>
-                                                    <span class="header__notify-description">description</span>
-                                                </div>
-                                            </a>
-                                        </li>
+                                        <c:if test="${requestlist.size()==0}">
+                                            <li class="header__notify-item header__notify-item--viewed"> <h3>Không có thông báo mới</h3></li>
+                                            </c:if>
+                                            <c:if test="${requestlist.size()!=0}">
+                                                <c:forEach items="${requestlist}" var="list">
+                                                <li class="header__notify-item header__notify-item--viewed">
+                                                    <a href="ManagerRequest?store=request-infor&userId=${user.userId}" class="header__notify-link">
+                                                        <img src="image/login-img.jpg" alt="" class="header__notify-img">
+                                                        <div class="header__notify-infor">
+                                                            <span class="header__notify-name">Yêu cầu trở thành nhà bán hàng</span>
+                                                            <c:forEach items="${customerlist}" var="cuslist">
+                                                                <c:if test="${list.getCustomerId()==cuslist.getId()}">
+                                                                    <span class="header__notify-description">Người yêu cầu: ${cuslist.getName()}</span>
+                                                                    <c:if test="${!list.isRequestState()}">
+                                                                        <h6>Chưa chấp nhận</h6>
+                                                                    </c:if>
+
+                                                                </c:if>
+                                                            </c:forEach>
+
+                                                        </div>
+                                                    </a>
+                                                </li>       
+                                            </c:forEach>
+
+                                        </c:if>
                                     </ul>
                                     <footer class="header__notify-footer">
                                         <a href="" class="header__notify-footer-btn">Xem tất cả</a>
@@ -127,19 +144,19 @@
                         <div class="header__cart">
                             <div class="header__cart-wrap">
                                 <i class="header__cart-icon  fa-solid fa-cart-shopping"></i>
-                                <c:if test="${requestScope.orderlist.size()>0}">
-                                    <span class="header__cart-number">${requestScope.orderlist.size()}</span>
+                                <c:if test="${orderlist.size()>0}">
+                                    <span class="header__cart-number">${orderlist.size()}</span>
                                 </c:if>
-                                <c:if test="${requestScope.orderlist.size()==0||requestScope.orderlist.size()==null}">
+                                <c:if test="${orderlist.size()==0||orderlist.size()==null}">
                                     <span class="header__cart-number">0</span>
                                 </c:if>
                                 <!-- no cart : header__cart-list--no-cart  -->
                                 <div class="header__cart-list header__cart-list--no-cart">
-                                    <c:if test="${requestScope.orderlist==null}">
+                                    <c:if test="${orderlist==null}">
                                         <img src="image/cart-empty.png" alt="" class="header__cart-list--no-cart-img" />
                                         <p class="header__cart-list--no-cart-message">Không có sản phẩm</p>
                                     </c:if>
-                                    <c:if test="${requestScope.orderlist!=null}">
+                                    <c:if test="${orderlist!=null}">
                                         <% ArrayList<Order> ordlist = (ArrayList<Order>) request.getAttribute("orderlist");
                                             for (int i = 0; i < ordlist.size(); i++) {
                                                 ProductDAO prd = new ProductDAO();
@@ -147,24 +164,24 @@
                                                 pro = prd.getProduct(ordlist.get(i).getProductId());
                                                 request.setAttribute("pro", pro);
                                                 request.setAttribute("order", ordlist.get(i)); %>
-                                        
+
                                         <h4 class="header__cart-heading">Sản phẩm</h4>
                                         <ul class="header__cart-list-item">
                                             <!-- cart item -->
                                             <li class="header__cart-item">
-                                                <img src="${requestScope.pro.getProductImg()}" alt="" class="header__cart-img">
+                                                <img src="${pro.getProductImg()}" alt="" class="header__cart-img">
                                                 <div class="header__cart-item-infor">
                                                     <div class="header__cart-item-head">
-                                                        <h5 class="header__cart-item-name">${requestScope.pro.getProductName()}</h5>
+                                                        <h5 class="header__cart-item-name">${pro.getProductName()}</h5>
                                                         <div class="header__cart-item-pricewrap">
-                                                            <span class="header__cart-item-price"><fmt:formatNumber type="number" pattern="###,###,###đ" value="${requestScope.order.getProductPrice()}" /></span>
+                                                            <span class="header__cart-item-price"><fmt:formatNumber type="number" pattern="###,###,###đ" value="${order.getProductPrice()}" /></span>
                                                             <span class="header__cart-item-ope">x</span>
-                                                            <span class="header__cart-item-quantity">${requestScope.order.getProductQuantity()}</span>
+                                                            <span class="header__cart-item-quantity">${order.getProductQuantity()}</span>
                                                         </div>
 
                                                     </div>
                                                     <div class="header__cart-item-body">
-                                                        <span class="header__cart-item-description">Xuất xứ: ${requestScope.pro.getProductBrand()}</span>
+                                                        <span class="header__cart-item-description">Xuất xứ: ${pro.getProductBrand()}</span>
                                                         <span class="header__cart-item-delete">Xóa</span>
                                                     </div>
                                                 </div>
@@ -195,7 +212,7 @@
                             <div class="col-sm-5 product__cart-image">
                                 <img class="product__cart-img" src="${product.getProductImg()}" alt="">
                             </div>
-                            <c:set var="product" value="${requestScope.product}"/>
+                            <c:set var="product" value="${product}"/>
                             <c:set var="percent" value="${100-(product.getProductNewPrice()/product.getProductOldPrice())*100}" />
                             <fmt:parseNumber var="j" integerOnly="true" pattern="." type="number" value="${percent}"/> 
 
@@ -225,22 +242,28 @@
                                         </c:if> 
 
                                 </div>
-                                <div class="product__cart-address">
-                                    <span class="product__cart-address--name">Địa chỉ</span>
-                                    <c:if test="${requestScope.customer==null&&requestScope.seller==null}">
-                                        <input type="text" value="" class="product__cart-address--place" required="">
-                                    </c:if>
-                                    <c:if test="${requestScope.customer!=null||requestScope.seller!=null}">
-                                        <input type="text" value="${requestScope.seller.getSellerAddress()}${requestScope.cusotmer.getCustomerAddress()} " class="product__cart-address--place">
-                                    </c:if>
-                                    
-                                </div>
                                 <form action="AddProductToCart" method="post">
+                                    <div class="product__cart-address">
+                                        <span class="product__cart-address--name">Địa chỉ</span>
+                                        <c:if test="${customer.getAddressShip() != null}">
+                                            <input type="text" name="addressship" placeholder="${customer.getAddressShip()}" required="true" class="product__cart-address--place"/>
+                                        </c:if>
+                                        <c:if test="${customer.getAddressShip() == null}">
+                                            <input type="text" name="addressship" class="product__cart-address--place" required="true"/>
+                                        </c:if>
+                                        
+
+                                    </div>
+
                                     <div class="product__cart-quantity">
                                         <table>
                                             <tr>
-                                                <td><span class="quantity">Số lượng</span></td>
-                                                <td><input type="number" class="input-quantity" name="quantity_input" min="1" max="${product.getProductQuantity()}" value="1"></td>
+                                                <td><span class="quantity">Số lượng kho</span></td>
+                                                <td>${product.getProductQuantity()}</td>
+                                            </tr>
+                                            <tr>
+                                                <td><span class="quantity">Số lượng mua</span></td>
+                                                <td><input type="number" class="input-quantity" name="quantity_input" min="1" max="${product.getProductQuantity()}" value="${quantity}"></td>
                                                 <td><input type="hidden" name="productId" value="${product.getProductId()}"/></td>
                                                 <td><input type="hidden" name="userId" value="${sessionScope.user.userId}"/></td>
                                             </tr>
@@ -278,16 +301,16 @@
                             <div class="col-sm-5 shop__infor">
                                 <img src="./image/login-img.jpg" class="shop-img" alt="">
                                 <div class="shop-infor">
-                                    <h4 class="shop-name">${requestScope.shop.getShopName()}</h4>
-                                    <a href="ShopServletController?shopId=${requestScope.shop.getShopId()}" class="shop-watch">Xem shop</a>
+                                    <h4 class="shop-name">${shop.getShopName()}</h4>
+                                    <a href="ShopServletController?shopId=${shop.getShopId()}&userId=${user.userId}" class="shop-watch">Xem shop</a>
                                 </div>
 
 
                             </div>
                             <div class="col-sm-6 shop-description">
-                                <span>Product quantity: ${requestScope.shop.getShopProductQuantity()} </span>
-                                <span>Product sold: ${requestScope.shop.getShopProductSold()}</span>
-                                <span>Ngày tham gia: ${requestScope.shop.getShopDate()} </span>
+                                <span>Product quantity: ${shop.getShopProductQuantity()} </span>
+                                <span>Product sold: ${shop.getShopProductSold()}</span>
+                                <span>Ngày tham gia: ${shop.getShopDate()} </span>
                             </div>
                         </div>
                     </div>

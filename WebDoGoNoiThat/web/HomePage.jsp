@@ -36,21 +36,21 @@ and open the template in the editor.
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 
     </head>
-
+    <c:set var="user" scope="session" value="${sessionScope.user}"/>
+    <c:choose>  
+        <c:when test="${user.isAdmin()}">  
+            <c:set var="role" scope="session" value="admin"/>
+        </c:when>  
+        <c:when test="${user.isCustomer()}">  
+            <c:set var="role" scope="session" value="customer"/>
+        </c:when>  
+        <c:otherwise>  
+            <c:set var="role" scope="session" value="seller"/>  
+        </c:otherwise>  
+    </c:choose> 
     <body>
         <div class="main">
-            <c:set var="user" scope="session" value="${sessionScope.user}"/>
-            <c:choose>  
-            <c:when test="${user.Admin}">  
-                <c:set var="role" scope="session" value="admin"/>
-            </c:when>  
-            <c:when test="${user.Customer}">  
-                <c:set var="role" scope="session" value="customer"/>
-            </c:when>  
-            <c:otherwise>  
-                <c:set var="role" scope="session" value="seller"/>  
-            </c:otherwise>  
-        </c:choose> 
+
             <!-- header -->
             <div class="header">
                 <div class="grid">
@@ -61,8 +61,8 @@ and open the template in the editor.
                                 <li class="header__navbar-item"><a href="HomeServletController?userId=${user.userId}" class="header__navbar-item-link">Trang chủ</a></li>
                                 <li class="header__navbar-item">Xin chào: ${user.userName}  </li>
                                 </c:if>
-                                <c:if test="${user.Customer&&!user.Admin}">
-                                <li class="header__navbar-item"><a class="header__navbar-item-link" href="Seller.jsp?userId=${user.userId}">Đăng kí bán hàng</a></li>
+                                <c:if test="${user.isCustomer()&&!user.isSeller()}">
+                                <li class="header__navbar-item"><a class="header__navbar-item-link" href="SignupSeller?userId=${user.userId}">Đăng kí bán hàng</a></li>
                                 </c:if>
 
                         </ul>
@@ -76,33 +76,37 @@ and open the template in the editor.
                                         <h3>Thông báo mới</h3>
                                     </header>
                                     <ul class="header__notify-list">
-                                        <li class="header__notify-item header__notify-item--viewed">
-                                            <c:if test="${requestlist.size()==0}">
-                                                <h3>Không có thông báo mới</h3>
+                                        <c:if test="${requestlist.size()==0}">
+                                            <li class="header__notify-item header__notify-item--viewed"> <h3>Không có thông báo mới</h3></li>
                                             </c:if>
                                             <c:if test="${requestlist.size()!=0}">
                                                 <c:forEach items="${requestlist}" var="list">
+                                                <li class="header__notify-item header__notify-item--viewed">
                                                     <a href="ManagerRequest?store=request-infor&userId=${user.userId}" class="header__notify-link">
                                                         <img src="image/login-img.jpg" alt="" class="header__notify-img">
                                                         <div class="header__notify-infor">
                                                             <span class="header__notify-name">Yêu cầu trở thành nhà bán hàng</span>
-                                                            <c:forEach items="${customerlist}" var="cuslist">
-                                                                <c:if test="${list.getCustomerId()==cuslist.getId()}">
-                                                                    <span class="header__notify-description">Người yêu cầu: ${cuslist.getName()}</span>
-                                                                    <c:if test="${!list.isRequestState()}">
-                                                                        <h6>Chưa chấp nhận</h6>
+                                                            <c:if test="${user.isAdmin()}">
+                                                                <c:forEach items="${customerlist}" var="cuslist">
+                                                                    <c:if test="${list.getCustomerId()==cuslist.getId()}">
+                                                                        <span class="header__notify-description">Người yêu cầu: ${cuslist.getName()}</span>
+                                                                        
+                                                                            <h6>${list.getResponse()}</h6>
+                                                                        
+
                                                                     </c:if>
-                                                                    
-                                                                </c:if>
-                                                            </c:forEach>
+                                                                </c:forEach>
+                                                            </c:if>
+
 
                                                         </div>
                                                     </a>
-                                                </c:forEach>
+                                                </li>       
+                                            </c:forEach>
 
-                                            </c:if>
+                                        </c:if>
 
-                                        </li>
+
                                     </ul>
                                     <footer class="header__notify-footer">
                                         <a href="ManagerRequest?store=request-infor&userId=${user.userId}" class="header__notify-footer-btn">Xem tất cả</a>
@@ -189,7 +193,9 @@ and open the template in the editor.
                                                     </div>
                                                     <div class="header__cart-item-body">
                                                         <span class="header__cart-item-description">Xuất xứ: ${pro.getProductBrand()}</span>
-                                                        <span class="header__cart-item-delete">Xóa</span>
+                                                        <span class="header__cart-item-delete"><a onclick="if (!confirm('Bạn có muốn xóa cửa hàng này')) {
+                                                                    return false;
+                                                                }" href="CartServletController?deleteId=${pro.getProductId()}&userId=${sessionScope.user.userId}">Xóa</a></span>
                                                     </div>
                                                 </div>
                                             </li>
@@ -223,12 +229,12 @@ and open the template in the editor.
                                    class="dropdown-toggle nav-link category__list-item--link"><i
                                         class="fa-solid fa-list-ul"></i></a>
                                 <ul class="dropdown-menu category__list-child">
-                                    <c:if test="${user.Admin}">
+                                    <c:if test="${user.isAdmin()}">
                                         <li class="dropdown-item category__list-item--child ">
                                             <a href="ManagerStoreServlet?infor=all" class="category__list-item-link--child nav-link">Quản lí tài khoản</a>
                                         </li>
                                     </c:if>
-                                    <c:if test="${user.Seller||user.Admin}">
+                                    <c:if test="${user.isSeller()||user.isAdmin()}">
                                         <li class="dropdown-item category__list-item--child ">
                                             <a href="ShopServletController?userId=${user.userId}" class="category__list-item-link--child nav-link">Quản lý cửa hàng</a>
                                         </li>
@@ -258,7 +264,7 @@ and open the template in the editor.
                                     </li>
                                 </c:forEach>
                                 <!--nếu là admin có thể thêm mới-->    
-                                <c:if test="${user.Admin}">
+                                <c:if test="${user.isAdmin()}">
                                     <li class="dropdown-item category__list-item--child ">
                                         <a href="#" class="category__list-item-link--child nav-link">Thêm mới</a>
                                     </li>
@@ -319,52 +325,52 @@ and open the template in the editor.
 
                                             <div class="col-sm-3">
                                                 <c:if test="${user==null}">
-                                                    <a href="ProductServletController?productId=<c:out value="${p.getProductId()}"/>" class="home-product-item">
-                                                    </c:if> 
-                                                    <c:if test="${user!=null}">
-                                                        <a href="ProductServletController?productId=<c:out value="${p.getProductId()}"/>&userId=${user.userId}" class="home-product-item">
-                                                        </c:if> 
-                                                        <div class="home-product-item__img" style="background-image: url('<c:out value="${p.getProductImg()}"/>');"></div>
-                                                        <h5 class="home-product-item__name"><c:out value="${p.getProductName()}"/></h5>
-                                                        <div class="home-product-item__price">
-                                                            <c:if test="${j!=0}">
-                                                                <span class="home-product-item__price-old"><fmt:formatNumber type="number" pattern="###,###,###đ" value="${p.getProductOldPrice()}" /></span>
-                                                                <span class="home-product-item__price-current"><fmt:formatNumber type="number" pattern="###,###,###đ" value="${p.getProductNewPrice()}" /></span>
-                                                            </c:if>
-                                                            <c:if test="${j==0}">
-                                                                <span class="home-product-item__price-current"><fmt:formatNumber type="number" pattern="###,###,###đ" value="${p.getProductOldPrice()}" /></span>
-                                                            </c:if>
-                                                        </div>
-                                                        <div class="home-product-item__action">
-                                                            <!-- home-product-item__like--liked -->
-                                                            <span class="home-product-item__like ">
-                                                                <i class="home-product-item__like-icon-empty fa-regular fa-heart"></i>
-                                                                <i class="home-product-item__like-icon-fill fa-solid fa-heart"></i>
-                                                            </span>
-                                                            <div class="home-product-item__rating">
-                                                                <i class="home-product-item__star-gold fa-solid fa-star"></i>
-                                                                <i class="home-product-item__star-gold fa-solid fa-star"></i>
-                                                                <i class="home-product-item__star-gold fa-solid fa-star"></i>
-                                                                <i class="home-product-item__star-gold fa-solid fa-star"></i>
-                                                                <i class="fa-solid fa-star"></i>
-                                                            </div>
-                                                        </div>
-                                                        <div class="home-product-item__origin">
-                                                            <span class="home-product-item__brand"><c:out value="${p.getProductBrand()}"/></span>
-                                                            <span class="home-product-item__origin-name"><c:out value="${p.getProductOrigin()}"/></span>
-                                                        </div>
-                                                        <div class="home-product-item__favorite">
-                                                            <i class="fa-solid fa-check"></i>
-                                                            Yêu thích 
-                                                        </div>
-                                                        <c:if test="${j!=0}">
-                                                            <div class="home-product-item__sell-off">
-                                                                <span class="home-product-item__sell-off--percent"><c:out value="${j}"/> %</span>
-                                                                <span class="home-product-item__sell-off--label">Giảm</span>
-                                                            </div>
-                                                        </c:if>
+                                                    <a href="ProductServletController?productId=<c:out value="${p.getProductId()}"/>" class="home-product-item"/>
+                                                </c:if> 
+                                                <c:if test="${user!=null}">
+                                                    <a href="ProductServletController?productId=<c:out value="${p.getProductId()}"/>&userId=${user.userId}" class="home-product-item"/>
+                                                </c:if> 
+                                                <div class="home-product-item__img" style="background-image: url('<c:out value="${p.getProductImg()}"/>');"></div>
+                                                <h5 class="home-product-item__name"><c:out value="${p.getProductName()}"/></h5>
+                                                <div class="home-product-item__price">
+                                                    <c:if test="${j!=0}">
+                                                        <span class="home-product-item__price-old"><fmt:formatNumber type="number" pattern="###,###,###đ" value="${p.getProductOldPrice()}" /></span>
+                                                        <span class="home-product-item__price-current"><fmt:formatNumber type="number" pattern="###,###,###đ" value="${p.getProductNewPrice()}" /></span>
+                                                    </c:if>
+                                                    <c:if test="${j==0}">
+                                                        <span class="home-product-item__price-current"><fmt:formatNumber type="number" pattern="###,###,###đ" value="${p.getProductOldPrice()}" /></span>
+                                                    </c:if>
+                                                </div>
+                                                <div class="home-product-item__action">
+                                                    <!-- home-product-item__like--liked -->
+                                                    <span class="home-product-item__like ">
+                                                        <i class="home-product-item__like-icon-empty fa-regular fa-heart"></i>
+                                                        <i class="home-product-item__like-icon-fill fa-solid fa-heart"></i>
+                                                    </span>
+                                                    <div class="home-product-item__rating">
+                                                        <i class="home-product-item__star-gold fa-solid fa-star"></i>
+                                                        <i class="home-product-item__star-gold fa-solid fa-star"></i>
+                                                        <i class="home-product-item__star-gold fa-solid fa-star"></i>
+                                                        <i class="home-product-item__star-gold fa-solid fa-star"></i>
+                                                        <i class="fa-solid fa-star"></i>
+                                                    </div>
+                                                </div>
+                                                <div class="home-product-item__origin">
+                                                    <span class="home-product-item__brand"><c:out value="${p.getProductBrand()}"/></span>
+                                                    <span class="home-product-item__origin-name"><c:out value="${p.getProductOrigin()}"/></span>
+                                                </div>
+                                                <div class="home-product-item__favorite">
+                                                    <i class="fa-solid fa-check"></i>
+                                                    Yêu thích 
+                                                </div>
+                                                <c:if test="${j!=0}">
+                                                    <div class="home-product-item__sell-off">
+                                                        <span class="home-product-item__sell-off--percent"><c:out value="${j}"/> %</span>
+                                                        <span class="home-product-item__sell-off--label">Giảm</span>
+                                                    </div>
+                                                </c:if>
 
-                                                    </a>
+                                                </a>
                                             </div>
                                         </c:if>
                                     </c:forEach>
@@ -372,39 +378,39 @@ and open the template in the editor.
 
                                 </div>
                             </div>
-<!--                            <ul class="pagination">
-                                <li class="pagination-item">
-                                    <a href="" class="pagination-item__link">
-                                        <i class="pagination-item__icon fa-solid fa-angle-left"></i>
-                                    </a>
-                                </li>
-                                <li class="pagination-item pagination-item--active">
-                                    <a href="" class="pagination-item__link">1</a>
-                                </li>
-                                <li class="pagination-item">
-                                    <a href="" class="pagination-item__link">2</a>
-                                </li>
-                                <li class="pagination-item">
-                                    <a href="" class="pagination-item__link">3</a>
-                                </li>
-                                <li class="pagination-item">
-                                    <a href="" class="pagination-item__link">4</a>
-                                </li>
-                                <li class="pagination-item">
-                                    <a href="" class="pagination-item__link">5</a>
-                                </li>
-                                <li class="pagination-item">
-                                    <a href="" class="pagination-item__link">...</a>
-                                </li>
-                                <li class="pagination-item">
-                                    <a href="" class="pagination-item__link">14</a>
-                                </li>
-                                <li class="pagination-item">
-                                    <a href="" class="pagination-item__link">
-                                        <i class="pagination-item__icon fa-solid fa-angle-right"></i>
-                                    </a>
-                                </li>
-                            </ul>-->
+                            <!--                            <ul class="pagination">
+                                                            <li class="pagination-item">
+                                                                <a href="" class="pagination-item__link">
+                                                                    <i class="pagination-item__icon fa-solid fa-angle-left"></i>
+                                                                </a>
+                                                            </li>
+                                                            <li class="pagination-item pagination-item--active">
+                                                                <a href="" class="pagination-item__link">1</a>
+                                                            </li>
+                                                            <li class="pagination-item">
+                                                                <a href="" class="pagination-item__link">2</a>
+                                                            </li>
+                                                            <li class="pagination-item">
+                                                                <a href="" class="pagination-item__link">3</a>
+                                                            </li>
+                                                            <li class="pagination-item">
+                                                                <a href="" class="pagination-item__link">4</a>
+                                                            </li>
+                                                            <li class="pagination-item">
+                                                                <a href="" class="pagination-item__link">5</a>
+                                                            </li>
+                                                            <li class="pagination-item">
+                                                                <a href="" class="pagination-item__link">...</a>
+                                                            </li>
+                                                            <li class="pagination-item">
+                                                                <a href="" class="pagination-item__link">14</a>
+                                                            </li>
+                                                            <li class="pagination-item">
+                                                                <a href="" class="pagination-item__link">
+                                                                    <i class="pagination-item__icon fa-solid fa-angle-right"></i>
+                                                                </a>
+                                                            </li>
+                                                        </ul>-->
                         </div>
                     </c:if>
                     <c:if test="${list==null}">

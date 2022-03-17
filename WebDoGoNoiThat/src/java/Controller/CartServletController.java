@@ -5,7 +5,9 @@
  */
 package Controller;
 
+import DAO.BillDAO;
 import DAO.OrderDAO;
+import DAO.PayDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -13,7 +15,9 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import model.Bill;
 import model.Order;
+import model.Payment;
 
 /**
  *
@@ -37,18 +41,35 @@ public class CartServletController extends HttpServlet {
             /* TODO output your page here. You may use following sample code. */
             String userIdstring = request.getParameter("userId");
             String deleteIdstring = request.getParameter("deleteId");
+            String addIdstring = request.getParameter("AddId");
             OrderDAO od = new OrderDAO();
+            BillDAO bld = new BillDAO();
+            PayDAO pd = new PayDAO();
+            
             if(deleteIdstring!=null){
                 int deleteId = Integer.parseInt(deleteIdstring);
-                Order order = od.getOneOrder( deleteId);
+                Order order = od.getOneOrder( deleteId, Integer.parseInt(userIdstring));
                 if(!order.isSold()){
                     od.deleteOrder(deleteId);
                 }
-                
             }
+                
+//            }else if(addIdstring!=null){
+//                int userId = Integer.parseInt(userIdstring);
+//                int addId = Integer.parseInt(addIdstring);
+//                int quantity = Integer.parseInt("quantity");
+//                String path="ProductServletController?productId="+userId+"&quantity="+quantity;
+//                request.getRequestDispatcher(path).forward(request, response);
+//            }
             int userId = Integer.parseInt(userIdstring);
             ArrayList<Order> orderlist = od.getAllOrder(userId);
+            ArrayList<Payment> paylist=pd.getAllPay();
+            request.setAttribute("pay", "continue");
+            request.setAttribute("paylist", paylist);
             request.setAttribute("orderlist", orderlist);
+            if(orderlist==null){
+                bld.deleteBill(userId);
+            }
             request.getRequestDispatcher("myCart.jsp").forward(request, response);
             
             

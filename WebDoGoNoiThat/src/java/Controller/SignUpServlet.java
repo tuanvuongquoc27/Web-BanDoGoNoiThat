@@ -45,13 +45,32 @@ public class SignUpServlet extends HttpServlet {
             String username = request.getParameter("input-username");
             String password = request.getParameter("input-password");
             String email = request.getParameter("input-email");
-            
+            String password_again = request.getParameter("input-password-2");
+
+            Customer customer = ctd.getCustomerByEmail(email);
+            User user = ud.getUserByUserName(username);
+            if (password.length() <= 7) {
+                request.setAttribute("error", "Mật khẩu phải lớn hơn 8 kí tự");
+                request.getRequestDispatcher("SignUp.jsp").forward(request, response);
+            } else if (!password.equals(password_again)) {
+                request.setAttribute("error", "Mật khẩu không trùng khớp");
+                request.getRequestDispatcher("SignUp.jsp").forward(request, response);
+            } else if (user != null) {
+                request.setAttribute("error", "Tài khoản đã tồn tại");
+                request.getRequestDispatcher("SignUp.jsp").forward(request, response);
+            } else if (customer != null) {
+                request.setAttribute("error", "Email đã tồn tại");
+                request.getRequestDispatcher("SignUp.jsp").forward(request, response);
+            } else {
+                ud.insertUserRoleCustomer(username, password);
+
+                User newuser = ud.getUserByNameAndPass(username, password);
+                ctd.insertCustomer(newuser.getUserId(), username, null, null, email, null, getDateNow(), null, null);
+                request.setAttribute("success", "Tạo tài khoản thành công");
+                request.getRequestDispatcher("Login.jsp").forward(request, response);
+            }
+
             //thêm mới user với isCustomer = 1
-            ud.insertUserRoleCustomer(username, password);
-            User newuser = ud.getUserByNameAndPass(username, password);
-            ctd.insertCustomer(newuser.getUserId(), username, null,null, email, null, getDateNow(), null, null);
-            request.setAttribute("success", "Tạo tài khoản thành công");
-            request.getRequestDispatcher("Login.jsp").forward(request, response);
         }
     }
 
@@ -59,6 +78,7 @@ public class SignUpServlet extends HttpServlet {
         SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
         Date date = new Date();
         return sdf.format(date);
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

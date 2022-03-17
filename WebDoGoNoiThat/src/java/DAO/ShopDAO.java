@@ -19,18 +19,19 @@ import model.Shop;
  * @author Admin
  */
 public class ShopDAO {
+
     Connection conn;
     PreparedStatement state;
-    ResultSet rs ;
-    
-    public ArrayList<Shop> getAllShop(){
+    ResultSet rs;
+
+    public ArrayList<Shop> getAllShop() {
         DBContext db = new DBContext();
-        try {   
-            conn=db.getConnection();
-            state=conn.prepareStatement("select * from shop where shopActive=1");
+        try {
+            conn = db.getConnection();
+            state = conn.prepareStatement("select * from shop");
             rs = state.executeQuery();
             ArrayList<Shop> listshop = new ArrayList<>();
-            while(rs.next()){
+            while (rs.next()) {
                 listshop.add(new Shop(
                         rs.getInt(1),
                         rs.getString(2),
@@ -52,14 +53,14 @@ public class ShopDAO {
         }
         return null;
     }
-    
-    public Shop getShop(int shopId){
+
+    public Shop getShop(int shopId) {
         DBContext db = new DBContext();
-        try {   
-            conn=db.getConnection();
-            state=conn.prepareStatement("select * from shop where shopId="+shopId);
+        try {
+            conn = db.getConnection();
+            state = conn.prepareStatement("select * from shop where shopId=" + shopId);
             rs = state.executeQuery();
-            while(rs.next()){
+            while (rs.next()) {
                 return new Shop(
                         rs.getInt(1),
                         rs.getString(2),
@@ -80,73 +81,94 @@ public class ShopDAO {
         }
         return null;
     }
-    
-    public void deleteShop(int shopId){
+
+    public void deleteShop(int shopId) {
         DBContext db = new DBContext();
-        try {   
-            conn=db.getConnection();
-            state=conn.prepareStatement("delete shop where shopId="+shopId);
+        try {
+            conn = db.getConnection();
+            state = conn.prepareStatement("delete shop where shopId=" + shopId);
             state.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(ShopDAO.class.getName()).log(Level.SEVERE, null, ex);
         } catch (Exception ex) {
             Logger.getLogger(ShopDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
     }
-    
-    public void insertShop (int shopId,String shopName, String ShopAddress,String shopPhone, String shopEmail, String shopDate){
+
+    public void insertShop(int shopId, String shopName, String ShopAddress, String shopPhone, String shopEmail, String shopDate) {
         DBContext db = new DBContext();
         try {
             conn = db.getConnection();
             state = conn.prepareStatement("insert into shop values("
                     + shopId + ",N'"
                     + shopName + "',N'"
-                    + ShopAddress +"',0,0,'"
+                    + ShopAddress + "',0,0,'"
                     + shopPhone + "','"
-                    + shopEmail + "','"
-                    + shopDate + "',0,0,0)");
+                    + shopEmail + "',"
+                    + shopDate + ",0,0,0)");
             state.executeUpdate();
         } catch (Exception ex) {
             Logger.getLogger(ShopDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-    public void updateActice(int shopId, int shopActive){
+
+    public void updateActice(int shopId, int shopActive) {
         DBContext db = new DBContext();
         try {
             conn = db.getConnection();
-            state = conn.prepareStatement("update shop set shopActive="+ shopActive + " where shopId = "+shopId);
+            state = conn.prepareStatement("update shop set shopActive=" + shopActive + " where shopId = " + shopId);
             state.executeUpdate();
         } catch (Exception ex) {
             Logger.getLogger(ShopDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     public void updateQuantity(int shopId) {
         DBContext db = new DBContext();
         try {
             conn = db.getConnection();
-            state = conn.prepareStatement("update shop set shopProductQuantity = ( select SUM(productQuantity) from product where shopId= "+shopId +" ) where shopId = "+shopId);
+            state = conn.prepareStatement("update shop set shopProductQuantity = ( select SUM(productQuantity) from product where shopId= " + shopId + " ) where shopId = " + shopId);
             state.executeUpdate();
         } catch (Exception ex) {
             Logger.getLogger(ShopDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-    public void updateProductSold(int shopId ){
-        
-                DBContext db = new DBContext();
+
+    public void updateProductSold(int shopId) {
+
+        DBContext db = new DBContext();
         try {
             conn = db.getConnection();
-            state = conn.prepareStatement("select SUM(a.productQuantity) from [order] as a,product as b where b.shopId = "+shopId+" and b.productId=a.productId");
+            state = conn.prepareStatement("select SUM(a.productQuantity) from [order] as a,product as b where b.shopId = " + shopId + " and b.productId=a.productId");
             state.executeUpdate();
         } catch (Exception ex) {
             Logger.getLogger(ShopDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-     
+
+    public void updateDate(int userId, String dateNow) {
+        DBContext db = new DBContext();
+        try {
+            conn = db.getConnection();
+            state = conn.prepareStatement("update shop set shopDate='" + dateNow + "' where shopId=" + userId);
+            state.executeUpdate();
+        } catch (Exception ex) {
+            Logger.getLogger(ShopDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void updateQuantitySold(int shopId) {
+        DBContext db = new DBContext();
+        try {
+            String query = "(select sum(a.productQuantity) from [order] as a where a.productId in (select a.productId from product as a where a.shopId = 1))";
+            conn = db.getConnection();
             
-            
+            state = conn.prepareStatement("update shop set shopProductSold = "+query);
+            state.executeUpdate();
+        } catch (Exception ex) {
+            Logger.getLogger(ShopDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
 }
