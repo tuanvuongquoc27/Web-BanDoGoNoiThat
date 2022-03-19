@@ -110,7 +110,7 @@ public class RequestDAO {
         DBContext db = new DBContext();
         try {
             conn=db.getConnection();
-            state=conn.prepareStatement("update request set response="+ response +" where customerId="+customerId);
+            state=conn.prepareStatement("update request set response=N'"+ response +"' where requestId="+customerId);
             state.executeUpdate();  
         } catch (Exception ex) {
             Logger.getLogger(RequestDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -121,7 +121,7 @@ public class RequestDAO {
         DBContext db = new DBContext();
         try {
             conn=db.getConnection();
-            state=conn.prepareStatement("update request set requestState="+ st +" where customerId="+customerId);
+            state=conn.prepareStatement("update request set requestState="+ st +" where requestId="+customerId);
             state.executeUpdate();  
         } catch (Exception ex) {
             Logger.getLogger(RequestDAO.class.getName()).log(Level.SEVERE, null, ex);

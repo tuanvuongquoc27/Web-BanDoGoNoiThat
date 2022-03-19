@@ -48,12 +48,6 @@ public class LoginServlet extends HttpServlet {
             if (user.isAdmin()) { // trường hơp là admin chuyển sang trang của admin
                 request.getRequestDispatcher("ManagerStoreServlet").forward(request, response);
             } else {// trường hơp con lại đến trang home
-                OrderDAO od = new OrderDAO();
-                if (!od.getAllOrder(user.getUserId()).isEmpty()) {
-                    request.setAttribute("orderlist", od.getAllOrder(user.getUserId()));
-                } else {
-                    request.setAttribute("orderlist", null);
-                }
                 request.getRequestDispatcher("HomeServletController").forward(request, response);
             }
         }

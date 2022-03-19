@@ -6,6 +6,7 @@
 package Controller;
 
 import DAO.BillDAO;
+import DAO.CustomerDAO;
 import DAO.OrderDAO;
 import DAO.ProductDAO;
 import java.io.IOException;
@@ -36,12 +37,15 @@ public class AddProductToCart extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        request.setCharacterEncoding("UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             String quantityString = request.getParameter("quantity_input");
             String userIdstring = request.getParameter("userId");
             String productIdstring = request.getParameter("productId");
             String addressship = request.getParameter("addressship");
+            
+            CustomerDAO csd = new CustomerDAO();
 
             int userId = Integer.parseInt(userIdstring);
             int quantity = Integer.parseInt(quantityString);
@@ -62,6 +66,7 @@ public class AddProductToCart extends HttpServlet {
             } else {
                 od.updateOrder(productId, quantity, quantity * product.getProductNewPrice());
             }
+            csd.updateAddress(addressship,userId);
             request.getRequestDispatcher("HomeServletController").forward(request, response);
 
         }

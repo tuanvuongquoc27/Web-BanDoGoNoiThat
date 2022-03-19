@@ -54,7 +54,11 @@
                 </c:if>
                 <c:if test="${orderlist==null&&mess!=null}">
                     <h1 style="align-items: center; margin-top: 500px;">${mess} </h1>
-                </c:if>    
+                </c:if> 
+                <c:if test="${orderlist!=null&&mess!=null}">
+                    <h1 style="align-items: center; margin-top: 500px;">${mess} </h1>
+                    <a type="button" class="btn btn-secondary" href="AccountFileUpdate?role=customer}&userId=${user.userId}">Cập nhật</a>
+                </c:if>     
                 <c:if test="${requestScope.orderlist!=null}">
                     <c:if test="${pay=='continue'}">
                         <form action="BillController" method="post">
@@ -65,25 +69,29 @@
                                     pro = prd.getProduct(ordlist.get(i).getProductId());
                                     request.setAttribute("pro", pro);
                                     request.setAttribute("order", ordlist.get(i)); %>
-                            <div class="row product__row">
-                                <div class="col-sm-1"><input type="checkbox" value="${pro.getProductId()}" name="product" style="margin-left: 50px;margin-top: 28px;width: 20px;height: 21px;" ></div>
-                                <div class="col-sm-5 product__cart">
-                                    <img src="${requestScope.pro.getProductImg()}" alt="" class="header__cart-img img-fluid">
-                                    <h5 class="home-product-item__name">${requestScope.pro.getProductName()}</h5>
+                            <c:if test="${pro!=null}">
+                                <div class="row product__row">
+                                    <div class="col-sm-1"><input type="checkbox" value="${pro.getProductId()}" name="product" style="margin-left: 50px;margin-top: 28px;width: 20px;height: 21px;" ></div>
+                                    <div class="col-sm-5 product__cart">
+                                        <img src="${requestScope.pro.getProductImg()}" alt="" class="header__cart-img img-fluid">
+                                        <h5 class="home-product-item__name">${requestScope.pro.getProductName()}</h5>
 
+                                    </div>
+                                    <div class="col-sm-2 product__price"><fmt:formatNumber type="number" pattern="###,###,###đ" value="${order.getProductPrice()}" /></div>
+                                    <div class="col-sm-1 product__quantity"><input type="number" name="quantitynew" value="${order.getProductQuantity()}" min="1" max="${pro.getProductQuantity()}"/></div>
+                                    <div class="col-sm-2 product__total">
+                                        <c:if test="${pay=='continue'}">
+                                            <fmt:formatNumber type="number" pattern="###,###,###đ" value="${order.getProductTotal()}" />
+                                        </c:if>
+                                    </div>
+                                    <div class="col-sm-1"> <a onclick="if (!confirm('Bạn có muốn xóa sản phẩm này')) {
+                                                return false;
+                                            }" href="CartServletController?deleteId=${pro.getProductId()}&userId=${user.userId}" class="nav-link delete-link">Xóa</a></div>
                                 </div>
-                                <div class="col-sm-2 product__price"><fmt:formatNumber type="number" pattern="###,###,###đ" value="${order.getProductPrice()}" /></div>
-                                <div class="col-sm-1 product__quantity"><input type="number" value="${order.getProductQuantity()}" min="1" max="${pro.getProductQuantity()}"/></div>
-                                <div class="col-sm-2 product__total">
-                                    <c:if test="${pay=='continue'}">
-                                        <fmt:formatNumber type="number" pattern="###,###,###đ" value="${order.getProductTotal()}" />
-                                    </c:if>
-                                </div>
-                                <div class="col-sm-1"> <a onclick="if (!confirm('Bạn có muốn xóa sản phẩm này')) {
-                                            return false;
-                                        }" href="CartServletController?deleteId=${pro.getProductId()}&userId=${user.userId}" class="nav-link delete-link">Xóa</a></div>
-                            </div><%}%>
-                            <input type="hidden" value="${sessionScope.user.userId}" name="userId"/>
+                            </c:if>
+
+                            <%}%>
+
                             <input type="hidden" value="continue" name="pay"/>
                             <input type="submit" class="sub-btn" value="Tiếp tục">   
 

@@ -239,18 +239,7 @@
                                 </div>
                                 <div class="col-sm-2 product__price"><fmt:formatNumber type="number" pattern="###,###,###đ" value="${pro.getProductNewPrice()}" /></div>
                                 <div class="col-sm-1 product__quantity"><c:out value="${pro.getProductQuantity()}"/></div>
-                                <div class="col-sm-1 product__total">
-                                    <c:set var="sold" scope="page" value="${0}"/>
-                                    <c:forEach items="${orderlist}" var="ord">
-
-                                        <c:if test="${ord.getProductId()==pro.getProductId()&&ord.isSold()}">
-                                            <c:set var="sold" scope="page" value="${sold+ord.getProductQuantity()}"/>
-
-                                        </c:if>
-                                    </c:forEach>
-                                    <c:out value="${sold}"></c:out>
-
-                                    </div>
+                                <div class="col-sm-1 product__total"><c:out value="${pro.getProductQuantitySold()}"/></div>
                                     <div class="col-sm-2 product__delete"> 
                                         <span><a onclick="if (!confirm('Are you sure?')) {
                                                     return false;

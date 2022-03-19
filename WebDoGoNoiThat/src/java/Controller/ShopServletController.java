@@ -60,7 +60,7 @@ public class ShopServletController extends HttpServlet {
                 int userId = Integer.parseInt(userIdstring);
                 Shop shop =  sd.getShop(userId);
                 ArrayList<Product> productlist = prd.getProductbyShopId(userId);
-                ArrayList<Order> orderlist = od.getAllOrder(userId);
+                ArrayList<Order> orderlist = od.getAllOrderOneUser(userId);
                 ArrayList<Order> orderall = od.getAllOrderRecord();
                 ArrayList<Category> categorylist = ctd.getAllCategory();
                 request.setAttribute("shop", shop);

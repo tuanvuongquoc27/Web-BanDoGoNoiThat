@@ -48,10 +48,10 @@ public class CategoryServletController extends HttpServlet {
             if(categoryId==0){
                 
                 ArrayList<Product> list = prd.getAllProduct();
-                request.setAttribute("list", list);
+                request.setAttribute("productlist", list);
             }else {
                 ArrayList<Product> list = prd.getProductbyCategoryId(categoryId);
-                request.setAttribute("list", list);
+                request.setAttribute("product", list);
             }
             request.getRequestDispatcher("HomePage.jsp").forward(request, response);
         }

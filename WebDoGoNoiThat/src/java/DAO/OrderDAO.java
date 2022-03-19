@@ -23,7 +23,7 @@ public class OrderDAO {
     PreparedStatement state ;
     ResultSet rs;
     
-    public ArrayList<Order> getAllOrder(int customerId){//lấy ra tất cả order của 1 khách hàng chưa đc thanh toán
+    public ArrayList<Order> getAllOrderOneUser(int customerId){//lấy ra tất cả order của 1 khách hàng chưa đc thanh toán
         DBContext db = new DBContext();
         try {   
             conn=db.getConnection();
@@ -49,6 +49,35 @@ public class OrderDAO {
         }
         return null;
     }
+    
+    public ArrayList<Order> getAllOrderAll(){//lấy ra tất cả order của 1 khách hàng chưa đc thanh toán
+        DBContext db = new DBContext();
+        try {   
+            conn=db.getConnection();
+            state=conn.prepareStatement("select * from [order] where sold=1");
+            rs = state.executeQuery();
+            ArrayList<Order> orderlist = new ArrayList<>();
+            while(rs.next()){
+                orderlist.add(new Order(
+                        rs.getInt(1),
+                        rs.getInt(2),
+                        rs.getInt(3),
+                        rs.getInt(4),
+                        rs.getInt(5),
+                        rs.getInt(6),
+                        rs.getInt(7),
+                        rs.getBoolean(8)));
+            }
+            return orderlist;
+        } catch (SQLException ex) {
+            Logger.getLogger(OrderDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(OrderDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+    
+    
     
     public ArrayList<Order> getAllOrderSoldout(int customerId){//lấy ra tất cả order của 1 khách hàng đã set thành 1
         DBContext db = new DBContext();
@@ -130,20 +159,6 @@ public class OrderDAO {
         return null;
     }
     
-    public void updateOrderSold(int userId, int sold){
-        DBContext db = new DBContext();
-        try {   
-            conn=db.getConnection();
-            state=conn.prepareStatement("update [order] set sold = "+sold + " where customerId = "+userId);
-            state.executeUpdate();
-        } catch (SQLException ex) {
-            Logger.getLogger(OrderDAO.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (Exception ex) {
-            Logger.getLogger(OrderDAO.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-    }
-    
     public void updateOneOrderSold(int productId,int userId, int soldnew, int soldOld){
         DBContext db = new DBContext();
         try {   
@@ -190,12 +205,38 @@ public class OrderDAO {
             Logger.getLogger(OrderDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    
+    public void updateQuantityOneOrder(int productId,int productQuantity ,int productTotal){
+        DBContext db = new DBContext();
+        try {   
+            conn=db.getConnection();
+            state=conn.prepareStatement("update [order] set productQuantity = productQuantity+"+productQuantity+", productTotal=productTotal+"+productTotal+" where productId="+productId);
+            state.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(OrderDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(OrderDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 
     public void deleteOrder(int deleteId) {
         DBContext db = new DBContext();
         try {   
             conn=db.getConnection();
             state=conn.prepareStatement("delete [order] where productId="+deleteId);
+            state.execute();
+        } catch (SQLException ex) {
+            Logger.getLogger(OrderDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(OrderDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void deleteOrderHasProductNotExist(int deleteId) {
+        DBContext db = new DBContext();
+        try {   
+            conn=db.getConnection();
+            state=conn.prepareStatement("delete [order] where productId="+deleteId +" and sold=0");
             state.execute();
         } catch (SQLException ex) {
             Logger.getLogger(OrderDAO.class.getName()).log(Level.SEVERE, null, ex);

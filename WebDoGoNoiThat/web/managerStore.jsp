@@ -273,10 +273,10 @@
                         <!--request-->
                         <c:if test="${requestScope.store=='request'}">
 
-                            <c:if test="${requestScope.requestlist.size()==0}">
+                            <c:if test="${requestlist.size()==0}">
                                 <h3>Không có thông báo mới</h3>
                             </c:if>
-                            <c:if test="${requestScope.requestlist.size()!=0}">
+                            <c:if test="${requestlist.size()!=0}">
                                 <div class="store-infor">
                                     <h1>Thông tin yêu cầu</h1>
                                 </div>
@@ -291,7 +291,7 @@
                                         <td></td>
                                         <td></td>
                                     </tr>
-                                    <c:forEach items="${requestScope.requestlist}" var="list">
+                                    <c:forEach items="${requestlist}" var="list">
                                         <tr>
                                             <td>${list.getCustomerId()}</td>
                                             <td>
@@ -308,23 +308,22 @@
                                                     </c:if>
                                                 </c:forEach>
                                             </td> 
-                                            <td>response</td>
+                                            <td>${list.getReponse()}</td>
                                             
-                                            <c:forEach items="${se}" var="listse">
-                                                <c:if test="${listse.isSeller()}">
-                                                    <c:set var="l" value="true"/>
-                                                </c:if>
-                                            </c:forEach>
-                                            <c:if test="${l=='true'}">
+                                            <c:forEach begin="1" items="${se}" var="listse">
+                                                
+                                            
+                                            <c:if test="${listse.isSeller()&&(listse.getUserId()==list.getShopId())}">
                                                 <td>Xóa yêu cầu</td>
                                             <td>Chấp nhận</td>
                                             </c:if>
-                                            <c:if test="${l!='true'}">
+                                            <c:if test="${!listse.isSeller()&&(listse.getUserId()==list.getShopId())}">
                                                 <td><a  onclick="if (!confirm('Bạn có muốn xóa cửa hàng này')) {return false;}" 
                                                    href="ManagerRequest?rquest=delete&userId=${list.getCustomerId()}" class="nav-link">Xóa yêu cầu</a></td>
                                             <td><a onclick="if (!confirm('Bạn có muốn chấp nhận yêu cầu này')) {return false;}" 
                                                    href="ManagerRequest?rquest=accept&userId=${list.getCustomerId()}" class="nav-link">Chấp nhận</a></td>
-                                            </c:if>       
+                                            </c:if>  
+                                                   </c:forEach>
                                             
                                         </tr>
                                     </c:forEach>

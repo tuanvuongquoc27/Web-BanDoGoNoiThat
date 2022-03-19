@@ -238,10 +238,10 @@ public class ProductDAO {
     public void updateQuantityProductSold(int productId) {
         DBContext db = new DBContext();
         try {
-            String query = "(select sum(a.productQuantity) from [order] as a where a.productId in (select a.productId from product as a where a.shopId = 1))";
+            String query = "update product set productQuantitySold = (select sum(a.productQuantity) from [order] as a where a.productId ="+productId+") where productId="+productId;
             conn = db.getConnection();
             
-            state = conn.prepareStatement("update product set productQuantitySold = "+query);
+            state = conn.prepareStatement(query);
             state.executeUpdate();
         } catch (Exception ex) {
             Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);

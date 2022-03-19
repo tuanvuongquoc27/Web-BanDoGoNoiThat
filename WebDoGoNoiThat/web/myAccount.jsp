@@ -61,46 +61,47 @@
                                 </c:if>
                         </ul>
                         <ul class="header__navbar-list">
-                            <li class="header__navbar-item header__navbar-item-has-notify ">
-                                <a href="" class="header__navbar-item-link"><i class="fa-solid fa-bell bell-icon"></i>Thông báo</a>
-                                <!-- Notification -->
-                                <div class="header__notify">
-                                    <header class="header__notify-header"><h3>Thông báo mới</h3>
-                                    </header>
-                                    <ul class="header__notify-list">
-                                        <c:if test="${requestlist.size()==0}">
-                                            <li class="header__notify-item header__notify-item--viewed"> <h3>Không có thông báo mới</h3></li>
-                                            </c:if>
-                                            <c:if test="${requestlist.size()!=0}">
+                            <c:if test="${user!=null&&user.isAdmin()}">
+                                <li class="header__navbar-item header__navbar-item-has-notify ">
+                                    <a href="" class="header__navbar-item-link"><i class="fa-solid fa-bell bell-icon"></i>Thông báo</a>
+
+                                    <div class="header__notify">
+                                        <header class="header__notify-header">
+                                            <h3>Thông báo mới</h3>
+                                        </header>
+                                        <ul class="header__notify-list">
+                                            <c:if test="${requestlist.size()==0}"> <!-- ko có yêu cầu -->
+                                                <li class="header__notify-item header__notify-item--viewed"> <h3>Không có thông báo mới</h3></li>
+                                                </c:if>
+                                                <c:if test="${requestlist.size()!=0}"><!-- có yêu cầu -->
                                                 <c:forEach items="${requestlist}" var="list">
                                                     <li class="header__notify-item header__notify-item--viewed">
-                                                    <a href="ManagerRequest?store=request-infor&userId=${user.userId}" class="header__notify-link">
-                                                        <img src="image/login-img.jpg" alt="" class="header__notify-img">
-                                                        <div class="header__notify-infor">
-                                                            <span class="header__notify-name">Yêu cầu trở thành nhà bán hàng</span>
-                                                            <c:forEach items="${customerlist}" var="cuslist">
-                                                                <c:if test="${list.getCustomerId()==cuslist.getId()}">
-                                                                    <span class="header__notify-description">Người yêu cầu: ${cuslist.getName()}</span>
-                                                                    <c:if test="${!list.isRequestState()}">
-                                                                        <h6>Chưa chấp nhận</h6>
-                                                                    </c:if>
-
+                                                        <a href="ManagerRequest?store=request-infor" class="header__notify-link">
+                                                            <img src="image/login-img.jpg" alt="" class="header__notify-img">
+                                                            <div class="header__notify-infor">
+                                                                <span class="header__notify-name">Yêu cầu trở thành nhà bán hàng</span>
+                                                                <c:if test="${user.isAdmin()}"><!-- hiển thị yêu cầu cho user -->
+                                                                    <c:forEach items="${customerlist}" var="cuslist">
+                                                                        <c:if test="${list.getCustomerId()==cuslist.getId()}"> <!-- check yêu cầu của user nào -->
+                                                                            <span class="header__notify-description">Người yêu cầu: ${cuslist.getName()}</span>
+                                                                            <h6>${list.getReponse()}</h6>
+                                                                        </c:if>
+                                                                    </c:forEach>
                                                                 </c:if>
-                                                            </c:forEach>
-
-                                                        </div>
-                                                    </a>
-                                                </li>       
-                                            </c:forEach>
-
-                                        </c:if>
-                                    </ul>
-                                    <footer class="header__notify-footer">
-                                        <a href="" class="header__notify-footer-btn">Xem tất cả</a>
-                                    </footer>
-                                </div>
-                            </li>
-                            <c:if test="${sessionScope.user==null}">
+                                                            </div>
+                                                        </a>
+                                                    </li>       
+                                                </c:forEach>
+                                            </c:if>
+                                        </ul>
+                                        <footer class="header__notify-footer">
+                                            <a href="ManagerRequest?store=request-infor&userId=${user.userId}" class="header__notify-footer-btn">Xem tất cả</a>
+                                        </footer>
+                                    </div>
+                                </li>
+                            </c:if>
+                            <!--Start dăng nhập đăng kí -->    
+                            <c:if test="${user==null}">
                                 <li class="header__navbar-item header__navbar-item--strong">
                                     <a href="/WebDoGoNoiThat/Login.jsp" class="header__navbar-item-link">Đăng nhập</a>
                                 </li>
@@ -108,7 +109,7 @@
                                     <a href="/WebDoGoNoiThat/SignUp.jsp" class="header__navbar-item-link">Đăng kí</a>
                                 </li> 
                             </c:if>
-                            <c:if test="${sessionScope.user!=null}">
+                            <c:if test="${user!=null}">
                                 <li class="header__navbar-item header__navbar-user">
                                     <c:if test="${user.userImg==null}">
                                         <img src="./image/no-avatar.png" alt="" class="header_navbar-user-img">
@@ -127,6 +128,7 @@
                                     </ul>
                                 </li>
                             </c:if> 
+                            <!--End Đăng nhập đăng kí -->  
                         </ul>
                     </nav>
 

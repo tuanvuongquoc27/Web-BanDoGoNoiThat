@@ -57,7 +57,7 @@ public class ProductServletController extends HttpServlet {
             if (userIdstring != null) {
                 int userId = Integer.parseInt(userIdstring);
                 OrderDAO od = new OrderDAO();
-                orderlist = od.getAllOrder(userId);
+                orderlist = od.getAllOrderOneUser(userId);
                 if (orderlist.isEmpty()) {
                     orderlist = null;
                 }

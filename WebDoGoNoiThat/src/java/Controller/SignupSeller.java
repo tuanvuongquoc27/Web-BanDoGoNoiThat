@@ -44,19 +44,16 @@ public class SignupSeller extends HttpServlet {
         try (PrintWriter out = response.getWriter()) {
             SellerDAO sld = new SellerDAO();
             ShopDAO sd = new ShopDAO();
-            
-            String userId = request.getParameter("userId");
-            if(userId!= null){
-                int sellerId = Integer.parseInt(userId);
-                Seller seller = sld.getSellerById(sellerId);
-                Shop shop = sd.getShop(sellerId);
-                if(seller!=null){
-                    request.setAttribute("wait", "Bạn đã đăng kí vui lòng đợi");
-                    request.setAttribute("seller", seller);
-                    request.setAttribute("shop", shop);
-                }
-                request.getRequestDispatcher("Seller.jsp").forward(request, response);
+
+            User user = (User) request.getSession().getAttribute("user");
+            Seller seller = sld.getSellerById(user.getUserId());
+            Shop shop = sd.getShop(user.getUserId());
+            if (seller != null) {
+                request.setAttribute("wait", "Bạn đã đăng kí vui lòng đợi");
+                request.setAttribute("seller", seller);
+                request.setAttribute("shop", shop);
             }
+            request.getRequestDispatcher("Seller.jsp").forward(request, response);
         }
     }
 
@@ -95,7 +92,7 @@ public class SignupSeller extends HttpServlet {
         String shopPhone = request.getParameter("input-shopPhone");
         String shopEmail = request.getParameter("input-shopEmail");
         int userId = Integer.parseInt(request.getParameter("userId"));
-        
+
         ShopDAO sd = new ShopDAO();
         UserDAO ud = new UserDAO();
         CustomerDAO csd = new CustomerDAO();
@@ -109,12 +106,12 @@ public class SignupSeller extends HttpServlet {
             request.getRequestDispatcher("Seller.jsp").forward(request, response);
         } else {
             Customer c = csd.getCustomerById(userId);
-            if(c.getAddress()==null){
-                sld.insertSellerNull(userId, c.getName(),null, c.getEmail(), null,null, null, null);
-            }else {
-                sld.insertSeller(userId, c.getName(),c.getAddress(), c.getEmail(), c.getPhone(),c.getDate(), convertGender(c.isGender()), c.getDOB());
+            if (c.getAddress() == null) {
+                sld.insertSellerNull(userId, c.getName(), null, c.getEmail(), null, null, null, null);
+            } else {
+                sld.insertSeller(userId, c.getName(), c.getAddress(), c.getEmail(), c.getPhone(), c.getDate(), convertGender(c.isGender()), c.getDOB());
             }
-            
+
             sd.insertShop(userId, shopName, shopAddress, shopPhone, shopEmail, null);
             rqd.insertRequestSell(userId, "Yêu cầu mở cửa hàng");
             request.setAttribute("wait", "Vui lòng đợi phản hồi từ admin");
@@ -127,9 +124,9 @@ public class SignupSeller extends HttpServlet {
 
         return false;
     }
-    
-    public String convertGender(boolean gender ){
-        if(gender){
+
+    public String convertGender(boolean gender) {
+        if (gender) {
             return "nam";
         }
         return "nu";
@@ -140,8 +137,6 @@ public class SignupSeller extends HttpServlet {
         Date date = new Date();
         return sdf.format(date);
     }
-
-    
 
     /**
      * Returns a short description of the servlet.

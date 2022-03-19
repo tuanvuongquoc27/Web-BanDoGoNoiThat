@@ -55,10 +55,14 @@ public class ShopManagerProduct extends HttpServlet {
             if (productIddelete != null && !productIddelete.equals("null")) {
                 int productId = Integer.parseInt(productIddelete);
                 prd.deleteProduct(productId);
+                od.deleteOrderHasProductNotExist(userId);
+                sd.updateQuantity(userId);
+//                chú ý
+                sd.updateProductSold(userId);
                 request.setAttribute("update", "getAll");
 
                 ArrayList<Product> productlist = prd.getProductbyShopId(userId);
-                ArrayList<Order> orderlist = od.getAllOrder(userId);
+                ArrayList<Order> orderlist = od.getAllOrderOneUser(userId);
                 ArrayList<Category> categorylist = ctd.getAllCategory();
                 request.setAttribute("categorylist", categorylist);
                 request.setAttribute("productlist", productlist);
@@ -76,7 +80,7 @@ public class ShopManagerProduct extends HttpServlet {
             else if (update.equals("getAll")) {
                 request.setAttribute("update", update);
                 ArrayList<Product> productlist = prd.getProductbyShopId(userId);
-                ArrayList<Order> orderlist = od.getAllOrder(userId);
+                ArrayList<Order> orderlist = od.getAllOrderOneUser(userId);
                 ArrayList<Category> categorylist = ctd.getAllCategory();
 
                 request.setAttribute("categorylist", categorylist);

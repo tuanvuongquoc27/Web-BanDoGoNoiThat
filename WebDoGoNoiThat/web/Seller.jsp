@@ -37,61 +37,64 @@
                 </c:if>
 
                 <form action="SignupSeller" method="post">
-                    <table>
-                        <tr>
-                            <td>Tên shop</td>
-
-                            <c:if test="${seller!=null}">
-                                <td><input name="input-shopName" value="${shop.getShopName()}" readonly="true" type="text" required></td>
-                                </c:if>
-                                <c:if test="${seller==null}">
+                    <c:if test="${seller==null}">
+                        <table>
+                            <tr>
+                                <td>Tên shop</td>
                                 <td><input name="input-shopName" type="text" required></td>
-                                </c:if>
-
-                        </tr>
-                        <tr>
-                            <td>Địa chỉ</td>
-                            <c:if test="${seller!=null}">
-                                <td><input name="input-shopName" value="${shop.getShopAddress()}" readonly="true" type="text" required></td>
-                                </c:if>
-                                <c:if test="${seller==null}">
+                            </tr>
+                            <tr>
+                                <td>Địa chỉ</td>
                                 <td><input name="input-shopAddress" type="text" required></td>
-                                </c:if>
-
-                        </tr>
-                        <tr>
-                            <td>Số điện thoại</td>
-                            <c:if test="${seller!=null}">
-                                <td><input name="input-shopName" value="${shop.getShopPhone()}" readonly="true" type="text" required></td>
-                                </c:if>
-                                <c:if test="${seller==null}">
+                            </tr>
+                            <tr>
+                                <td>Số điện thoại</td>
                                 <td><input name="input-shopPhone" type="text" required ></td>
-                                </c:if>
-
-                        </tr>
-                        <tr>
-                            <td>Email</td>
-                            <c:if test="${seller!=null}">
-                                <td><input name="input-shopName" value="${shop.getShopEmail()}" readonly="true" type="text" required></td>
-                                </c:if>
-                                <c:if test="${seller==null}">
+                            </tr>
+                            <tr>
+                                <td>Email</td>
                                 <td><input name="input-shopEmail" type="email" required></td>
-                                </c:if>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td>Phí dịch vụ(200.000đ)</td>
+                            </tr>
+                            <tr>
+                            <input type="hidden" name="userId" value="${sessionScope.user.userId}"/>
+                            </tr>
+                        </table>
+                    </c:if>
+                    <c:if test="${seller!=null}">
+                        <table>
+                            <tr>
+                                <td>Tên shop</td>
+                                <td><input name="input-shopName" value="${shop.getShopName()}" readonly="true" type="text" required></td>
+                            </tr>
+                            <tr>
+                                <td>Địa chỉ</td>
+                                <td><input name="input-shopName" value="${shop.getShopAddress()}" readonly="true" type="text" required></td>
+                            </tr>
+                            <tr>
+                                <td>Số điện thoại</td>
+                                <td><input name="input-shopName" value="${shop.getShopPhone()}" readonly="true" type="text" required></td
+                            </tr>
+                            <tr>
+                                <td>Email</td>
+                                <td><input name="input-shopName" value="${shop.getShopEmail()}" readonly="true" type="text" required></td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td>Phí dịch vụ(200.000đ)</td>
+                            </tr>
+                            <tr>
+                            <input type="hidden" name="userId" value="${sessionScope.user.userId}"/>
 
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td>Phí dịch vụ(200.000đ)</td>
-                        </tr>
-                        <tr>
-                        <input type="hidden" name="userId" value="${sessionScope.user.userId}"/>
-
-                        </tr>
-                    </table>
+                            </tr>
+                        </table>
+                    </c:if>
                     <c:if test="${seller==null}">
                         <input class="btn btn-secondary" type="submit" value="Đăng kí">
                     </c:if>
-
                     <a type="button" class="btn btn-secondary" href="HomeServletController?userId=${sessionScope.user.userId}">Trở về</a>
                 </form>
             </div>

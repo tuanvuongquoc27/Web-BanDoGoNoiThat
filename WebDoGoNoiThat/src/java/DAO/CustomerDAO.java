@@ -24,6 +24,32 @@ public class CustomerDAO {
     PreparedStatement state;
     ResultSet rs;
 
+    public ArrayList<Customer> getAllCustomer() {
+        DBContext db = new DBContext();
+        try {
+            conn = db.getConnection();
+            state = conn.prepareStatement("select * from customer");
+            rs = state.executeQuery();
+            ArrayList<Customer> list = new ArrayList<>();
+            while (rs.next()) {
+                list.add( new Customer(
+                        rs.getInt(1),
+                        rs.getString(2),
+                        rs.getString(3),
+                        rs.getString(4),
+                        rs.getString(5),
+                        rs.getString(6),
+                        rs.getString(7),
+                        rs.getBoolean(8),
+                        rs.getString(9)));
+            }
+            return list;
+        } catch (Exception ex) {
+            Logger.getLogger(CustomerDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+    
     public Customer getCustomerById(int customerId) {
         DBContext db = new DBContext();
         try {
@@ -134,29 +160,16 @@ public class CustomerDAO {
         }
     }
 
-    public ArrayList<Customer> getAllCustomer() {
+    public void updateAddress(String addressship, int userId) {
         DBContext db = new DBContext();
         try {
             conn = db.getConnection();
-            state = conn.prepareStatement("select * from customer");
-            rs = state.executeQuery();
-            ArrayList<Customer> list = new ArrayList<>();
-            while (rs.next()) {
-                list.add( new Customer(
-                        rs.getInt(1),
-                        rs.getString(2),
-                        rs.getString(3),
-                        rs.getString(4),
-                        rs.getString(5),
-                        rs.getString(6),
-                        rs.getString(7),
-                        rs.getBoolean(8),
-                        rs.getString(9)));
-            }
-            return list;
+            state = conn.prepareStatement("update customer set customerAddressShip =N'"+addressship+"' where customerId=" + userId);
+            state.executeUpdate();
         } catch (Exception ex) {
             Logger.getLogger(CustomerDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return null;
     }
+
+    
 }

@@ -17,11 +17,13 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import model.Category;
 import model.Customer;
 import model.Order;
 import model.Product;
 import model.Request;
+import model.User;
 
 /**
  *
@@ -47,29 +49,29 @@ public class HomeServletController extends HttpServlet {
             CategoryDAO ctd = new CategoryDAO();
             RequestDAO rqd = new RequestDAO(); 
             CustomerDAO csd = new CustomerDAO();
-            String userIdstring = request.getParameter("userId");
+            
+            
+            User user =(User) request.getSession().getAttribute("user");
             ArrayList<Order> orderlist = null;
-           
             //trường hợp có đã đăng nhập
-            if(userIdstring!=null ){
-                int userId = Integer.parseInt(userIdstring);
+            if(user!=null ){
                 OrderDAO od = new OrderDAO();
-                orderlist = od.getAllOrder(userId);
-                if(orderlist.isEmpty()){
+                orderlist = od.getAllOrderOneUser(user.getUserId());// lấy ra all order của 1 khách nhưng sold=1 chưa thanh toán
+                if(orderlist.isEmpty()){//kiểm tra xem user có mua đồ ko 
                     orderlist=null;
                 }
-            }else{
-                orderlist = (ArrayList<Order>) request.getAttribute("orderlist");
+            }else{// trường hợp chưa đăng nhập -> chưa có order
+                orderlist = null;
             }
-            ArrayList<Request> requestlist = rqd.getAllRequest();
-            ArrayList<Customer> customerlist = csd.getAllCustomer();
-            ArrayList<Category> categorylist = ctd.getAllCategory();
-            ArrayList<Product> list = prd.getAllProduct();
+            ArrayList<Request> requestlist = rqd.getAllRequest();// lấy ra tất cả yêu cầu 
+            ArrayList<Customer> customerlist = csd.getAllCustomer();// lấy ra tất cả khách hàng
+            ArrayList<Category> categorylist = ctd.getAllCategory();// lấy ra category
+            ArrayList<Product> list = prd.getAllProduct();// lấy ra danh sách sản phẩm
             
             request.setAttribute("customerlist", customerlist);
             request.setAttribute("requestlist", requestlist);
             request.setAttribute("categorylist", categorylist);
-            request.setAttribute("list", list);
+            request.setAttribute("productlist", list);
             request.setAttribute("orderlist", orderlist);
             
             

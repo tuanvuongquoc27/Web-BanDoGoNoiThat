@@ -62,7 +62,7 @@ public class CartServletController extends HttpServlet {
 //                request.getRequestDispatcher(path).forward(request, response);
 //            }
             int userId = Integer.parseInt(userIdstring);
-            ArrayList<Order> orderlist = od.getAllOrder(userId);
+            ArrayList<Order> orderlist = od.getAllOrderOneUser(userId);
             ArrayList<Payment> paylist=pd.getAllPay();
             request.setAttribute("pay", "continue");
             request.setAttribute("paylist", paylist);

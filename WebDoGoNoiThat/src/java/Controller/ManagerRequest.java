@@ -53,17 +53,16 @@ public class ManagerRequest extends HttpServlet {
             String rquest = request.getParameter("rquest");
             
             int userId = Integer.parseInt(request.getParameter("userId"));
+            
+            
             if (rquest != null) {
                 if (rquest.equals("accept")) {
                     ud.updateRole(userId, "isSeller",1);
                     sd.updateActice(userId, 1);
                     rqd.updateState(userId,1);
+                    rqd.updateResponse(userId,"Đã chấp nhận");
                     sld.updateDate(userId, getDateNow());
                     sd.updateDate(userId, getDateNow());
-                    
-//                    sld.insertSeller(userId, customer.getName(), customer.getAddress(),
-//                    customer.getEmail(), customer.getPhone(),
-//                    customer.getDate(), convertGender(customer.isGender()), customer.getDOB());
                     ud.updateBalance(userId, -200000);
                     ud.updateBalance(1, 200000);
                     HttpSession session = request.getSession();

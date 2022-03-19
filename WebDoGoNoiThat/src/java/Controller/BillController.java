@@ -88,11 +88,10 @@ public class BillController extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        PrintWriter out = response.getWriter();
-        String address = request.getParameter("address");
+
         //int total = Integer.parseInt(request.getParameter("totalmoney"));
-        String userIdstring = request.getParameter("userId");
-        int userId = Integer.parseInt(userIdstring);
+        User user = (User) request.getSession().getAttribute("user");
+
         String type = request.getParameter("option-pay");
         OrderDAO ord = new OrderDAO();
         ProductDAO prd = new ProductDAO();
@@ -102,36 +101,35 @@ public class BillController extends HttpServlet {
         OrderDAO od = new OrderDAO();
         CustomerDAO csd = new CustomerDAO();
         PayDAO pd = new PayDAO();
-
+        
+        int quantitynew =Integer.parseInt(request.getParameter("quantitynew"));
+        od.updateQuantityOneOrder(quantitynew, quantitynew, quantitynew);
+        
         ArrayList<Payment> paylist = pd.getAllPay();
         request.setAttribute("paylist", paylist);
 
         String pay = request.getParameter("pay");
         if (pay.equals("continue")) {
             String[] list = request.getParameterValues("product");
-            if (list == null) {
+            if (list == null) {// ko chọn hàng yêu cầu ng  dùng chọn để thanh toán
                 request.setAttribute("mess", "Vui lòng chọn sản phẩm để thanh toán");
-                ArrayList<Order> orderlist = od.getAllOrder(userId);
+                ArrayList<Order> orderlist = od.getAllOrderOneUser(user.getUserId());
                 request.setAttribute("orderlist", orderlist);
                 request.setAttribute("pay", "continue");
                 request.getRequestDispatcher("myCart.jsp").forward(request, response);
-            } else {
+            } else {// đã chọn hàng
                 int[] productlist = new int[list.length];
-                for (int i = 0; i < list.length; i++) {
+                for (int i = 0; i < list.length; i++) {// kiểm tra xem có tồn tại sản phẩm đó ko 
                     productlist[i] = Integer.parseInt(list[i]);
-//                        Product product = prd.getProduct(productlist[i]);
-//                        Order order = od.getOneOrder(productlist[i],Integer.parseInt(userIdstring) );
+                    Product product = prd.getProduct(productlist[i]);
+//                        Order order = od.getOneOrder(productlist[i],user.getUserId() );
                     if (od.checkOrder(productlist[i]) != null) {
-                        od.updateOneOrderSold(productlist[i], userId, 1, 0);
-//                            if(order.getProductQuantity()<product.getProductQuantity()){
-//                                request.setAttribute("mess","Số lượng sản phẩm "+product.getProductId()+" không đủ hãy thử lại sau");
-//                                break;
-//                            }
+                        od.updateOneOrderSold(productlist[i], user.getUserId(), 1, 0);
                     }
                 }
                 // trường hợp lấy ra order có bill chưa thanh toán
-                Bill bill = bld.getBillEmpty(userId);
-                ArrayList<Order> orderlist = od.getAllOrderHasBillNotPay(userId, bill.getBillId());
+                Bill bill = bld.getBillEmpty(user.getUserId());
+                ArrayList<Order> orderlist = od.getAllOrderHasBillNotPay(user.getUserId(), bill.getBillId());
                 request.setAttribute("orderlist", orderlist);
                 request.setAttribute("pay", "pay");
                 request.getRequestDispatcher("myCart.jsp").forward(request, response);
@@ -140,48 +138,42 @@ public class BillController extends HttpServlet {
         } else {
             if (type.equals("type1")) {
                 int total = Integer.parseInt(request.getParameter("totalmoney"));
-                User user = ud.getUserByUserId(userId);
-                ArrayList<Order> odlist = ord.getAllOrderSoldout(userId);
-                for (int i = 0; i < odlist.size(); i++) {
-                    Product pro = prd.getProduct(odlist.get(i).getProductId());
-                    if (pro.getProductQuantity() != 0) {
-                        Customer customer = csd.getCustomerById(userId);
-                        if (user.getUserBanlance() < total) {
-                            request.setAttribute("mess", "Số dư ko đủ");
-                            Bill bill = bld.getBillEmpty(userId);
-                            ArrayList<Order> orderlist = od.getAllOrderHasBillNotPay(userId, bill.getBillId());
-                            request.setAttribute("orderlist", orderlist);
-                            request.getRequestDispatcher("myCart.jsp").forward(request, response);
-                        } else if (customer.getAddressShip() == null || customer.getAddress() == null) {
-                            request.setAttribute("mess", "Vui lòng cập nhật địa chỉ");
-                            Bill bill = bld.getBillEmpty(userId);
-                            ArrayList<Order> orderlist = od.getAllOrderHasBillNotPay(userId, bill.getBillId());
-                            request.setAttribute("orderlist", orderlist);
-                            request.getRequestDispatcher("myCart.jsp").forward(request, response);
+                ArrayList<Order> odlist = ord.getAllOrderSoldout(user.getUserId());
+                Customer customer = csd.getCustomerById(user.getUserId());
+                Bill bill = bld.getBillEmpty(user.getUserId());
+                if (user.getUserBanlance() < total) {
+                    request.setAttribute("mess", "Số dư ko đủ");
+                    ArrayList<Order> orderlist = od.getAllOrderHasBillNotPay(user.getUserId(), bill.getBillId());
+                    request.setAttribute("orderlist", orderlist);
+                    request.getRequestDispatcher("myCart.jsp").forward(request, response);
+                } else {
+                    for (int i = 0; i < odlist.size(); i++) {
+                        Product pro = prd.getProduct(odlist.get(i).getProductId());
+                        if (pro.getProductQuantity() != 0) {
+                            prd.updateQuantity(odlist.get(i).getProductQuantity(), pro.getProductId());
+                            
+                            sd.updateQuantity(pro.getShopId());
+                            sd.updateQuantitySold(pro.getShopId());
+                            ArrayList<Order> listo = ord.getAllOrderAll();
+                            prd.updateQuantityProductSold(listo.get(i).getProductId());
+                            ud.updateBalance(pro.getShopId(), odlist.get(i).getProductTotal());
+
                         } else {
-//                            prd.updateQuantity(odlist.get(i).getProductQuantity(), pro.getProductId());
-//                            sd.updateProductSold(pro.getShopId());
-//                            ord.updateOrderSold(userId, 1);
-//                            bld.updateBill(odlist.get(0).getBillId(), total, getDateNow(), 1);
-//                            ud.updateBalance(userId, -total);
-//                            ud.updateBalance(pro.getShopId(), total);
-                            UpdateProductSold(odlist.get(i).getProductQuantity(), pro.getProductId(), 
-                                   userId ,pro.getShopId() , total, odlist.get(0).getBillId());
-                            HttpSession session = request.getSession();
-                            out.println(user.getUserId());
-                            session.removeAttribute("user");
-                            user = ud.getUserByUserId(userId);
-                            session.setAttribute("user", user);
-                            request.setAttribute("mess", "Thanh toán thành công, Kiện hàng sẽ được chuyển đến " + customer.getAddressShip());
+                            request.setAttribute("mess", "Sản phẩm đã hết" + pro.getProductName());
+                            ArrayList<Order> orderlist = od.getAllOrderHasBillNotPay(user.getUserId(), bill.getBillId());
                             request.getRequestDispatcher("myCart.jsp").forward(request, response);
                         }
-                    } else {
-                        request.setAttribute("mess", "Sản phẩm đã hết " + pro.getProductName());
-                        Bill bill = bld.getBillEmpty(userId);
-                        ArrayList<Order> orderlist = od.getAllOrderHasBillNotPay(userId, bill.getBillId());
-                        request.getRequestDispatcher("myCart.jsp").forward(request, response);
                     }
+                    ud.updateBalance(user.getUserId(), -(total-20000));
+                    bld.updateBill(bill.getBillId(), total, getDateNow(), 1);
+                    HttpSession session = request.getSession();
+                    session.removeAttribute("user");
+                    user = ud.getUserByUserId(user.getUserId());
+                    session.setAttribute("user", user);
+                    request.setAttribute("mess", "Thanh toán thành công, Kiện hàng sẽ được chuyển đến " + customer.getAddressShip());
+                    request.getRequestDispatcher("myCart.jsp").forward(request, response);
                 }
+
             } else {
                 request.setAttribute("mess", "Kiện hàng sẽ được giao trong thời gian sớm nhật");
                 request.getRequestDispatcher("myCart.jsp").forward(request, response);
@@ -195,24 +187,6 @@ public class BillController extends HttpServlet {
         SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
         Date date = new Date();
         return sdf.format(date);
-    }
-
-    public void UpdateProductSold(int quantityOrder,int productId,int userId,int shopId,int total ,int billId) {
-        OrderDAO ord = new OrderDAO();
-        ProductDAO prd = new ProductDAO();
-        BillDAO bld = new BillDAO();
-        UserDAO ud = new UserDAO();
-        ShopDAO sd = new ShopDAO();
-        
-        
-        prd.updateQuantity(quantityOrder, productId);
-//        sd.updateProductSold(shopId);
-        ord.updateOrderSold(userId, 1);
-        bld.updateBill(billId, total, getDateNow(), 1);
-        ud.updateBalance(userId, -total);
-        ud.updateBalance(shopId, total);
-        sd.updateQuantity(shopId);
-        sd.updateQuantitySold(shopId);
     }
 
     /**
