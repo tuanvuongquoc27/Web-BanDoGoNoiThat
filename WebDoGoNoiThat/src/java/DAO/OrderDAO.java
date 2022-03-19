@@ -210,7 +210,7 @@ public class OrderDAO {
         DBContext db = new DBContext();
         try {   
             conn=db.getConnection();
-            state=conn.prepareStatement("update [order] set productQuantity = productQuantity+"+productQuantity+", productTotal=productTotal+"+productTotal+" where productId="+productId);
+            state=conn.prepareStatement("update [order] set productQuantity ="+productQuantity+", productTotal="+productTotal+" where productId="+productId);
             state.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(OrderDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -237,7 +237,7 @@ public class OrderDAO {
         try {   
             conn=db.getConnection();
             state=conn.prepareStatement("delete [order] where productId="+deleteId +" and sold=0");
-            state.execute();
+            state.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(OrderDAO.class.getName()).log(Level.SEVERE, null, ex);
         } catch (Exception ex) {
@@ -321,6 +321,19 @@ public class OrderDAO {
             Logger.getLogger(OrderDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
+    }
+    
+    public void setPrice(){
+        DBContext db = new DBContext();
+        try {   
+            conn=db.getConnection();
+            state=conn.prepareStatement("update [order] set productTotal=productQuantity*productPrice");
+            state.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(OrderDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(OrderDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
 }

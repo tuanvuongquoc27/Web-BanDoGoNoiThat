@@ -69,7 +69,7 @@ public class CategoryServletController extends HttpServlet {
                 request.setAttribute("productlist", list);
                 request.setAttribute("end", end);
             }else {
-                ArrayList<Product> list = prd.getAllCategory(begin,last,cateID, "productType");
+                ArrayList<Product> list = prd.getAllCategoryType(begin,last,cateID, "productType");
                 request.setAttribute("productlist", list);
                 request.setAttribute("endother", end);
             }   

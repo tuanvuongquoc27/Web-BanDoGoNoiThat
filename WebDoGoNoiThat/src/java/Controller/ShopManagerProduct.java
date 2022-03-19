@@ -76,11 +76,11 @@ public class ShopManagerProduct extends HttpServlet {
                 request.setAttribute("update", "insert");
             } else if (update.equals("getAll")) {
                 request.setAttribute("update", update);
-                ArrayList<Order> orderlist = od.getAllOrderOneUser(userId);
-                ArrayList<Category> categorylist = ctd.getAllCategory();
+//                ArrayList<Order> orderlist = od.getAllOrderOneUser(userId);
+//                ArrayList<Category> categorylist = ctd.getAllCategory();
 
                 int end = prd.count();
-                end = ((int) end / 3) + 1;
+                end = ((int) end / 10) + 1;
                 String start = request.getParameter("page");
                 int begin;
                 int last;
@@ -92,12 +92,12 @@ public class ShopManagerProduct extends HttpServlet {
                     last = begin * 10;
                     begin = last - 9;
                 }
-                ArrayList<Product> list = prd.getAllCategory(begin, last, shopId , "shopId");
+                ArrayList<Product> list = prd.getAllCategory(begin, last, shopId);
                 request.setAttribute("end", end);
                 request.setAttribute("page", Integer.parseInt(start));
-                request.setAttribute("categorylist", categorylist);
+//                request.setAttribute("categorylist", categorylist);
                 request.setAttribute("productlist", list);
-                request.setAttribute("orderlist", orderlist);
+//                request.setAttribute("orderlist", orderlist);
             }else if (update.equals("update")) {
                 
             }

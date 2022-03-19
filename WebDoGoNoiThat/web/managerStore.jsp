@@ -184,7 +184,7 @@
                                     <td>Trạng thái</td>
                                     <td></td>
                                 </tr>
-                                <c:forEach begin="0" items="${shoplist}" var="shoplist">
+                                <c:forEach items="${shoplist}" var="shoplist">
                                     <tr>
                                         <td><c:out value="${shoplist.getShopId()}"/></td>
                                         <td><a href="ManagerStore?infor=shop&shopId=${shoplist.getShopId()}" class="nav-link store-manager"><c:out value="${shoplist.getShopName()}"/></a></td>
@@ -319,12 +319,12 @@
                                                 </c:if>
                                                 <c:if test="${!listse.isSeller()&&(listse.getUserId()==list.getShopId())}">
                                                     <td><a  onclick="if (!confirm('Bạn có muốn xóa cửa hàng này')) {
-                                                            return false;
-                                                        }" 
+                                                                return false;
+                                                            }" 
                                                             href="ManagerRequest?rquest=delete&userId=${list.getCustomerId()}" class="nav-link">Xóa yêu cầu</a></td>
                                                     <td><a onclick="if (!confirm('Bạn có muốn chấp nhận yêu cầu này')) {
-                                                        return false;
-                                                    }" 
+                                                                return false;
+                                                            }" 
                                                            href="ManagerRequest?rquest=accept&userId=${list.getCustomerId()}" class="nav-link">Chấp nhận</a></td>
                                                     </c:if>  
                                                 </c:forEach>
@@ -338,18 +338,19 @@
 
                         </c:if>
 
-                        <!--paging-->
-                        <ul class="pagination">
-                            <c:if test="${i==page}">
-                                <li class="pagination-item pagination-item--active">
-                                    <a href="ManagerStoreServlet?infor=all&page=${i}" class="pagination-item__link">${i}</a>
-                                </li>
-                            </c:if>
-                            <c:if test="${i!=page}">
-                                <li class="pagination-item">
-                                    <a href="ManagerStoreServlet?infor=all&page=${i}" class="pagination-item__link">${i}</a>
-                                </li>
-                            </c:if>    
+                        <ul class="pagination">                              
+                            <c:forEach begin="1" end="${end}" var="i">
+                                <c:if test="${i==page}">
+                                    <li class="pagination-item pagination-item--active">
+                                        <a href="HomeServletController?page=${i}" class="pagination-item__link">${i}</a>
+                                    </li>
+                                </c:if>
+                                <c:if test="${i!=page}">
+                                    <li class="pagination-item">
+                                        <a href="HomeServletController?page=${i}" class="pagination-item__link">${i}</a>
+                                    </li>
+                                </c:if>    
+                            </c:forEach>
                         </ul>
                     </div>
                 </div>

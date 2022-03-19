@@ -5,13 +5,20 @@
  */
 package Controller;
 
+import DAO.CategoryDAO;
+import DAO.OrderDAO;
+import DAO.ProductDAO;
 import DAO.ShopDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import model.Category;
+import model.Product;
+import model.Shop;
 
 /**
  *
@@ -34,11 +41,16 @@ public class UpdateInforShop extends HttpServlet {
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             ShopDAO sd = new ShopDAO();
-            
+            CategoryDAO ctd = new CategoryDAO();
+            ProductDAO prd = new ProductDAO();
             int shopId = Integer.parseInt(request.getParameter("userId"));
             request.setAttribute("shop", sd.getShop(shopId));
-            request.setAttribute("updateshop", "updatenew");
-            
+            request.setAttribute("update", "updateshop");
+            ArrayList<Product> productlist = prd.getProductbyShopId(shopId);
+            ArrayList<Category> categorylist = ctd.getAllCategory();
+
+            request.setAttribute("categorylist", categorylist);
+            request.setAttribute("productlist", productlist);
             request.getRequestDispatcher("myShop.jsp").forward(request, response);
         }
     }
@@ -69,7 +81,31 @@ public class UpdateInforShop extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        request.setCharacterEncoding("UTF-8");
+        response.setCharacterEncoding("UTF-8");
+        response.setContentType("text/html; charset=UTF-8");
+        String shopid = request.getParameter("input-shopId");
+        String name = request.getParameter("input-name");
+        String address = request.getParameter("input-address");
+        String phone = request.getParameter("input-phone");
+        String email = request.getParameter("input-email");
+        
+
+        ShopDAO sd = new ShopDAO();
+        OrderDAO od = new OrderDAO();
+        CategoryDAO ctd = new CategoryDAO();
+        ProductDAO prd = new ProductDAO();
+        
+        sd.updateShop(shopid,name, address, email, phone);
+        Shop shop = sd.getShop(Integer.parseInt(shopid));
+        ArrayList<Product> productlist = prd.getProductbyShopId(Integer.parseInt(shopid));
+        ArrayList<Category> categorylist = ctd.getAllCategory();
+
+        request.setAttribute("shop", shop);
+        request.setAttribute("categorylist", categorylist);
+        request.setAttribute("productlist", productlist);
+        request.setAttribute("update", "getAll");
+        request.getRequestDispatcher("myShop.jsp").forward(request, response);
     }
 
     /**

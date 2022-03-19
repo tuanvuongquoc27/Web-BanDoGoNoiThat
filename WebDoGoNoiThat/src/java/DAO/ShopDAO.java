@@ -161,7 +161,7 @@ public class ShopDAO {
     public void updateQuantitySold(int shopId) {
         DBContext db = new DBContext();
         try {
-            String query = "(select sum(a.productQuantity) from [order] as a where a.productId in (select a.productId from product as a where a.shopId =" +shopId+")) where shopId = "+shopId;
+            String query = "(select sum(a.productQuantity) from [order] as a where a.productId in (select a.productId from product as a where a.shopId =" +shopId+")and a.sold = 1) where shopId = "+shopId;
             conn = db.getConnection();
             
             state = conn.prepareStatement("update shop set shopProductSold = "+query);
@@ -175,7 +175,7 @@ public class ShopDAO {
         DBContext db = new DBContext();
         try {
             conn = db.getConnection();
-            state = conn.prepareStatement("WITH CTEResults AS  (SELECT * , ROW_NUMBER() OVER (ORDER BY productid) AS RowNum FROM shop ) "
+            state = conn.prepareStatement("WITH CTEResults AS  (SELECT * , ROW_NUMBER() OVER (ORDER BY shopId) AS RowNum FROM shop ) "
                     + "SELECT *  FROM CTEResults WHERE RowNum BETWEEN "+start+" AND "+end);
             rs = state.executeQuery();
             ArrayList<Shop> listshop = new ArrayList<>();
@@ -217,6 +217,22 @@ public class ShopDAO {
             Logger.getLogger(ShopDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return 0;
+    }
+
+    public void updateShop(String shopid , String name, String address, String email, String phone) {
+        DBContext db = new DBContext();
+        try {
+            conn = db.getConnection();
+            state = conn.prepareStatement("update shop set "
+                    + "shopName = N'"+name+"',"
+                    + " shopAddress=N'"+address+"',"
+                    + "shopPhone='"+phone+"',"
+                    + " shopEmail = '"+email+"'"
+                    + " where shopId ="+shopid);
+            state.executeUpdate();
+        } catch (Exception ex) {
+            Logger.getLogger(ShopDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
 }

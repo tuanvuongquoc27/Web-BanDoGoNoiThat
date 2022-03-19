@@ -59,6 +59,7 @@
                                 </c:if>
 
                         </ul>
+                        <!--thông báo yêu cầu-->
                         <ul class="header__navbar-list">
                             <li class="header__navbar-item header__navbar-item-has-notify ">
                                 <a href="" class="header__navbar-item-link"><i class="fa-solid fa-bell bell-icon"></i>Thông
@@ -377,8 +378,7 @@
             </c:if>
             
             <!--sửa thông tin shop-->
-            <c:out value="${updateshop}"></c:out>
-            <c:if test="${updateshop=='updatenew'}">
+            <c:if test="${update=='updateshop'}">
                 <div class="col-sm-9">
 
                     <form action="UpdateInforShop" method="post">
@@ -386,7 +386,7 @@
                         
                         <span>
                             <h4 class="input-name">ID</h4>
-                            <input disabled="true" type="text" value="${shop.getShoptId()}">
+                            <input disabled="true" type="text" value="${shop.getShopId()}">
                         </span><br>
                         <span>
                             <h4 class="input-name">Tên cửa hàng</h4>
@@ -402,7 +402,7 @@
                         </span><br>
                         <span>
                             <h4 class="input-name">Email</h4>
-                            <input name="input-email" type="number" value="${shop.getShopEmail()}">
+                            <input name="input-email" type="email" value="${shop.getShopEmail()}">
                         </span><br>
                         <input type="submit" class="submit-btn" value="Cập nhật">
                     </form>

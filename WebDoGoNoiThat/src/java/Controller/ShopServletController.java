@@ -82,7 +82,7 @@ public class ShopServletController extends HttpServlet {
                     last = begin * 10;
                     begin = last - 9;
                 }
-                ArrayList<Product> list = prd.getAllCategory(begin, last, userIdstring , "shopId");
+                ArrayList<Product> list = prd.getAllCategory(begin, last, userIdstring);
                 request.setAttribute("productlist", list);
                 request.setAttribute("end", end);
                 request.setAttribute("page", Integer.parseInt(start));

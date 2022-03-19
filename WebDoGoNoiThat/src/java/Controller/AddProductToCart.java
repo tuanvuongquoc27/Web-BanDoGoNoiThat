@@ -60,14 +60,16 @@ public class AddProductToCart extends HttpServlet {
                 bd.insertBill(userId);
             }
             bill = bd.getBillEmpty(userId);
-            Order oldorder = od.getOrderSold(userId, productId);
+            Order oldorder = od.getOrderSold(userId, productId);// lấy ra thăng order trc có cùng id
             if (oldorder == null) {
-                od.insertOrder(userId, bill.getBillId(), productId, product.getProductNewPrice(), quantity, quantity * product.getProductNewPrice());
-            } else {
-                od.updateOrder(productId, quantity, quantity * product.getProductNewPrice());
+                od.insertOrder(userId, bill.getBillId(), productId, product.getProductNewPrice(), quantity, 0);
+            } else {// thêm số lượng
+                od.updateOrder(productId, quantity, 0);
+                
             }
+            od.setPrice();
             csd.updateAddress(addressship,userId);
-            request.getRequestDispatcher("HomeServletController").forward(request, response);
+            request.getRequestDispatcher("HomeServletController?page=1").forward(request, response);
 
         }
     }

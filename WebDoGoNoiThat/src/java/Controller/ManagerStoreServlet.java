@@ -74,28 +74,28 @@ public class ManagerStoreServlet extends HttpServlet {
             }
             
             int end = sd.count();
-            end = ((int) end / 12) + 1;
+            end = ((int) end / 3) + 1;
             String start = request.getParameter("page");
             int begin;
             int last;
             if (start == null) {
                 begin = 1;
-                last = 5;
+                last = 3;
             } else {
                 begin = Integer.parseInt(start);
-                last = begin * 5;
-                begin = last - 4;
+                last = begin * 3;
+                begin = last - 2;
             }
                 ArrayList<Shop> shoplist = sd.getAll(begin, last);
                 request.setAttribute("end", end);
                 request.setAttribute("page", Integer.parseInt(start) );
             
-            ArrayList<Seller> sellerlist = sld.getAllSeller("select * from seller");
+//            ArrayList<Seller> sellerlist = sld.getAllSeller("select * from seller");
             ArrayList<Request> listrequest = rqd.getAllRequest();
-            ArrayList<Customer> customerlist = csd.getAllCustomer();
-            request.setAttribute("customerlist", customerlist);
+//            ArrayList<Customer> customerlist = csd.getAllCustomer();
+//            request.setAttribute("customerlist", customerlist);
             request.setAttribute("requestlist", listrequest);
-            request.setAttribute("sellerlist", sellerlist);
+//            request.setAttribute("sellerlist", sellerlist);
             request.setAttribute("shoplist", shoplist);
             request.setAttribute("store", "information");
             

@@ -29,7 +29,7 @@ public class ProductDAO {
         try {
             ArrayList<Product> listproduct = new ArrayList<>();
             conn = db.getConnection();
-            state = conn.prepareStatement("WITH CTEResults AS  (SELECT * , ROW_NUMBER() OVER (ORDER BY productid) AS RowNum FROM product ) "
+            state = conn.prepareStatement("WITH CTEResults AS  (SELECT * , ROW_NUMBER() OVER (ORDER BY productid) AS RowNum FROM product where productQuantity>0) "
                     + "SELECT *  FROM CTEResults WHERE RowNum BETWEEN "+start+" AND "+end);
             rs = state.executeQuery();
             while (rs.next()) {
@@ -56,13 +56,46 @@ public class ProductDAO {
         return null;
     }
     
-    public ArrayList<Product> getAllCategory(int start, int end,String param,String query ) {
+    public ArrayList<Product> getAllCategory(int start, int end,String param) {
         DBContext db = new DBContext();
         try {
             ArrayList<Product> listproduct = new ArrayList<>();
             conn = db.getConnection();
-            state = conn.prepareStatement("WITH CTEResults AS  (SELECT * , ROW_NUMBER() OVER (ORDER BY productid) AS RowNum FROM product ) "
-                    + "SELECT *  FROM CTEResults WHERE (RowNum BETWEEN "+start+" AND "+end +") and "+query+"="+param);
+            state = conn.prepareStatement("WITH CTEResults AS  (SELECT * , ROW_NUMBER() OVER (ORDER BY productid) AS RowNum FROM product where shopId= "+param+"  and productQuantity>0) "
+                    + "SELECT *  FROM CTEResults WHERE RowNum BETWEEN "+start+" AND "+end);
+            rs = state.executeQuery();
+            while (rs.next()) {
+                listproduct.add(new Product(
+                        rs.getInt(1),
+                        rs.getString(2),
+                        rs.getString(3),
+                        rs.getString(4),
+                        rs.getInt(5),
+                        rs.getInt(6),
+                        rs.getInt(7),
+                        rs.getInt(8),
+                        rs.getInt(9),
+                        rs.getString(10),
+                        rs.getString(11),
+                        rs.getInt(12)));
+            }
+            return listproduct;
+        } catch (SQLException ex) {
+            Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+    
+    
+    public ArrayList<Product> getAllCategoryType(int start, int end,String param,String query ) {
+        DBContext db = new DBContext();
+        try {
+            ArrayList<Product> listproduct = new ArrayList<>();
+            conn = db.getConnection();
+            state = conn.prepareStatement("WITH CTEResults AS  (SELECT * , ROW_NUMBER() OVER (ORDER BY productid) AS RowNum FROM product where productType="+param +" and productQuantity>0) "
+                    + "SELECT *  FROM CTEResults WHERE RowNum BETWEEN "+start+" AND "+end);
             rs = state.executeQuery();
             while (rs.next()) {
                 listproduct.add(new Product(
