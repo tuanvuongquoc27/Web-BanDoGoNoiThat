@@ -35,7 +35,7 @@ public class LogoutServlet extends HttpServlet {
             /* TODO output your page here. You may use following sample code. */
             HttpSession session = request.getSession();
             session.removeAttribute("user");
-            response.sendRedirect("HomeServletController");
+            response.sendRedirect("HomeServletController?page=1");
         }
     }
 

@@ -58,7 +58,7 @@ and open the template in the editor.
                     <nav class="header__navbar">
                         <ul class="header__navbar-list">    
                             <c:if test="${user!=null}"> <%--đã đăng nhập--%>  
-                                <li class="header__navbar-item"><a href="HomeServletController" class="header__navbar-item-link">Trang chủ</a></li>
+                                <li class="header__navbar-item"><a href="HomeServletController?page=1" class="header__navbar-item-link">Trang chủ</a></li>
                                 <li class="header__navbar-item">Xin chào: ${user.userName}  </li>
                                 </c:if > 
                                 <c:if test="${user.isCustomer()&&!user.isSeller()}">  <%--đã đăng nhập với tư cách khách hàng có thể đăng kí nhà bán hàng--%>
@@ -235,12 +235,12 @@ and open the template in the editor.
                                 <ul class="dropdown-menu category__list-child">
                                     <c:if test="${user.isAdmin()}">
                                         <li class="dropdown-item category__list-item--child ">
-                                            <a href="ManagerStoreServlet?infor=all" class="category__list-item-link--child nav-link">Quản lí tài khoản</a>
+                                            <a href="ManagerStoreServlet?infor=all&page=1" class="category__list-item-link--child nav-link">Quản lí tài khoản</a>
                                         </li>
                                     </c:if>
                                     <c:if test="${user.isSeller()||user.isAdmin()}">
                                         <li class="dropdown-item category__list-item--child ">
-                                            <a href="ShopServletController?userId=${user.userId}" class="category__list-item-link--child nav-link">Quản lý cửa hàng</a>
+                                            <a href="ShopServletController?userId=${user.userId}&page=1" class="category__list-item-link--child nav-link">Quản lý cửa hàng</a>
                                         </li>
                                     </c:if>
 
@@ -249,12 +249,12 @@ and open the template in the editor.
                         </c:if>
 
                         <div class="category__list-item--header">
-                            <a href="CategoryServletController?categoryId=0" class="nav-link category__list-item--link">Tất cả sản phẩm</a>
+                            <a href="CategoryServletController?categoryId=0&page=1" class="nav-link category__list-item--link">Tất cả sản phẩm</a>
                         </div>
                         <!--hiển thị category của sản phẩm -->
                         <c:forEach begin="0" end="3" items="${categorylist}" varStatus="loop" var="cate">
                             <div class="dropdown category__list-item ">
-                                <a href="CategoryServletController?categoryId=<c:out value="${cate.getCategoryId()}"/>"
+                                <a href="CategoryServletController?categoryId=<c:out value="${cate.getCategoryId()}&page=1"/>"
                                    accesskey=""class=" nav-link category__list-item--link"><c:out value="${cate.getCategoryName()}"/></a>
                             </div>
                         </c:forEach>
@@ -264,7 +264,7 @@ and open the template in the editor.
                             <ul class="dropdown-menu category__list-child">
                                 <c:forEach begin="4" items="${categorylist}" varStatus="loop" var="cate">
                                     <li class="dropdown-item category__list-item--child ">
-                                        <a href="CategoryServletController?categoryId=<c:out value="${cate.getCategoryId()}"/>" class="category__list-item-link--child nav-link"><c:out value="${cate.getCategoryName()}"/></a>
+                                        <a href="CategoryServletController?categoryId=<c:out value="${cate.getCategoryId()}&page=1"/>" class="category__list-item-link--child nav-link"><c:out value="${cate.getCategoryName()}"/></a>
                                     </li>
                                 </c:forEach>
                                 <!--nếu là admin có thể thêm mới-->    
@@ -317,8 +317,15 @@ and open the template in the editor.
                     </div>
                     <!-- product -->
                     <!--hiển thị sản phẩm homecontroller-->
-                    <c:if test="${productlist!=null}">
-                        <div class="col-sm-10">
+
+                    <div class="col-sm-10">
+                        <c:if test="${productlist.size()==0}">
+                            <img style="margin-left: 250px;width:600px;height:400px;" src="./image/cart-empty.png"> 
+                            <h1 style="margin-left: 460px;margin-bottom: 200px;">
+                                Không có sản phẩm
+                            </h1> 
+                        </c:if>
+                        <c:if test="${productlist!=null}">
                             <div class="home-product">
                                 <div class="row">
                                     <c:forEach items="${productlist}" varStatus="loop" var="p">
@@ -382,46 +389,42 @@ and open the template in the editor.
 
                                 </div>
                             </div>
-                            <!--                            <ul class="pagination">
-                                                            <li class="pagination-item">
-                                                                <a href="" class="pagination-item__link">
-                                                                    <i class="pagination-item__icon fa-solid fa-angle-left"></i>
-                                                                </a>
-                                                            </li>
-                                                            <li class="pagination-item pagination-item--active">
-                                                                <a href="" class="pagination-item__link">1</a>
-                                                            </li>
-                                                            <li class="pagination-item">
-                                                                <a href="" class="pagination-item__link">2</a>
-                                                            </li>
-                                                            <li class="pagination-item">
-                                                                <a href="" class="pagination-item__link">3</a>
-                                                            </li>
-                                                            <li class="pagination-item">
-                                                                <a href="" class="pagination-item__link">4</a>
-                                                            </li>
-                                                            <li class="pagination-item">
-                                                                <a href="" class="pagination-item__link">5</a>
-                                                            </li>
-                                                            <li class="pagination-item">
-                                                                <a href="" class="pagination-item__link">...</a>
-                                                            </li>
-                                                            <li class="pagination-item">
-                                                                <a href="" class="pagination-item__link">14</a>
-                                                            </li>
-                                                            <li class="pagination-item">
-                                                                <a href="" class="pagination-item__link">
-                                                                    <i class="pagination-item__icon fa-solid fa-angle-right"></i>
-                                                                </a>
-                                                            </li>
-                                                        </ul>-->
-                        </div>
-                    </c:if>
-                    <c:if test="${productlist.size()==0}">
-                        <h1>
-                            Không có sản phẩm
-                        </h1> 
-                    </c:if>
+                        </c:if>
+                        <c:if test="${endother!=null}">
+                            <ul class="pagination">
+                                <c:forEach begin="1" end="${endother}" var="i">
+                                    <c:if test="${i==page}">
+                                        <li class="pagination-item pagination-item--active">
+                                            <a href="CategoryServletController?categoryId=${cateid}&page=${i}" class="pagination-item__link">${i}</a>
+                                        </li>
+                                    </c:if>
+                                    <c:if test="${i!=page}">
+                                        <li class="pagination-item">
+                                            <a href="CategoryServletController?categoryId=${cateid}&page=${i}" class="pagination-item__link">${i}</a>
+                                        </li>
+                                    </c:if>    
+                                </c:forEach>
+                            </ul>
+                        </c:if>
+                        <c:if test="${endother==null}">
+                            <ul class="pagination">                              
+                                <c:forEach begin="1" end="${end}" var="i">
+                                    <c:if test="${i==page}">
+                                        <li class="pagination-item pagination-item--active">
+                                            <a href="HomeServletController?page=${i}" class="pagination-item__link">${i}</a>
+                                        </li>
+                                    </c:if>
+                                    <c:if test="${i!=page}">
+                                        <li class="pagination-item">
+                                            <a href="HomeServletController?page=${i}" class="pagination-item__link">${i}</a>
+                                        </li>
+                                    </c:if>    
+                                </c:forEach>
+                            </ul>
+                        </c:if>
+                    </div>
+
+
 
 
                 </div>

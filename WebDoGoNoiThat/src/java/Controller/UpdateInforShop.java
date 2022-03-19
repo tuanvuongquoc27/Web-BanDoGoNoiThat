@@ -5,23 +5,19 @@
  */
 package Controller;
 
-import DAO.CategoryDAO;
-import DAO.ProductDAO;
+import DAO.ShopDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import model.Category;
-import model.Product;
 
 /**
  *
  * @author Admin
  */
-public class CategoryServletController extends HttpServlet {
+public class UpdateInforShop extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -37,47 +33,13 @@ public class CategoryServletController extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
-            CategoryDAO ctd = new CategoryDAO();
-            ProductDAO prd = new ProductDAO();
+            ShopDAO sd = new ShopDAO();
             
-            String cateID = request.getParameter("categoryId");
-            int categoryId = Integer.parseInt(cateID);
-            ArrayList<Category> categorylist = ctd.getAllCategory();
-            request.setAttribute("categorylist", categorylist);
-            int end = 0;
-            if(categoryId==0){
-                end = prd.count();
-            }else{
-                end = prd.countCategory(categoryId);
-            }
+            int shopId = Integer.parseInt(request.getParameter("userId"));
+            request.setAttribute("shop", sd.getShop(shopId));
+            request.setAttribute("updateshop", "updatenew");
             
-            
-            end = ((int) end / 12) + 1;
-            String start = request.getParameter("page");
-            int begin;
-            int last;
-            if (start == null) {
-                begin = 1;
-                last = 12;
-            } else {
-                begin = Integer.parseInt(start);
-                last = begin * 12;
-                begin = last - 11;
-            }
-            if(categoryId==0){
-                ArrayList<Product> list = prd.getAll(begin, last);
-                request.setAttribute("productlist", list);
-                request.setAttribute("end", end);
-            }else {
-                ArrayList<Product> list = prd.getAllCategory(begin,last,cateID, "productType");
-                request.setAttribute("productlist", list);
-                request.setAttribute("endother", end);
-            }   
-            request.setAttribute("cateid",categoryId );
-                request.setAttribute("endother", end);
-            request.setAttribute("page", Integer.parseInt(start) );
-            
-            request.getRequestDispatcher("HomePage.jsp").forward(request, response);
+            request.getRequestDispatcher("myShop.jsp").forward(request, response);
         }
     }
 

@@ -77,7 +77,7 @@
                         <input class="btn btn-secondary" type="submit" value="Đăng kí">
                     </c:if>
 
-                    <a type="button" class="btn btn-secondary" href="HomeServletController?userId=${sessionScope.user.userId}">Trở về</a>
+                    <a type="button" class="btn btn-secondary" href="HomeServletController?page=1&userId=${sessionScope.user.userId}">Trở về</a>
                 </form>
             </div>
         </div>

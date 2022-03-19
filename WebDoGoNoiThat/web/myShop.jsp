@@ -54,7 +54,7 @@
                     <nav class="header__navbar">
                         <ul class="header__navbar-list">
                             <c:if test="${user!=null}">
-                                <li class="header__navbar-item"><a href="HomeServletController?userId=${user.userId}" class="header__navbar-item-link">Trang chủ</a></li>
+                                <li class="header__navbar-item"><a href="HomeServletController?page=1" class="header__navbar-item-link">Trang chủ</a></li>
                                 <li class="header__navbar-item">Xin chào: ${user.userName}  </li>
                                 </c:if>
 
@@ -199,13 +199,16 @@
                     </h4>
                     <ul class="product__list nav flex-column">
                         <li class="product__list-item nav-item ">
-                            <a href="ShopManagerProduct?update=getAll&userId=${user.userId}" class="nav-link product__list-item--link">Tất cả sản phẩm</a> 
+                            <a href="ShopManagerProduct?update=getAll&userId=${user.userId}&page=1" class="nav-link product__list-item--link">Tất cả sản phẩm</a> 
                         </li>
                         <li class="product__list-item nav-item ">
                             <a href="ShopManagerProduct?update=insert&userId=${user.userId}" class="nav-link product__list-item--link">Thêm sản phẩm</a> 
                         </li>
                         <li class="product__list-item nav-item ">
                             <a href="ShopManagerProduct?update=reveneu&userId=${user.userId}" class="nav-link product__list-item--link">Doanh thu</a> 
+                        </li>
+                        <li class="product__list-item nav-item ">
+                            <a href="UpdateInforShop?userId=${user.userId}" class="nav-link product__list-item--link">Cập nhật thông tin</a> 
                         </li>
 
                     </ul>
@@ -240,17 +243,33 @@
                                 <div class="col-sm-2 product__price"><fmt:formatNumber type="number" pattern="###,###,###đ" value="${pro.getProductNewPrice()}" /></div>
                                 <div class="col-sm-1 product__quantity"><c:out value="${pro.getProductQuantity()}"/></div>
                                 <div class="col-sm-1 product__total"><c:out value="${pro.getProductQuantitySold()}"/></div>
-                                    <div class="col-sm-2 product__delete"> 
-                                        <span><a onclick="if (!confirm('Are you sure?')) {
+                                <div class="col-sm-2 product__delete"> 
+                                    <span><a onclick="if (!confirm('Are you sure?')) {
                                                     return false;
                                                 }" href="ShopManagerProduct?productIddelete=${pro.getProductId()}&userId=${sessionScope.user.userId}" class="nav-link">Xóa</a>
                                     </span><span><a href="ShopManagerProduct?productIdupdate=${pro.getProductId()}&userId=${sessionScope.user.userId}&update=update" class="nav-link">Sửa</a></span></div>
                             </div>
                         </c:forEach>
                     </div>
+                    <ul class="pagination">
+                        <c:forEach begin="1" end="${end}" var="i">
+                            <c:if test="${i==page}">
+                                <li class="pagination-item pagination-item--active">
+                                    <a href="ShopManagerProduct?update=getAll&userId=${user.userId}&page=${i}" class="pagination-item__link">${i}</a>
+                                </li>
+                            </c:if>
+                            <c:if test="${i!=page}">
+                                <li class="pagination-item">
+                                    <a href="ShopManagerProduct?update=getAll&userId=${user.userId}&page=${i}" class="pagination-item__link">${i}</a>
+                                </li>
+                            </c:if>    
+                        </c:forEach>
+                    </ul>
+
 
                 </div>
             </c:if>
+            
             <!--sửa sản phẩm-->
             <c:if test="${update=='update'}">
                 <div class="col-sm-9">
@@ -356,7 +375,44 @@
                     </form>
                 </div>
             </c:if>
+            
+            <!--sửa thông tin shop-->
+            <c:out value="${updateshop}"></c:out>
+            <c:if test="${updateshop=='updatenew'}">
+                <div class="col-sm-9">
+
+                    <form action="UpdateInforShop" method="post">
+                        <input type="hidden" value="${sessionScope.user.userId}" name="input-shopId"/>
+                        
+                        <span>
+                            <h4 class="input-name">ID</h4>
+                            <input disabled="true" type="text" value="${shop.getShoptId()}">
+                        </span><br>
+                        <span>
+                            <h4 class="input-name">Tên cửa hàng</h4>
+                            <input name="input-name" type="text" value="${shop.getShopName()}">
+                        </span><br>
+                        <span>
+                            <h4 class="input-name">Địa chỉ cửa hàng</h4>
+                            <input name="input-address" type="text" value="${shop.getShopAddress()}">
+                        </span><br>
+                        <span>
+                            <h4 class="input-name">Số điện thoại </h4>
+                            <input name="input-phone" type="text" value="${shop.getShopPhone()}">
+                        </span><br>
+                        <span>
+                            <h4 class="input-name">Email</h4>
+                            <input name="input-email" type="number" value="${shop.getShopEmail()}">
+                        </span><br>
+                        <input type="submit" class="submit-btn" value="Cập nhật">
+                    </form>
+
+                </div>
+            </c:if>
+            
         </div>
+
+
 
         <!-- footer -->
         <div class="footer">

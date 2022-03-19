@@ -35,7 +35,7 @@
             <div class="row header">
                 <div class="col-sm-1"></div>
                 <div class="col-sm-10 header__cart">
-                    <a class="" href="HomeServletController?userId=${sessionScope.user.userId}"><i class="fa-solid fa-house"></i>Trang chủ</a>
+                    <a class="" href="HomeServletController?page=1"><i class="fa-solid fa-house"></i>Trang chủ</a>
                     <span class="cart-name">Giỏ hàng</span>
                 </div>
                 <div class="col-sm-1"></div>

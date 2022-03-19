@@ -59,19 +59,39 @@ public class ShopServletController extends HttpServlet {
             }else if (idstring == null){
                 int userId = Integer.parseInt(userIdstring);
                 Shop shop =  sd.getShop(userId);
-                ArrayList<Product> productlist = prd.getProductbyShopId(userId);
                 ArrayList<Order> orderlist = od.getAllOrderOneUser(userId);
                 ArrayList<Order> orderall = od.getAllOrderRecord();
                 ArrayList<Category> categorylist = ctd.getAllCategory();
                 request.setAttribute("shop", shop);
                 request.setAttribute("categorylist", categorylist);
-                request.setAttribute("productlist", productlist);
+                
                 request.setAttribute("orderlist", orderlist);
                 request.setAttribute("orderlistall", orderall);
                 request.setAttribute("update", "getAll");
-                out.println(orderlist);
+                
+                int end = prd.count();
+                end = ((int) end / 10) + 1;
+                String start = request.getParameter("page");
+                int begin;
+                int last;
+                if (start == null) {
+                    begin = 1;
+                    last = 10;
+                } else {
+                    begin = Integer.parseInt(start);
+                    last = begin * 10;
+                    begin = last - 9;
+                }
+                ArrayList<Product> list = prd.getAllCategory(begin, last, userIdstring , "shopId");
+                request.setAttribute("productlist", list);
+                request.setAttribute("end", end);
+                request.setAttribute("page", Integer.parseInt(start));
                 request.getRequestDispatcher("myShop.jsp").forward(request, response);
-            }
+            }   
+            
+            
+                
+            
 
             //out.println(shop.getShopDate());
         }

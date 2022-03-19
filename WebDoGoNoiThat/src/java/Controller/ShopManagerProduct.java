@@ -67,25 +67,39 @@ public class ShopManagerProduct extends HttpServlet {
                 request.setAttribute("categorylist", categorylist);
                 request.setAttribute("productlist", productlist);
                 request.setAttribute("orderlist", orderlist);
-            }
-            else if (productIdupdate != null) {
+            } else if (productIdupdate != null) {
                 int productId = Integer.parseInt(productIdupdate);
                 Product product = prd.getProduct(productId);
                 request.setAttribute("update", "update");
                 request.setAttribute("product", product);
-            }
-            else if (update.equals("insert")) {
+            } else if (update.equals("insert")) {
                 request.setAttribute("update", "insert");
-            }
-            else if (update.equals("getAll")) {
+            } else if (update.equals("getAll")) {
                 request.setAttribute("update", update);
-                ArrayList<Product> productlist = prd.getProductbyShopId(userId);
                 ArrayList<Order> orderlist = od.getAllOrderOneUser(userId);
                 ArrayList<Category> categorylist = ctd.getAllCategory();
 
+                int end = prd.count();
+                end = ((int) end / 3) + 1;
+                String start = request.getParameter("page");
+                int begin;
+                int last;
+                if (start == null) {
+                    begin = 1;
+                    last = 10;
+                } else {
+                    begin = Integer.parseInt(start);
+                    last = begin * 10;
+                    begin = last - 9;
+                }
+                ArrayList<Product> list = prd.getAllCategory(begin, last, shopId , "shopId");
+                request.setAttribute("end", end);
+                request.setAttribute("page", Integer.parseInt(start));
                 request.setAttribute("categorylist", categorylist);
-                request.setAttribute("productlist", productlist);
+                request.setAttribute("productlist", list);
                 request.setAttribute("orderlist", orderlist);
+            }else if (update.equals("update")) {
+                
             }
             Shop shop = sd.getShop(userId);
             request.setAttribute("shop", shop);
@@ -144,13 +158,13 @@ public class ShopManagerProduct extends HttpServlet {
             int check = prd.checkProduct(productName, productDescript,
                     productImg, shopId, productBrand,
                     productOrigin, convertType(productType));
-            if (check==0) {
+            if (check == 0) {
                 prd.insertProduct(productName, productDescript,
                         productImg, shopId, productQuantity, 0, productOldPrice, productBrand,
                         productOrigin, convertType(productType));
                 sd.updateQuantity(shopId);
-            }else {
-                
+            } else {
+
                 Product product = prd.getProduct(check);
                 request.setAttribute("update", "update");
                 request.setAttribute("product", product);

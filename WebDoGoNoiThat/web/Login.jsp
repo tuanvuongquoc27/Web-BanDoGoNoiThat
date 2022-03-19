@@ -21,7 +21,7 @@
                     <input type="text" placeholder="Tên đăng nhập" name="input-username" class="input-infor-acc" required><br>
                     <input type="password" placeholder="Mật khẩu" name="input-password" class="input-infor-acc" required><br>
                     <input type="submit" value="Đăng nhập" class="btn btn-login"><br>
-                    <a class="back_home" href="HomeServletController">Trở lại</a>
+                    <a class="back_home" href="HomeServletController?page=1">Trở lại</a>
                     <div style="clear: both;"></div>
                 </form>
                 

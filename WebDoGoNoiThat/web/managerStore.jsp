@@ -54,7 +54,7 @@
                     <nav class="header__navbar">
                         <ul class="header__navbar-list">
                             <c:if test="${user!=null}">
-                                <li class="header__navbar-item"><a href="HomeServletController?userId=${user.userId}" class="header__navbar-item-link">Trang chủ</a></li>
+                                <li class="header__navbar-item"><a href="HomeServletController?page=1" class="header__navbar-item-link">Trang chủ</a></li>
                                 <li class="header__navbar-item">Xin chào: ${user.userName}  </li>
                                 </c:if>
                         </ul>
@@ -130,7 +130,7 @@
                                 <div  data-bs-toggle="dropdown"
                                       class="dropdown-toggle nav-link product__list-item--link">Thông tin cửa hàng</div>
                                 <ul class="dropdown-menu product__list-child">
-                                    <li class="dropdown-item product__list-item--child "><a href="ManagerStoreServlet?infor=all"
+                                    <li class="dropdown-item product__list-item--child "><a href="ManagerStoreServlet?infor=all&page=1"
                                                                                             class="product__list-item-link--child nav-link">Tất cả</a></li>
 
 
@@ -209,9 +209,9 @@
                                     </tr>
                                 </c:forEach>
                             </table>
-<!--                            <div class="add__store">
-                                <a href="#" class="nav-link add__store-link">Thêm cửa hàng</a>
-                            </div>-->
+                            <!--                            <div class="add__store">
+                                                            <a href="#" class="nav-link add__store-link">Thêm cửa hàng</a>
+                                                        </div>-->
                         </c:if>
 
                         <!--inforseller-->
@@ -309,22 +309,26 @@
                                                 </c:forEach>
                                             </td> 
                                             <td>${list.getReponse()}</td>
-                                            
+
                                             <c:forEach begin="1" items="${se}" var="listse">
-                                                
-                                            
-                                            <c:if test="${listse.isSeller()&&(listse.getUserId()==list.getShopId())}">
-                                                <td>Xóa yêu cầu</td>
-                                            <td>Chấp nhận</td>
-                                            </c:if>
-                                            <c:if test="${!listse.isSeller()&&(listse.getUserId()==list.getShopId())}">
-                                                <td><a  onclick="if (!confirm('Bạn có muốn xóa cửa hàng này')) {return false;}" 
-                                                   href="ManagerRequest?rquest=delete&userId=${list.getCustomerId()}" class="nav-link">Xóa yêu cầu</a></td>
-                                            <td><a onclick="if (!confirm('Bạn có muốn chấp nhận yêu cầu này')) {return false;}" 
-                                                   href="ManagerRequest?rquest=accept&userId=${list.getCustomerId()}" class="nav-link">Chấp nhận</a></td>
-                                            </c:if>  
-                                                   </c:forEach>
-                                            
+
+
+                                                <c:if test="${listse.isSeller()&&(listse.getUserId()==list.getShopId())}">
+                                                    <td>Xóa yêu cầu</td>
+                                                    <td>Chấp nhận</td>
+                                                </c:if>
+                                                <c:if test="${!listse.isSeller()&&(listse.getUserId()==list.getShopId())}">
+                                                    <td><a  onclick="if (!confirm('Bạn có muốn xóa cửa hàng này')) {
+                                                            return false;
+                                                        }" 
+                                                            href="ManagerRequest?rquest=delete&userId=${list.getCustomerId()}" class="nav-link">Xóa yêu cầu</a></td>
+                                                    <td><a onclick="if (!confirm('Bạn có muốn chấp nhận yêu cầu này')) {
+                                                        return false;
+                                                    }" 
+                                                           href="ManagerRequest?rquest=accept&userId=${list.getCustomerId()}" class="nav-link">Chấp nhận</a></td>
+                                                    </c:if>  
+                                                </c:forEach>
+
                                         </tr>
                                     </c:forEach>
 
@@ -336,37 +340,16 @@
 
                         <!--paging-->
                         <ul class="pagination">
-                            <li class="pagination-item">
-                                <a href="" class="pagination-item__link">
-                                    <i class="pagination-item__icon fa-solid fa-angle-left"></i>
-                                </a>
-                            </li>
-                            <li class="pagination-item pagination-item--active">
-                                <a href="" class="pagination-item__link">1</a>
-                            </li>
-                            <li class="pagination-item">
-                                <a href="" class="pagination-item__link">2</a>
-                            </li>
-                            <li class="pagination-item">
-                                <a href="" class="pagination-item__link">3</a>
-                            </li>
-                            <li class="pagination-item">
-                                <a href="" class="pagination-item__link">4</a>
-                            </li>
-                            <li class="pagination-item">
-                                <a href="" class="pagination-item__link">5</a>
-                            </li>
-                            <li class="pagination-item">
-                                <a href="" class="pagination-item__link">...</a>
-                            </li>
-                            <li class="pagination-item">
-                                <a href="" class="pagination-item__link">14</a>
-                            </li>
-                            <li class="pagination-item">
-                                <a href="" class="pagination-item__link">
-                                    <i class="pagination-item__icon fa-solid fa-angle-right"></i>
-                                </a>
-                            </li>
+                            <c:if test="${i==page}">
+                                <li class="pagination-item pagination-item--active">
+                                    <a href="ManagerStoreServlet?infor=all&page=${i}" class="pagination-item__link">${i}</a>
+                                </li>
+                            </c:if>
+                            <c:if test="${i!=page}">
+                                <li class="pagination-item">
+                                    <a href="ManagerStoreServlet?infor=all&page=${i}" class="pagination-item__link">${i}</a>
+                                </li>
+                            </c:if>    
                         </ul>
                     </div>
                 </div>

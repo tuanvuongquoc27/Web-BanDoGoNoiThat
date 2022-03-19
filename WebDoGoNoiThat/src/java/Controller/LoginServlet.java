@@ -46,9 +46,9 @@ public class LoginServlet extends HttpServlet {
             HttpSession session = request.getSession();
             session.setAttribute("user", user);
             if (user.isAdmin()) { // trường hơp là admin chuyển sang trang của admin
-                request.getRequestDispatcher("ManagerStoreServlet").forward(request, response);
+                request.getRequestDispatcher("ManagerStoreServlet?page=1").forward(request, response);
             } else {// trường hơp con lại đến trang home
-                request.getRequestDispatcher("HomeServletController").forward(request, response);
+                request.getRequestDispatcher("HomeServletController?page=1").forward(request, response);
             }
         }
     }

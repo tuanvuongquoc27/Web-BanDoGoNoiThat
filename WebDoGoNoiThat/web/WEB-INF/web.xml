@@ -124,6 +124,14 @@
         <servlet-name>NewRequest</servlet-name>
         <servlet-class>Controller.NewRequest</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>Paging</servlet-name>
+        <servlet-class>Controller.Paging</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>UpdateInforShop</servlet-name>
+        <servlet-class>Controller.UpdateInforShop</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
         <url-pattern>/LoginServlet</url-pattern>
@@ -223,6 +231,14 @@
     <servlet-mapping>
         <servlet-name>NewRequest</servlet-name>
         <url-pattern>/NewRequest</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Paging</servlet-name>
+        <url-pattern>/Paging</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UpdateInforShop</servlet-name>
+        <url-pattern>/UpdateInforShop</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

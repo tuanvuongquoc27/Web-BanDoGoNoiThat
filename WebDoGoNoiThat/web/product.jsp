@@ -53,7 +53,7 @@
                     <nav class="header__navbar">
                         <ul class="header__navbar-list">
                             <c:if test="${user!=null}">
-                                <li class="header__navbar-item"><a href="HomeServletController?userId=${user.userId}" class="header__navbar-item-link">Trang chủ</a></li>
+                                <li class="header__navbar-item"><a href="HomeServletController?page=1" class="header__navbar-item-link">Trang chủ</a></li>
                                 <li class="header__navbar-item">Xin chào ${user.userName}  </li>
                                 </c:if>
                                 <c:if test="${user.isCustomer()&&!user.isSeller()}">
@@ -227,7 +227,7 @@
                                         <i class="fa-solid fa-star"></i>
                                     </span>
                                     <span class="product__cart-header--rate">3K Đánh giá</span>
-                                    <span class="product__cart-header--sold">8,4k Đã bán</span>
+                                    <span class="product__cart-header--sold">${product.getProductQuantitySold()} Đã bán</span>
                                 </div>
                                 <div class="product__cart-price">
                                     <c:if test="${j==0}">

@@ -48,41 +48,27 @@ public class ForgotPassServlet extends HttpServlet {
             SellerDAO sld = new SellerDAO();
             //kieerm tra de cap nhat mat khau 
             if (email == null) {
-                if(password.equals(password_again)){
+                if (password.equals(password_again)) {
                     ud.updatePassword(password, user.getUserId());
                     request.setAttribute("success", "Cập nhật thành công");
                     request.getRequestDispatcher("Login.jsp").forward(request, response);
-                }else {
+                } else {
                     request.setAttribute("error", "Mật khẩu không khớp");
                     request.getRequestDispatcher("ForgotPass.jsp").forward(request, response);
                 }
-            // kiem tra de nhap mat khau moi    
+                // kiem tra de nhap mat khau moi    
             } else {
-                Seller seller = sld.getSellerById(user.getUserId());
                 Customer customer = ctd.getCustomerById(user.getUserId());
-                out.println(seller.getEmail());
-                out.println(username);
-                out.println(user.getUserName());
-                out.println(email);
-                if(customer==null){
-                    if(username.equals(user.getUserName()) && seller.getEmail().equals(email)){
-                        request.setAttribute("message", "Cập nhật mật khẩu");
-                        request.setAttribute("username", username);
-                        request.getRequestDispatcher("ForgotPass.jsp").forward(request, response);
-                    }
-                        
-                }else {
-                    if(username.equals(user.getUserName()) && customer.getEmail().equals(email)){
-                        request.setAttribute("message", "Cập nhật mật khẩu");
-                        request.setAttribute("username", username);
-                        request.getRequestDispatcher("ForgotPass.jsp").forward(request, response);
-                    }
+
+                if (username.equals(user.getUserName()) && customer.getEmail().equals(email)) {
+                    request.setAttribute("message", "Cập nhật mật khẩu");
+                    request.setAttribute("username", username);
+                    request.getRequestDispatcher("ForgotPass.jsp").forward(request, response);
                 }
-                
-                
             }
 
         }
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
