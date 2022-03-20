@@ -299,7 +299,7 @@ public class ProductDAO {
     }
     
     public void insertProduct(String productName, String productDescript,
-            String productImg,int shopId, int productQuantity, int productQuantitySold, int productNewPrice,
+            String productImg,int shopId, int productQuantity, int productQuantitySold,int productEntryPrice, int productNewPrice,
             String productBrand, String productOrigin, int productType) {
         DBContext db = new DBContext();
 
@@ -311,12 +311,13 @@ public class ProductDAO {
                     + productImg      + "', "
                     + shopId          + " , "
                     + productQuantity + " , "
-                    + productQuantitySold + " , "
+                    + productQuantitySold + ", "
                     + productNewPrice + " , "
                     + productNewPrice + " ,N'"
                     + productBrand    + "',N'"
                     + productOrigin   + "',"
-                    + productType+")");
+                    + productType+", "
+                    + productEntryPrice +")");
             state.execute();
         } catch (Exception ex) {
             Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -404,5 +405,5 @@ public class ProductDAO {
         }
         return 0;
     }
-
+    
 }

@@ -62,10 +62,6 @@ public class ManagerStoreServlet extends HttpServlet {
                     prd.deleteProductByShopId(deleteId);
                     sd.deleteShop(deleteId);
                     sld.deleteSeller(deleteId);
-//                    csd.insertCustomer(seller.getId(), seller.getName(),
-//                            seller.getAddress(),seller.getAddress(), seller.getEmail(),
-//                            seller.getPhone(),seller.getDate(),convertGender(seller.isGender()),seller.getDOB());
-//                    ud.updateRole(deleteId, "isCustomer",1);
                     ud.updateRole(deleteId,"isSeller", 0);
                     //get thong tin chuyen sang trang cho admin
                 }else if(infor.equals("all")) {
@@ -90,12 +86,12 @@ public class ManagerStoreServlet extends HttpServlet {
                 request.setAttribute("end", end);
                 request.setAttribute("page", Integer.parseInt(start) );
             
-//            ArrayList<Seller> sellerlist = sld.getAllSeller("select * from seller");
+            ArrayList<Seller> sellerlist = sld.getAllSeller("select * from seller");
             ArrayList<Request> listrequest = rqd.getAllRequest();
-//            ArrayList<Customer> customerlist = csd.getAllCustomer();
-//            request.setAttribute("customerlist", customerlist);
+            ArrayList<Customer> customerlist = csd.getAllCustomer();
+            request.setAttribute("customerlist", customerlist);
             request.setAttribute("requestlist", listrequest);
-//            request.setAttribute("sellerlist", sellerlist);
+            request.setAttribute("sellerlist", sellerlist);
             request.setAttribute("shoplist", shoplist);
             request.setAttribute("store", "information");
             

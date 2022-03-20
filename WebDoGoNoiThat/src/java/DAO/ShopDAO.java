@@ -161,22 +161,22 @@ public class ShopDAO {
     public void updateQuantitySold(int shopId) {
         DBContext db = new DBContext();
         try {
-            String query = "(select sum(a.productQuantity) from [order] as a where a.productId in (select a.productId from product as a where a.shopId =" +shopId+")and a.sold = 1) where shopId = "+shopId;
+            String query = "(select sum(a.productQuantity) from [order] as a where a.productId in (select a.productId from product as a where a.shopId =" + shopId + ")and a.sold = 1) where shopId = " + shopId;
             conn = db.getConnection();
-            
-            state = conn.prepareStatement("update shop set shopProductSold = "+query);
+
+            state = conn.prepareStatement("update shop set shopProductSold = " + query);
             state.executeUpdate();
         } catch (Exception ex) {
             Logger.getLogger(ShopDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-    public ArrayList<Shop> getAll(int start, int end ) {
+
+    public ArrayList<Shop> getAll(int start, int end) {
         DBContext db = new DBContext();
         try {
             conn = db.getConnection();
             state = conn.prepareStatement("WITH CTEResults AS  (SELECT * , ROW_NUMBER() OVER (ORDER BY shopId) AS RowNum FROM shop ) "
-                    + "SELECT *  FROM CTEResults WHERE RowNum BETWEEN "+start+" AND "+end);
+                    + "SELECT *  FROM CTEResults WHERE RowNum BETWEEN " + start + " AND " + end);
             rs = state.executeQuery();
             ArrayList<Shop> listshop = new ArrayList<>();
             while (rs.next()) {
@@ -201,14 +201,14 @@ public class ShopDAO {
         }
         return null;
     }
-    
+
     public int count() {
         DBContext db = new DBContext();
         try {
             conn = db.getConnection();
             state = conn.prepareStatement("select count(*) from shop");
             rs = state.executeQuery();
-            while(rs.next()){
+            while (rs.next()) {
                 return rs.getInt(1);
             }
         } catch (SQLException ex) {
@@ -219,20 +219,49 @@ public class ShopDAO {
         return 0;
     }
 
-    public void updateShop(String shopid , String name, String address, String email, String phone) {
+    public void updateShop(String shopid, String name, String address, String email, String phone) {
         DBContext db = new DBContext();
         try {
             conn = db.getConnection();
             state = conn.prepareStatement("update shop set "
-                    + "shopName = N'"+name+"',"
-                    + " shopAddress=N'"+address+"',"
-                    + "shopPhone='"+phone+"',"
-                    + " shopEmail = '"+email+"'"
-                    + " where shopId ="+shopid);
+                    + "shopName = N'" + name + "',"
+                    + " shopAddress=N'" + address + "',"
+                    + "shopPhone='" + phone + "',"
+                    + " shopEmail = '" + email + "'"
+                    + " where shopId =" + shopid);
             state.executeUpdate();
         } catch (Exception ex) {
             Logger.getLogger(ShopDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
+    public void updateShopRevenue(int shopId) {//billcontroller
+
+        DBContext db = new DBContext();
+        try {
+            conn = db.getConnection();
+            state = conn.prepareStatement("update shop set shopRevenue = \n" +
+                    "(select SUM(a.productTotal) from [order] as a, bill as b , product as c where a.billId = b.billId"
+                    + " and a.productId = c.productId and c.shopId = "+shopId+" group by c.shopId) where shopId = "+shopId);
+            state.executeUpdate();
+        } catch (Exception ex) {
+            Logger.getLogger(ShopDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void updateShopProfit(int shopId) {//billcontroller
+
+        DBContext db = new DBContext();
+        try {
+            conn = db.getConnection();
+            state = conn.prepareStatement("update shop set shopProfit ="
+                    + " shopRevenue - (select SUM(a.productEntryPrice) from product as a where a.shopId ="+shopId+"group by a.shopId) where shopId="+shopId);
+            state.executeUpdate();
+        } catch (Exception ex) {
+            Logger.getLogger(ShopDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+
 
 }

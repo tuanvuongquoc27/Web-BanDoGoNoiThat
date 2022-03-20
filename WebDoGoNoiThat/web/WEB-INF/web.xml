@@ -132,6 +132,10 @@
         <servlet-name>UpdateInforShop</servlet-name>
         <servlet-class>Controller.UpdateInforShop</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ManagerStoreRevenue</servlet-name>
+        <servlet-class>Controller.ManagerStoreRevenue</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
         <url-pattern>/LoginServlet</url-pattern>
@@ -239,6 +243,10 @@
     <servlet-mapping>
         <servlet-name>UpdateInforShop</servlet-name>
         <url-pattern>/UpdateInforShop</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ManagerStoreRevenue</servlet-name>
+        <url-pattern>/ManagerStoreRevenue</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

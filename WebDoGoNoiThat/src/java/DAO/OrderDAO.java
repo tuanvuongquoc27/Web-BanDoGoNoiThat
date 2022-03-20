@@ -206,11 +206,11 @@ public class OrderDAO {
         }
     }
     
-    public void updateQuantityOneOrder(int productId,int productQuantity ,int productTotal){
+    public void updateQuantityOneOrder(int productId,int productQuantity ,int productTotal, int customerId){
         DBContext db = new DBContext();
         try {   
             conn=db.getConnection();
-            state=conn.prepareStatement("update [order] set productQuantity ="+productQuantity+", productTotal="+productTotal+" where productId="+productId);
+            state=conn.prepareStatement("update [order] set productQuantity ="+productQuantity+", productTotal="+productTotal+" where productId="+productId+" and sold = 0 and customerId = "+customerId);
             state.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(OrderDAO.class.getName()).log(Level.SEVERE, null, ex);

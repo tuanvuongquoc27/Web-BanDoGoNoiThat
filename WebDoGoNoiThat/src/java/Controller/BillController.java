@@ -103,10 +103,9 @@ public class BillController extends HttpServlet {
         PayDAO pd = new PayDAO();
         
         
-        
         ArrayList<Payment> paylist = pd.getAllPay();
         request.setAttribute("paylist", paylist);
-
+   
         String pay = request.getParameter("pay");
         if (pay.equals("continue")) {
             
@@ -126,9 +125,7 @@ public class BillController extends HttpServlet {
                     Product product = prd.getProduct(productlist[i]);
 //                        Order order = od.getOneOrder(productlist[i],user.getUserId() );
                     if (od.checkOrder(productlist[i]) != null) {
-                        
-                        od.updateQuantityOneOrder(productlist[i], quantitynew,quantitynew*productlist[i]);
-                        
+                        od.updateQuantityOneOrder(productlist[i], quantitynew,quantitynew*productlist[i],user.getUserId() );
                         od.updateOneOrderSold(productlist[i], user.getUserId(), 1, 0);
                     }
                 }
@@ -159,8 +156,10 @@ public class BillController extends HttpServlet {
                             prd.updateQuantity(odlist.get(i).getProductQuantity(), pro.getProductId());
                             sd.updateQuantity(pro.getShopId());//update số lượng hàng trong cửa hàng
                             sd.updateQuantitySold(pro.getShopId());
-                            
+                            sd.updateShopRevenue(pro.getShopId());
+                            sd.updateShopProfit(pro.getShopId());
                             ud.updateBalance(pro.getShopId(), odlist.get(i).getProductTotal());
+                            
                         } else {
                             request.setAttribute("mess", "Sản phẩm đã hết" + pro.getProductName());
                             ArrayList<Order> orderlist = od.getAllOrderHasBillNotPay(user.getUserId(), bill.getBillId());

@@ -230,7 +230,7 @@ and open the template in the editor.
                         <c:if test="${user!=null&&(user.isSeller()||user.isAdmin())}">
                             <div class="dropdown category__list-item ">
                                 <a href="#" data-bs-toggle="dropdown"
-                                   class="dropdown-toggle nav-link category__list-item--link"><i
+                                   class="nav-link category__list-item--link"><i
                                         class="fa-solid fa-list-ul"></i></a>
                                 <ul class="dropdown-menu category__list-child">
                                     <c:if test="${user.isAdmin()}">

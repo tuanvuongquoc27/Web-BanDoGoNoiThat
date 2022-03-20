@@ -330,37 +330,44 @@
             <!--thêm mới sản phẩm-->
             <c:if test="${update=='insert'}">
                 <div class="col-sm-9">
-
+                    <c:if test="${error!=null}">
+                        <h3>${error}</h3>
+                        <a type="button" class="btn btn-secondary" href="AccountMoneyController?userId=${sessionScope.user.userId}">Nạp Tiền</a>
+                    </c:if>
                     <form action="ShopManagerProduct" method="post">
                         <input type="hidden" value="insert-new" name="update"/>
                         <input type="hidden" value="${user.userId}" name="input-shopId">
                         <span>
                             <h4 class="input-name">Tên sản phẩm</h4>
-                            <input name="input-name" type="text">
+                            <input name="input-name" placeholder="${product.getProductName()}" type="text">
                         </span><br>
                         <span>
                             <h4 class="input-name">Mô tả sản phẩm</h4>
-                            <input name="input-descript" type="text">
+                            <input name="input-descript" placeholder="${product.getProductDescript()}" type="text">
                         </span><br>
                         <span>
                             <h4 class="input-img">Ảnh sản phẩm</h4>
-                            <input name="input-img" type="text">
+                            <input name="input-img"placeholder="${product.getProductImg()}" type="text">
                         </span><br>
                         <span>
                             <h4 class="input-quantity">Số lượng sản phẩm</h4>
-                            <input name="input-quantity" type="number">
+                            <input name="input-quantity" placeholder="${product.getProductQuantity()}" type="number">
                         </span><br>
                         <span>
-                            <h4 class="input-price">Giá sản phẩm</h4>
-                            <input name="input-price" type="text">
+                            <h4 class="input-price">Giá mua</h4>
+                            <input name="input-pricein" placeholder="${product.getProductEntryPrice()}" type="text">
+                        </span><br>
+                        <span>
+                            <h4 class="input-price">Giá bán</h4>
+                            <input name="input-price" placeholder="${product.getProductNewPrice()}" type="text">
                         </span><br>
                         <span>
                             <h4 class="input-brand">Thương hiệu</h4>
-                            <input name="input-brand" type="text">
+                            <input name="input-brand" placeholder="${product.getProductBrand()}" type="text">
                         </span><br>
                         <span>
                             <h4 class="input-origin">Xuất xứ</h4>
-                            <input name="input-origin" type="text">
+                            <input name="input-origin" placeholder="${product.getProductOrigin()}" type="text">
                         </span><br>
                         <span> 
                             <h4 class="input-name">Loại sản phẩm</h4>

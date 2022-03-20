@@ -17,6 +17,7 @@ public class Product {
     private int shopId ;
     private int productQuantity ;
     private int productQuantitySold;
+    private int productEntryPrice;
     private int productOldPrice ;
     private int productNewPrice ;
     private String productBrand;
@@ -42,6 +43,26 @@ public class Product {
         this.productType = productType;
     }
 
+    public Product(int productId, String productName, String productDescript, String productImg,
+            int shopId, int productQuantity, int productQuantitySold, int productEntryPrice,
+            int productOldPrice, int productNewPrice, String productBrand, String productOrigin, int productType) {
+        this.productId = productId;
+        this.productName = productName;
+        this.productDescript = productDescript;
+        this.productImg = productImg;
+        this.shopId = shopId;
+        this.productQuantity = productQuantity;
+        this.productQuantitySold = productQuantitySold;
+        this.productEntryPrice = productEntryPrice;
+        this.productOldPrice = productOldPrice;
+        this.productNewPrice = productNewPrice;
+        this.productBrand = productBrand;
+        this.productOrigin = productOrigin;
+        this.productType = productType;
+    }
+    
+    
+
     
 
     
@@ -64,6 +85,14 @@ public class Product {
 
     public String getProductDescript() {
         return productDescript;
+    }
+
+    public int getProductEntryPrice() {
+        return productEntryPrice;
+    }
+
+    public void setProductEntryPrice(int productEntryPrice) {
+        this.productEntryPrice = productEntryPrice;
     }
 
     public void setProductDescript(String productDescript) {

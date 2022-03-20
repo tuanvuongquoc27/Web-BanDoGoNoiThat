@@ -132,8 +132,30 @@
                                 <ul class="dropdown-menu product__list-child">
                                     <li class="dropdown-item product__list-item--child "><a href="ManagerStoreServlet?infor=all&page=1"
                                                                                             class="product__list-item-link--child nav-link">Tất cả</a></li>
-
-
+                                    <li class="dropdown-item product__list-item--child "><a href="ManagerStoreReveneu?infor=t1&page=1"
+                                                                                            class="product__list-item-link--child nav-link">Tháng 1</a></li>                                                        
+                                    <li class="dropdown-item product__list-item--child "><a href="ManagerStoreReveneu?infor=t2&page=1"
+                                                                                            class="product__list-item-link--child nav-link">Tháng 12</a></li>
+                                    <li class="dropdown-item product__list-item--child "><a href="ManagerStoreReveneu?infor=t3&page=1"
+                                                                                            class="product__list-item-link--child nav-link">Tháng 3</a></li>
+                                    <li class="dropdown-item product__list-item--child "><a href="ManagerStoreReveneu?infor=t4&page=1"
+                                                                                            class="product__list-item-link--child nav-link">Tháng 4</a></li>
+                                    <li class="dropdown-item product__list-item--child "><a href="ManagerStoreReveneu?infor=t5&page=1"
+                                                                                            class="product__list-item-link--child nav-link">Tháng 5</a></li>
+                                    <li class="dropdown-item product__list-item--child "><a href="ManagerStoreReveneu?infor=t6&page=1"
+                                                                                            class="product__list-item-link--child nav-link">Tháng 6</a></li>
+                                    <li class="dropdown-item product__list-item--child "><a href="ManagerStoreReveneu?infor=t7&page=1"
+                                                                                            class="product__list-item-link--child nav-link">Tháng 7</a></li>
+                                    <li class="dropdown-item product__list-item--child "><a href="ManagerStoreReveneu?infor=t8&page=1"
+                                                                                            class="product__list-item-link--child nav-link">Tháng 8</a></li>
+                                    <li class="dropdown-item product__list-item--child "><a href="ManagerStoreReveneu?infor=t9&page=1"
+                                                                                            class="product__list-item-link--child nav-link">Tháng 9</a></li>
+                                    <li class="dropdown-item product__list-item--child "><a href="ManagerStoreReveneu?infor=t10&page=1"
+                                                                                            class="product__list-item-link--child nav-link">Tháng 10</a></li>
+                                    <li class="dropdown-item product__list-item--child "><a href="ManagerStoreReveneu?infor=t11&page=1"
+                                                                                            class="product__list-item-link--child nav-link">Tháng 11</a></li>
+                                    <li class="dropdown-item product__list-item--child "><a href="ManagerStoreReveneu?infor=t12&page=1"
+                                                                                            class="product__list-item-link--child nav-link">Tháng 12</a></li>                                                        
                                 </ul>
                             </div>
                         </div>
@@ -190,7 +212,7 @@
                                         <td><a href="ManagerStore?infor=shop&shopId=${shoplist.getShopId()}" class="nav-link store-manager"><c:out value="${shoplist.getShopName()}"/></a></td>
                                             <c:forEach items="${sellerlist}" var="sllist">
                                                 <c:if test="${shoplist.getShopId()==sllist.getId()}">
-                                                <td><c:out value="${sllist.getName()}"/></td>
+                                                <td><c:out value="${sllist.getName()}"/></td>   
                                             </c:if>
                                         </c:forEach>    
                                         <td><c:out value="${shoplist.getShopProductQuantity()}"/></td>

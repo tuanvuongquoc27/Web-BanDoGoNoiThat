@@ -20,6 +20,7 @@ import model.Category;
 import model.Order;
 import model.Product;
 import model.Shop;
+import model.User;
 
 /**
  *
@@ -98,8 +99,8 @@ public class ShopManagerProduct extends HttpServlet {
 //                request.setAttribute("categorylist", categorylist);
                 request.setAttribute("productlist", list);
 //                request.setAttribute("orderlist", orderlist);
-            }else if (update.equals("update")) {
-                
+            } else if (update.equals("update")) {
+
             }
             Shop shop = sd.getShop(userId);
             request.setAttribute("shop", shop);
@@ -136,39 +137,52 @@ public class ShopManagerProduct extends HttpServlet {
         request.setCharacterEncoding("UTF-8");
         response.setCharacterEncoding("UTF-8");
         response.setContentType("text/html; charset=UTF-8");
+        ShopDAO sd = new ShopDAO();
+        OrderDAO od = new OrderDAO();
+        CategoryDAO ctd = new CategoryDAO();
+        ProductDAO prd = new ProductDAO();
+        User user = (User) request.getSession().getAttribute("user");
 
         String productIdstring = request.getParameter("input-id");
         String productName = request.getParameter("input-name");
         String productDescript = request.getParameter("input-descript");
         String productImg = request.getParameter("input-img");
         int productQuantity = Integer.parseInt(request.getParameter("input-quantity"));
+        
         int productOldPrice = Integer.parseInt(request.getParameter("input-price"));
         //String productNewPrice = request.getParameter("input-name");
         String productBrand = request.getParameter("input-brand");
         String productOrigin = request.getParameter("input-origin");
         String productType = request.getParameter("input-type");
 
-        ShopDAO sd = new ShopDAO();
-        OrderDAO od = new OrderDAO();
-        CategoryDAO ctd = new CategoryDAO();
-        ProductDAO prd = new ProductDAO();
-        int shopId = Integer.parseInt(request.getParameter("input-shopId"));
         String update = request.getParameter("update");
         if (update.equals("insert-new")) {
+            int productEntryPrice = Integer.parseInt(request.getParameter("input-pricein"));
+            if (productQuantity * productEntryPrice > user.getUserBanlance()) {
+                Product product = new Product(0, productName, productDescript, productImg, user.getUserId(),
+                        productQuantity, 0, productEntryPrice, productOldPrice,
+                        productOldPrice, productBrand, productOrigin, convertType(productType));
+                request.setAttribute("error", "Tài khoản của bạn không đủ để nhập loại hàng này");
+                request.setAttribute("update", "insert");
+                request.setAttribute("product", product);
+                Shop shop = sd.getShop(user.getUserId());
+                request.setAttribute("shop", shop);
+                request.getRequestDispatcher("myShop.jsp").forward(request, response);
+            }
+
             int check = prd.checkProduct(productName, productDescript,
-                    productImg, shopId, productBrand,
+                    productImg, user.getUserId(), productBrand,
                     productOrigin, convertType(productType));
             if (check == 0) {
                 prd.insertProduct(productName, productDescript,
-                        productImg, shopId, productQuantity, 0, productOldPrice, productBrand,
+                        productImg, user.getUserId(), productQuantity,0, productEntryPrice*productQuantity , productOldPrice, productBrand,
                         productOrigin, convertType(productType));
-                sd.updateQuantity(shopId);
+                sd.updateQuantity(user.getUserId());
             } else {
-
                 Product product = prd.getProduct(check);
                 request.setAttribute("update", "update");
                 request.setAttribute("product", product);
-                Shop shop = sd.getShop(shopId);
+                Shop shop = sd.getShop(user.getUserId());
                 request.setAttribute("shop", shop);
                 request.getRequestDispatcher("myShop.jsp").forward(request, response);
             }
@@ -178,18 +192,17 @@ public class ShopManagerProduct extends HttpServlet {
             Product product = prd.getProduct(productId);
             prd.updateProduct(productId, productName, productDescript, productImg, productQuantity, product.getProductQuantitySold(),
                     product.getProductOldPrice(), productOldPrice, productBrand, productOrigin, convertType(productType));
-            sd.updateQuantity(shopId);
+            sd.updateQuantity(user.getUserId());
         }
-
-        Shop shop = sd.getShop(shopId);
-        ArrayList<Product> productlist = prd.getProductbyShopId(shopId);
+        Shop shop = sd.getShop(user.getUserId());
+        ArrayList<Product> productlist = prd.getProductbyShopId(user.getUserId());
         ArrayList<Category> categorylist = ctd.getAllCategory();
-
         request.setAttribute("shop", shop);
         request.setAttribute("categorylist", categorylist);
         request.setAttribute("productlist", productlist);
         request.setAttribute("update", "getAll");
         request.getRequestDispatcher("myShop.jsp").forward(request, response);
+
     }
 
     public int convertType(String type) {
