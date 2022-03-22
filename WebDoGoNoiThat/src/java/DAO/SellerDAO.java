@@ -39,7 +39,8 @@ public class SellerDAO {
                         rs.getString(5),
                         rs.getString(6),
                         rs.getBoolean(7),
-                        rs.getString(8));
+                        rs.getString(8),
+                        rs.getBoolean(9));
             }
         } catch (Exception ex) {
             Logger.getLogger(SellerDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -64,7 +65,8 @@ public class SellerDAO {
                     rs.getString(5),
                     rs.getString(6),
                     rs.getBoolean(7),
-                    rs.getString(8));
+                    rs.getString(8),
+                        rs.getBoolean(9));
                 sellerlist.add(seller);
             }
             return sellerlist;
@@ -92,7 +94,8 @@ public class SellerDAO {
         }
     }
     
-    public void insertSeller(int sellerId, String sellerName, String sellerAddress, String sellerEmail, String sellerPhone, String sellerDate, String sellerGender, String sellerDOB) {
+    public void insertSeller(int sellerId, String sellerName, String sellerAddress, String sellerEmail,
+            String sellerPhone, String sellerDate, String sellerGender, String sellerDOB,int active) {
         DBContext db = new DBContext();
         try {
             conn = db.getConnection();
@@ -104,14 +107,17 @@ public class SellerDAO {
                     + sellerPhone + "','"
                     + sellerDate +"',"
                     + convertGender(sellerGender)+",'"
-                    + sellerDOB +"')");
+                    + sellerDOB +"', "
+                    + active+")");
             state.executeUpdate();
         } catch (Exception ex) {
             Logger.getLogger(SellerDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
-    public void insertSellerNull(int sellerId, String sellerName, String sellerAddress, String sellerEmail, String sellerPhone, String sellerDate, String sellerGender, String sellerDOB) {
+    public void insertSellerNull(int sellerId, String sellerName, String sellerAddress,
+            String sellerEmail, String sellerPhone, String sellerDate,
+            String sellerGender, String sellerDOB, int active) {
         DBContext db = new DBContext();
         try {
             conn = db.getConnection();
@@ -123,7 +129,8 @@ public class SellerDAO {
                     + sellerPhone + ","
                     + sellerDate +","
                     + sellerGender+","
-                    + sellerDOB +")");
+                    + sellerDOB +","
+                    + active+ ")");
             state.executeUpdate();
         } catch (Exception ex) {
             Logger.getLogger(SellerDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -143,7 +150,7 @@ public class SellerDAO {
     
     public void updateSeller(int sellerId, String sellerName,
             String sellerAddress, String sellerEmail, String sellerPhone,
-            String sellerGender, String sellerDOB) {
+            String sellerGender, String sellerDOB, int active) {
         DBContext db = new DBContext();
         try {
             conn = db.getConnection();
@@ -153,7 +160,19 @@ public class SellerDAO {
                     + "sellerEmail='"  + sellerEmail + "',"
                     + "sellerPhone='"  + sellerPhone + "',"
                     + "sellerGender="  + convertGender(sellerGender) +","
-                    + "sellerDOB='"    + sellerDOB +"' where sellerId=" + sellerId);
+                    + "sellerDOB='"    + sellerDOB +"', "
+                    + "isActice = "+active+" where sellerId=" + sellerId);
+            state.executeUpdate();
+        } catch (Exception ex) {
+            Logger.getLogger(SellerDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
+    public void updateActive(int id,int active) {
+        DBContext db = new DBContext();
+        try {
+            conn = db.getConnection();
+            state = conn.prepareStatement("update seller set isActive = "+active+" where sellerId=" + id);
             state.executeUpdate();
         } catch (Exception ex) {
             Logger.getLogger(SellerDAO.class.getName()).log(Level.SEVERE, null, ex);

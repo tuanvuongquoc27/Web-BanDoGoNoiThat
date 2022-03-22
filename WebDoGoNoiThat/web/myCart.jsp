@@ -99,6 +99,7 @@
                         <h2>${mess}</h2>
                     </c:if>    
                     <c:if test="${pay=='pay'}">
+                        <h2>${mess}</h2>
                         <form action="BillController" method="post">
                             <% ArrayList<Order> newordlist = (ArrayList<Order>) request.getAttribute("orderlist");
                                 for (int i = 0; i < newordlist.size(); i++) {
@@ -153,7 +154,7 @@
                             <input type="hidden" value="${totalmoney+20000}" name="totalmoney"/>
 
                         </form>
-                        <h2>${mess}</h2>
+                        
                     </c:if>
                 </c:if>
 

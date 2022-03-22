@@ -40,19 +40,21 @@ public class AddProductToCart extends HttpServlet {
         request.setCharacterEncoding("UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
+            ProductDAO prd = new ProductDAO();
+            BillDAO bd = new BillDAO();
+            OrderDAO od = new OrderDAO();
+            CustomerDAO csd = new CustomerDAO();
+            
             String quantityString = request.getParameter("quantity_input");
             String userIdstring = request.getParameter("userId");
             String productIdstring = request.getParameter("productId");
             String addressship = request.getParameter("addressship");
             
-            CustomerDAO csd = new CustomerDAO();
-
+            
             int userId = Integer.parseInt(userIdstring);
             int quantity = Integer.parseInt(quantityString);
             int productId = Integer.parseInt(productIdstring);
-            ProductDAO prd = new ProductDAO();
-            BillDAO bd = new BillDAO();
-            OrderDAO od = new OrderDAO();
+            
             Bill bill = bd.getBillEmpty(userId);
             Product product = prd.getProduct(productId);
 
@@ -62,7 +64,7 @@ public class AddProductToCart extends HttpServlet {
             bill = bd.getBillEmpty(userId);
             Order oldorder = od.getOrderSold(userId, productId);// lấy ra thăng order trc có cùng id
             if (oldorder == null) {
-                od.insertOrder(userId, bill.getBillId(), productId, product.getProductNewPrice(), quantity, 0);
+                od.insertOrder(userId, bill.getBillId(), productId, product.getProductNewPrice(), quantity, 0,prd.getProduct(productId).getShopId());
             } else {// thêm số lượng
                 od.updateOrder(productId, quantity, 0);
                 

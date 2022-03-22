@@ -43,7 +43,8 @@ public class UserDAO {
                 rs.getBoolean(5),
                 rs.getBoolean(6),
                 rs.getString(7),
-                rs.getInt(8));
+                rs.getInt(8),
+                rs.getBoolean(9));
                 listacc.add(acc);
             }
             return listacc;
@@ -70,7 +71,8 @@ public class UserDAO {
                 rs.getBoolean(5),
                 rs.getBoolean(6),
                 rs.getString(7),
-                rs.getInt(8)); 
+                rs.getInt(8),
+                rs.getBoolean(9)); 
             }
         } catch (SQLException ex) {
             Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -95,7 +97,8 @@ public class UserDAO {
                 rs.getBoolean(5),
                 rs.getBoolean(6),
                 rs.getString(7),
-                rs.getInt(8)); 
+                rs.getInt(8),
+                rs.getBoolean(9)); 
             }
         } catch (SQLException ex) {
             Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -120,7 +123,8 @@ public class UserDAO {
                 rs.getBoolean(5),
                 rs.getBoolean(6),
                 rs.getString(7),
-                rs.getInt(8)); 
+                rs.getInt(8),
+                rs.getBoolean(9)); 
             }
         } catch (SQLException ex) {
             Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -134,7 +138,7 @@ public class UserDAO {
         DBContext db = new DBContext();
         try {
             conn=db.getConnection();
-            state=conn.prepareStatement("insert into [user] values('"+username+"','"+password+"',0,1,0,null,0)");
+            state=conn.prepareStatement("insert into [user] values('"+username+"','"+password+"',0,1,0,null,0,1)");
             state.executeUpdate();  
         } catch (Exception ex) {
             Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -181,6 +185,17 @@ public class UserDAO {
         try {
             conn=db.getConnection();
             state=conn.prepareStatement("update [user] set "+role+" = "+ newrole +" where userId="+userId);
+            state.executeUpdate();  
+        } catch (Exception ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void updateActice(int userId, int active){
+        DBContext db = new DBContext();
+        try {
+            conn=db.getConnection();
+            state=conn.prepareStatement("update [user] set isActive = "+ active +" where userId="+userId);
             state.executeUpdate();  
         } catch (Exception ex) {
             Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);

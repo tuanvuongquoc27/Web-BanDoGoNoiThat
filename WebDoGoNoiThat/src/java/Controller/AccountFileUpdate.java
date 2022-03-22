@@ -118,15 +118,15 @@ public class AccountFileUpdate extends HttpServlet {
             out.println(userId);
         if (role.equals("admin")){
             ud.updateImg(userId,image);
-            csd.updateCustomer(userId, name, address,addressship, email, phone, gender, convertDate(DOB));
-            sld.updateSeller(userId, name, address, email, phone, gender, convertDate(DOB));
+            csd.updateCustomer(userId, name, address,addressship, email, phone, gender, convertDate(DOB),1);
+            sld.updateSeller(userId, name, address, email, phone, gender, convertDate(DOB),1);
         } else if (role.equals("customer")) {
             ud.updateImg(userId,image);
-            csd.updateCustomer(userId, name, address,addressship, email, phone, gender, convertDate(DOB));
+            csd.updateCustomer(userId, name, address,addressship, email, phone, gender, convertDate(DOB),1);
             request.setAttribute("acc", csd.getCustomerById(userId));
         } else if (role.equals("seller")) {
             ud.updateImg(userId,image);
-            sld.updateSeller(userId, name, address, email, phone, gender, convertDate(DOB));
+            sld.updateSeller(userId, name, address, email, phone, gender, convertDate(DOB),1);
         } 
         HttpSession session = request.getSession();
         User user = ud.getUserByUserId(userId);

@@ -50,7 +50,7 @@ public class CartServletController extends HttpServlet {
                 int deleteId = Integer.parseInt(deleteIdstring);
                 Order order = od.getOneOrder( deleteId, Integer.parseInt(userIdstring));
                 if(!order.isSold()){
-                    od.deleteOrder(deleteId);
+                    od.deleteOrder(deleteId,"productId");
                 }
             }
                 

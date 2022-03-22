@@ -126,49 +126,29 @@
                 <div class="row">
                     <div class="col-sm-2">
                         <div class="product__list-item nav-item">
-                            <div class="dropdown product__list-item">
-                                <div  data-bs-toggle="dropdown"
-                                      class="dropdown-toggle nav-link product__list-item--link">Thông tin cửa hàng</div>
-                                <ul class="dropdown-menu product__list-child">
-                                    <li class="dropdown-item product__list-item--child "><a href="ManagerStoreServlet?infor=all&page=1"
-                                                                                            class="product__list-item-link--child nav-link">Tất cả</a></li>
-                                    <li class="dropdown-item product__list-item--child "><a href="ManagerStoreReveneu?infor=t1&page=1"
-                                                                                            class="product__list-item-link--child nav-link">Tháng 1</a></li>                                                        
-                                    <li class="dropdown-item product__list-item--child "><a href="ManagerStoreReveneu?infor=t2&page=1"
-                                                                                            class="product__list-item-link--child nav-link">Tháng 12</a></li>
-                                    <li class="dropdown-item product__list-item--child "><a href="ManagerStoreReveneu?infor=t3&page=1"
-                                                                                            class="product__list-item-link--child nav-link">Tháng 3</a></li>
-                                    <li class="dropdown-item product__list-item--child "><a href="ManagerStoreReveneu?infor=t4&page=1"
-                                                                                            class="product__list-item-link--child nav-link">Tháng 4</a></li>
-                                    <li class="dropdown-item product__list-item--child "><a href="ManagerStoreReveneu?infor=t5&page=1"
-                                                                                            class="product__list-item-link--child nav-link">Tháng 5</a></li>
-                                    <li class="dropdown-item product__list-item--child "><a href="ManagerStoreReveneu?infor=t6&page=1"
-                                                                                            class="product__list-item-link--child nav-link">Tháng 6</a></li>
-                                    <li class="dropdown-item product__list-item--child "><a href="ManagerStoreReveneu?infor=t7&page=1"
-                                                                                            class="product__list-item-link--child nav-link">Tháng 7</a></li>
-                                    <li class="dropdown-item product__list-item--child "><a href="ManagerStoreReveneu?infor=t8&page=1"
-                                                                                            class="product__list-item-link--child nav-link">Tháng 8</a></li>
-                                    <li class="dropdown-item product__list-item--child "><a href="ManagerStoreReveneu?infor=t9&page=1"
-                                                                                            class="product__list-item-link--child nav-link">Tháng 9</a></li>
-                                    <li class="dropdown-item product__list-item--child "><a href="ManagerStoreReveneu?infor=t10&page=1"
-                                                                                            class="product__list-item-link--child nav-link">Tháng 10</a></li>
-                                    <li class="dropdown-item product__list-item--child "><a href="ManagerStoreReveneu?infor=t11&page=1"
-                                                                                            class="product__list-item-link--child nav-link">Tháng 11</a></li>
-                                    <li class="dropdown-item product__list-item--child "><a href="ManagerStoreReveneu?infor=t12&page=1"
-                                                                                            class="product__list-item-link--child nav-link">Tháng 12</a></li>                                                        
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="product__list-item nav-item">
                             <div class="product__list-item">
-                                <a href="InforUserController?infor=seller" class=" nav-link product__list-item--link">Thông tin chủ cửa hàng</a>
+                                <a href="InforUserController?infor=account" 
+                                   class=" nav-link product__list-item--link">Thông tin tài khoản</a>
 
                             </div>
                         </div>
                         <div class="product__list-item nav-item">
                             <div class="product__list-item">
+                                <a href="InforUserController?infor=seller" 
+                                   class=" nav-link product__list-item--link">Thông tin người bán</a>
+
+                            </div>
+                        </div>
+                        <div class="product__list-item nav-item">
+                            <div class="product__list-item">
+                                <a href="ManagerStoreServlet?infor=all&page=1" 
+                                   class=" nav-link product__list-item--link">Thông tin cửa hàng</a>
+                            </div>
+                        </div>
+                        <div class="product__list-item nav-item">
+                            <div class="product__list-item">
                                 <a href="InforUserController?infor=customer" 
-                                   class=" nav-link product__list-item--link">Thông tin khách hàng</a>
+                                   class=" nav-link product__list-item--link">Thông tin người mua</a>
                             </div>
                         </div>
                         <div class="product__list-item nav-item">
@@ -190,7 +170,7 @@
                     <!-- thoong tin cuar hang-->
                     <div class="col-sm-10">
                         <!--information cuawr hang-->
-                        <c:if test="${store=='information'}" >
+                        <c:if test="${infor=='shop-information'}" >
                             <div class="store-infor">
                                 <h1>Thông tin cửa hàng</h1>
                             </div>
@@ -200,10 +180,11 @@
                                     <td>Tên của hàng</td>
                                     <td>Tên chủ shop</td>
                                     <td>Số lượng sản phẩm</td>
-                                    <td>Doanh thu của cửa hàng</td>
-                                    <td>Lợi nhuận của cửa hàng</td>
-                                    <td>Lợi nhuận từ cửa hàng</td>
+                                    <td>Doanh thu </td>
+                                    <td>Lợi nhuận </td>
+                                    <td>Hoa hồng</td>
                                     <td>Trạng thái</td>
+                                    <td></td>
                                     <td></td>
                                 </tr>
                                 <c:forEach items="${shoplist}" var="shoplist">
@@ -216,9 +197,10 @@
                                             </c:if>
                                         </c:forEach>    
                                         <td><c:out value="${shoplist.getShopProductQuantity()}"/></td>
-                                        <td><c:out value="${shoplist.getShopRevenue()}"/></td>
-                                        <td><c:out value="${shoplist.getShopProfit()}"/></td>
-                                        <td><c:out value="${shoplist.getShopProfit()}"/></td>
+                                        <td><fmt:formatNumber type="number" pattern="###,###,###đ" value="${shoplist.getShopRevenue()}" /></td>
+                                        <td><fmt:formatNumber type="number" pattern="###,###,###đ" value="${shoplist.getShopProfit()}" /></td>
+                                        <c:set var="i" value="${shoplist.getShopProfit()}"/>
+                                        <td><fmt:formatNumber type="number" pattern="###,###,###đ" value="${i*0.2}" /></td>
                                         <c:if test="${shoplist.isShopActive()}" >
                                             <td>Hoạt động</td>
                                         </c:if>
@@ -227,7 +209,10 @@
                                         </c:if>
                                         <td><a onclick="if (!confirm('Bạn có muốn xóa cửa hàng này')) {
                                                     return false;
-                                                }" href="ManagerStoreServlet?infor=delete&shopId=${shoplist.getShopId()}" class="nav-link">Xóa cửa hàng</a></td>
+                                                }" href="ManagerStoreServlet?infor=delete&shopId=${shoplist.getShopId()}&page=1" class="nav-link">Xóa cửa hàng</a>
+                                        </td>
+                                        <td><a href="UpdateInforAccount?up=update-shop&id=${shoplist.getShopId()}"> Sửa</a></td>
+
                                     </tr>
                                 </c:forEach>
                             </table>
@@ -236,8 +221,127 @@
                                                         </div>-->
                         </c:if>
 
-                        <!--inforseller-->
+                        <!--thay doi thong tin shop-->
+                        <c:if test="${infor=='shop-update'}">
+                            <h1>Cập nhật thông tin cửa hàng</h1>
+                            <form action="UpdateInforShop" method="post">
+                                <input type="hidden" value="manager" name="place"/>
+                                <input type="hidden" value="${shop.getShopId()}" name="input-shopId"/>
+                                <table>
+                                    <tr>
+                                        <td>ID</td>
+                                        <td><input disabled="true" type="text" value="${shop.getShopId()}"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Tên cửa hàng</td>
+                                        <td><input name="input-name" type="text" value="${shop.getShopName()}"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Địa chỉ</td>
+                                        <td><input name="input-address" type="text" value="${shop.getShopAddress()}"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Số điện thoại</td>
+                                        <td><input name="input-phone" type="text" value="${shop.getShopPhone()}"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Email </td>
+                                        <td><input name="input-email" type="email" value="${shop.getShopEmail()}"></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td> <input type="submit" class="submit-btn" value="Cập nhật"></td>
+                                    </tr>
+                                </table>
+                            </form>
+                        </c:if>
 
+                        <!--thong tin tai khoan-->
+                        <c:if test="${infor=='account'}" >
+                            <div class="store-infor">
+                                <h1>Thông tin tài khoản </h1>
+
+                            </div>
+                            <table>
+                                <tr>
+                                    <td>ID</td>
+                                    <td>Tên tài khoản</td>
+                                    <td>Số dư</td>
+                                    <td>Quản trị</td>
+                                    <td>Người bán</td>
+                                    <td>Khách hàng</td>
+                                    <td>Trạng thái</td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <c:forEach begin="0" items="${account}" var="acc">
+                                    <tr><td>${acc.getUserId()}</td>
+                                        <td>${acc.getUserName()}</td>
+                                        <td>${acc.getUserBanlance()}</td>
+                                        <td>
+                                            <c:choose>
+                                                <c:when test="${acc.isAdmin()}">
+                                                    <input type="checkbox" checked="true" disabled="true">
+                                                </c:when>
+                                                <c:when test="${!acc.isAdmin()}">
+                                                    <input type="checkbox"  disabled="true">
+                                                </c:when>
+                                            </c:choose>  
+                                        </td>
+                                        <td>
+                                            <c:choose>
+                                                <c:when test="${acc.isSeller()}">
+                                                    <input type="checkbox" checked="true"  disabled="true">
+                                                </c:when>
+                                                <c:when test="${!acc.isSeller()}">
+                                                    <input type="checkbox"  disabled="true">
+                                                </c:when>
+                                            </c:choose>
+                                        </td>
+                                        <td>
+                                            <c:choose>
+                                                <c:when test="${acc.isCustomer()}">
+                                                    <input type="checkbox" checked="true"  disabled="true">
+                                                </c:when>    
+                                                <c:when test="${!acc.isCustomer()}">
+                                                    <input type="checkbox"  disabled="true">
+                                                </c:when> 
+                                            </c:choose>
+                                        </td>
+                                        <td>
+                                            <c:choose>
+                                                <c:when test="${!acc.isActive()}">
+                                                    Đã khóa
+                                                </c:when>    
+                                                <c:when test="${acc.isActive()}">
+                                                    Hoạt động
+                                                </c:when> 
+                                            </c:choose>
+                                        </td>
+                                        <td>
+                                            <c:choose>
+                                                <c:when test="${!acc.isActive()}">
+                                                    <a onclick="if (!confirm('Bạn có muốn mở khóa tài khoản ' + '${acc.getUserName()}')) {
+                                                                return false;
+                                                            }" href="UpdateInforAccount?up=unlock&id=${acc.getUserId()}" class="nav-link">Mở khóa</a>
+                                                </c:when>    
+                                                <c:when test="${acc.isActive()}">
+                                                    <a onclick="if (!confirm('Bạn có muốn khóa tài khoản ' + '${acc.getUserName()}')) {
+                                                                return false;
+                                                            }" href="UpdateInforAccount?up=lock&id=${acc.getUserId()}" class="nav-link">Khóa</a>
+                                                </c:when> 
+                                            </c:choose>
+                                        </td>
+                                        <td><a onclick="if (!confirm('Bạn có muốn xóa tài khoản ' + '${acc.getUserName()}')) {
+                                                    return false;
+                                                }" href="UpdateInforAccount?up=deleteaccount&id=${acc.getUserId()}" class="nav-link" >Xóa</a></td>
+
+                                    </tr>
+                                </c:forEach>
+                            </table>
+                        </c:if>
+
+                        <!--infor seller + customer-->
                         <c:if test="${infor=='infor-seller-customer'}" >
                             <div class="store-infor">
                                 <c:if test="${ship=='yes'}"><h1>Thông tin người mua </h1></c:if>
@@ -254,6 +358,8 @@
                                         <td>Ngày tham gia</td>
                                         <td>Giới tính</td>
                                         <td>Ngày sinh nhật</td>
+                                        <td></td>
+                                        <td></td>
                                     </tr>
                                 <c:forEach begin="0" items="${list}" var="acc">
                                     <tr><td>${acc.getId()}</td>
@@ -287,13 +393,101 @@
                                                 <c:otherwise> ${acc.getDOB()}</c:otherwise>  
                                             </c:choose>
                                         </td>
+                                        <c:if test="${acc.isActive()}">
+                                            <c:if test="${ship=='no'}">
+                                                <td><a href="UpdateInforAccount?up=deleteseller&id=${acc.getId()}" class="nav-link" >Xóa</a></td>
+                                            </c:if>
+                                            <c:if test="${ship=='yes'}">
+                                                <td><a href="UpdateInforAccount?up=deletecustomer&id=${acc.getId()}" class="nav-link" >Xóa</a></td>
+                                            </c:if>
+
+                                            <td><a href="UpdateInforAccount?up=change&id=${acc.getId()}" class="nav-link" >Sửa</a></td>
+                                        </c:if>
+                                        <c:if test="${!acc.isActive()}">
+                                            <td>Xóa</td>
+
+                                            <td>Sửa</td>
+                                        </c:if>
+
                                     </tr>
                                 </c:forEach>
                             </table>
                         </c:if>
 
+                        <!--Thay doi thong customer seller-->
+                        <c:if test="${infor=='change'}" >
+                            <div class="store-infor">
+                                <c:if test="${us.isCustomer()&&!us.isSeller()}">
+                                    <h1>Thay đổi thông tin người mua</h1>
+                                </c:if>
+                                <c:if test="${us.isCustomer()&&us.isSeller()}">
+                                    <h1>Thay đổi thông tin người bán</h1>
+                                </c:if>    
+                            </div>
+                            <form action="UpdateInforAccount" method="post">
+                                <table>
+                                    <input type="hidden" name="userId" value="${us.getUserId()}"/>
+                                    <tr>
+                                        <c:if test="${us.isCustomer()&&!us.isSeller()}">
+                                        <input type="hidden" name="role" value="customer"/>
+                                    </c:if>
+                                    <c:if test="${us.isCustomer()&&us.isSeller()&&!us.isAdmin()}">
+                                        <input type="hidden" name="role" value="seller"/>
+                                    </c:if>
+                                    <c:if test="${us.isCustomer()&&us.isSeller()&&us.isAdmin()}">
+                                        <input type="hidden" name="role" value="admin"/>
+                                    </c:if>    
+
+                                    <td>Tên Đăng nhập</td>
+                                    <td>${us.getUserName()}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Họ và Tên </td>
+                                        <td><input placeholder="${acc.getName()}" name="input-name"type="text" required="true"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Email</td>
+                                        <td><input placeholder="${acc.getEmail()}" name="input-email" type="email" required="true"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Địa chỉ</td>
+                                        <td><input placeholder="${acc.getAddress()}" name="input-address" type="text" required="true"></td>
+                                    </tr>
+                                    <c:if test="${(us.isCustomer()&&!us.isSeller())||us.isAdmin()}">
+                                        <tr><td>Địa chỉ ship</td>
+                                            <td>
+                                                <input placeholder="${acc.getAddressShip()}" name="input-address-ship" type="text" required="true">
+                                            </td>
+                                        </tr>
+                                    </c:if>
+                                    <tr>
+                                        <td>Ảnh đại diện</td>
+                                        <td><input placeholder="${user.userImg}" name="input-img" type="text" required="true"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Số điện thoại</td>
+                                        <td><input placeholder="${acc.getPhone()}" name="input-phone" type="text" required="true"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Giới tính</td>
+                                        <td><input required="true" name="input-gender" value="nam" type="radio"> Nam <input value="nu" name="input-gender" type="radio" /> Nữ </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Ngày sinh</td>
+                                        <td><input value="${acc.getDOB()}" name="input-DOB" type="date" required="true"></td>
+                                    </tr>
+
+
+                                    <tr>
+                                        <td></td>
+                                        <td><input class="submit-btn" type="submit" value="Lưu"></td>
+                                    </tr>
+                                </table>
+                            </form>
+                        </c:if>
+
                         <!--request-->
-                        <c:if test="${requestScope.store=='request'}">
+                        <c:if test="${infor=='request'}">
 
                             <c:if test="${requestlist.size()==0}">
                                 <h3>Không có thông báo mới</h3>

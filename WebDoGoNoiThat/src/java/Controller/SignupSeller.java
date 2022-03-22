@@ -107,9 +107,10 @@ public class SignupSeller extends HttpServlet {
         } else {
             Customer c = csd.getCustomerById(userId);
             if (c.getAddress() == null) {
-                sld.insertSellerNull(userId, c.getName(), null, c.getEmail(), null, null, null, null);
+                sld.insertSellerNull(userId, c.getName(), null, c.getEmail(), null, null, null, null,1);
             } else {
-                sld.insertSeller(userId, c.getName(), c.getAddress(), c.getEmail(), c.getPhone(), c.getDate(), convertGender(c.isGender()), c.getDOB());
+                sld.insertSeller(userId, c.getName(), c.getAddress(), c.getEmail(),
+                        c.getPhone(), c.getDate(), convertGender(c.isGender()), c.getDOB(),1);
             }
 
             sd.insertShop(userId, shopName, shopAddress, shopPhone, shopEmail, null);

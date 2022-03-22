@@ -69,7 +69,7 @@ public class ShopServletController extends HttpServlet {
                 request.setAttribute("orderlistall", orderall);
                 request.setAttribute("update", "getAll");
                 
-                int end = prd.count();
+                int end = prd.countProductShop(userId);
                 end = ((int) end / 10) + 1;
                 String start = request.getParameter("page");
                 int begin;

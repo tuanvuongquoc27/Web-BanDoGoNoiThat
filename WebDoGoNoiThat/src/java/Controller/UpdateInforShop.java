@@ -48,7 +48,7 @@ public class UpdateInforShop extends HttpServlet {
             request.setAttribute("update", "updateshop");
             ArrayList<Product> productlist = prd.getProductbyShopId(shopId);
             ArrayList<Category> categorylist = ctd.getAllCategory();
-
+            
             request.setAttribute("categorylist", categorylist);
             request.setAttribute("productlist", productlist);
             request.getRequestDispatcher("myShop.jsp").forward(request, response);
@@ -100,7 +100,9 @@ public class UpdateInforShop extends HttpServlet {
         Shop shop = sd.getShop(Integer.parseInt(shopid));
         ArrayList<Product> productlist = prd.getProductbyShopId(Integer.parseInt(shopid));
         ArrayList<Category> categorylist = ctd.getAllCategory();
-
+        if(request.getParameter("place")!=null){
+            request.getRequestDispatcher("ManagerStoreServlet?page=1&infor=all").forward(request, response);
+        }
         request.setAttribute("shop", shop);
         request.setAttribute("categorylist", categorylist);
         request.setAttribute("productlist", productlist);

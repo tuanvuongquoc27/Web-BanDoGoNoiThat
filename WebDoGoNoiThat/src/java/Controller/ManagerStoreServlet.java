@@ -23,6 +23,7 @@ import model.Customer;
 import model.Request;
 import model.Seller;
 import model.Shop;
+import model.User;
 
 /**
  *
@@ -51,24 +52,44 @@ public class ManagerStoreServlet extends HttpServlet {
             UserDAO ud = new UserDAO();
             ProductDAO prd = new ProductDAO();
             RequestDAO rqd = new RequestDAO();
-            
+
             String infor = request.getParameter("infor");
-            
-            if(infor!=null){
-                if(infor.equals("delete")){
+
+            if (infor != null) {
+                if (infor.equals("delete")) {
                     int deleteId = Integer.parseInt(request.getParameter("shopId"));
-                    Seller seller = sld.getSellerById(deleteId);
 //                  delete shop va thay doi role for user
+                    rqd.deleteRequestId(deleteId);
                     prd.deleteProductByShopId(deleteId);
                     sd.deleteShop(deleteId);
                     sld.deleteSeller(deleteId);
-                    ud.updateRole(deleteId,"isSeller", 0);
+                    ud.updateRole(deleteId, "isSeller", 0);
+                    request.setAttribute("infor", "shop-information");
                     //get thong tin chuyen sang trang cho admin
-                }else if(infor.equals("all")) {
-                    request.setAttribute("store", "information");
+                } else if (infor.equals("all")) {
+                    request.setAttribute("infor", "shop-information");
+                } else if (infor.equals("change")) {
+                    request.setAttribute("infor", "change");
+                    String id = request.getParameter("id");
+                    User user = ud.getUserByUserId(Integer.parseInt(id));
+                    if (user.isCustomer()&&!user.isSeller()||user.isAdmin()) {
+                        Customer customer = csd.getCustomerById(Integer.parseInt(id));
+                        request.setAttribute("acc", customer);
+                    } else if (user.isSeller()&&user.isCustomer()) {
+                        Seller seller = sld.getSellerById(Integer.parseInt(id));
+                        request.setAttribute("acc", seller);
+                    }
+                    request.setAttribute("us", user);
+                    request.getRequestDispatcher("managerStore.jsp").forward(request, response);
+                }else if (infor.equals("up-shop")){
+                    request.setAttribute("infor", "shop-update");
+                    String id = request.getParameter("id");
+                    Shop shop = sd.getShop(Integer.parseInt(id));
+                    request.setAttribute("shop", shop);
+                    request.getRequestDispatcher("managerStore.jsp").forward(request, response);
                 }
             }
-            
+
             int end = sd.count();
             end = ((int) end / 3) + 1;
             String start = request.getParameter("page");
@@ -82,10 +103,10 @@ public class ManagerStoreServlet extends HttpServlet {
                 last = begin * 3;
                 begin = last - 2;
             }
-                ArrayList<Shop> shoplist = sd.getAll(begin, last);
-                request.setAttribute("end", end);
-                request.setAttribute("page", Integer.parseInt(start) );
-            
+            ArrayList<Shop> shoplist = sd.getAll(begin, last);
+            request.setAttribute("end", end);
+            request.setAttribute("page", Integer.parseInt(start));
+
             ArrayList<Seller> sellerlist = sld.getAllSeller("select * from seller");
             ArrayList<Request> listrequest = rqd.getAllRequest();
             ArrayList<Customer> customerlist = csd.getAllCustomer();
@@ -94,13 +115,13 @@ public class ManagerStoreServlet extends HttpServlet {
             request.setAttribute("sellerlist", sellerlist);
             request.setAttribute("shoplist", shoplist);
             request.setAttribute("store", "information");
-            
+
             request.getRequestDispatcher("managerStore.jsp").forward(request, response);
         }
     }
-    
-    public String convertGender(boolean gender){
-        if(gender){
+
+    public String convertGender(boolean gender) {
+        if (gender) {
             return "nam";
         }
         return "nu";

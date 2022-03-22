@@ -18,6 +18,7 @@ public class User {
     private boolean Seller;
     private String userImg;
     private int userBanlance;
+    private boolean Active;
 
     public User() {
     }
@@ -32,6 +33,19 @@ public class User {
         this.userImg = userImg;
         this.userBanlance = userBanlance;
     }
+
+    public User(int userId, String userName, String password, boolean Admin, boolean Customer, boolean Seller, String userImg, int userBanlance, boolean Active) {
+        this.userId = userId;
+        this.userName = userName;
+        this.password = password;
+        this.Admin = Admin;
+        this.Customer = Customer;
+        this.Seller = Seller;
+        this.userImg = userImg;
+        this.userBanlance = userBanlance;
+        this.Active = Active;
+    }
+    
 
     public int getUserId() {
         return userId;
@@ -98,6 +112,15 @@ public class User {
     public void setUserBanlance(int userBanlance) {
         this.userBanlance = userBanlance;
     }
+
+    public boolean isActive() {
+        return Active;
+    }
+
+    public void setActive(boolean Active) {
+        this.Active = Active;
+    }
+    
 
     
 

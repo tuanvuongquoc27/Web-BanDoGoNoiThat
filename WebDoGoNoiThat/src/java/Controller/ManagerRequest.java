@@ -69,14 +69,14 @@ public class ManagerRequest extends HttpServlet {
                     User user = ud.getUserByUserId(1);
                     session.removeAttribute("user");
                     session.setAttribute("user", user);
-                    request.setAttribute("store", "request");
+                    request.setAttribute("infor", "request");
                 } else if (rquest.equals("delete")) {
                     sd.deleteShop(userId);
                     rqd.deleteRequestId(userId);
                     sld.deleteSeller(userId);
                 }
             } else {// admin enter thông tin yêu cầu 
-                request.setAttribute("store", "request");
+                request.setAttribute("infor", "request");
             }
             ArrayList<User> userlist = ud.getAllUser();
             ArrayList<Request> listrequest = rqd.getAllRequest();

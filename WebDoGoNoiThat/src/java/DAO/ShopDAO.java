@@ -241,8 +241,7 @@ public class ShopDAO {
         try {
             conn = db.getConnection();
             state = conn.prepareStatement("update shop set shopRevenue = \n" +
-                    "(select SUM(a.productTotal) from [order] as a, bill as b , product as c where a.billId = b.billId"
-                    + " and a.productId = c.productId and c.shopId = "+shopId+" group by c.shopId) where shopId = "+shopId);
+                    "(select SUM(a.productTotal) from [order] as a where a.shopId="+shopId+" group by a.shopId)");
             state.executeUpdate();
         } catch (Exception ex) {
             Logger.getLogger(ShopDAO.class.getName()).log(Level.SEVERE, null, ex);

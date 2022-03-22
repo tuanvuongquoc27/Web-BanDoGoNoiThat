@@ -9,6 +9,7 @@ import DAO.CategoryDAO;
 import DAO.OrderDAO;
 import DAO.ProductDAO;
 import DAO.ShopDAO;
+import DAO.UserDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -16,6 +17,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import model.Category;
 import model.Order;
 import model.Product;
@@ -61,13 +63,34 @@ public class ShopManagerProduct extends HttpServlet {
 //                chú ý
                 sd.updateProductSold(userId);
                 request.setAttribute("update", "getAll");
-
-                ArrayList<Product> productlist = prd.getProductbyShopId(userId);
-                ArrayList<Order> orderlist = od.getAllOrderOneUser(userId);
-                ArrayList<Category> categorylist = ctd.getAllCategory();
-                request.setAttribute("categorylist", categorylist);
-                request.setAttribute("productlist", productlist);
-                request.setAttribute("orderlist", orderlist);
+                
+               // ArrayList<Product> productlist = prd.getProductbyShopId(userId);
+               // ArrayList<Order> orderlist = od.getAllOrderOneUser(userId);
+                //ArrayList<Category> categorylist = ctd.getAllCategory();
+               // request.setAttribute("categorylist", categorylist);
+                //request.setAttribute("productlist", productlist);
+                //request.setAttribute("orderlist", orderlist);
+                int end = prd.countProductShop(userId);
+                end = ((int) end / 10) + 1;
+                String start = request.getParameter("page");
+                int begin;
+                int last;
+                if (start == null) {
+                    begin = 1;
+                    last = 10;
+                } else {
+                    begin = Integer.parseInt(start);
+                    last = begin * 10;
+                    begin = last - 9;
+                }
+                ArrayList<Product> list = prd.getAllCategory(begin, last, shopId);
+                request.setAttribute("end", end);
+                request.setAttribute("page", Integer.parseInt(start));
+//                request.setAttribute("categorylist", categorylist);
+                request.setAttribute("productlist", list);
+//                request.setAttribute("orderlist", orderlist);
+                
+                
             } else if (productIdupdate != null) {
                 int productId = Integer.parseInt(productIdupdate);
                 Product product = prd.getProduct(productId);
@@ -80,7 +103,7 @@ public class ShopManagerProduct extends HttpServlet {
 //                ArrayList<Order> orderlist = od.getAllOrderOneUser(userId);
 //                ArrayList<Category> categorylist = ctd.getAllCategory();
 
-                int end = prd.count();
+                int end = prd.countProductShop(userId);
                 end = ((int) end / 10) + 1;
                 String start = request.getParameter("page");
                 int begin;
@@ -141,6 +164,7 @@ public class ShopManagerProduct extends HttpServlet {
         OrderDAO od = new OrderDAO();
         CategoryDAO ctd = new CategoryDAO();
         ProductDAO prd = new ProductDAO();
+        UserDAO ud = new UserDAO();
         User user = (User) request.getSession().getAttribute("user");
 
         String productIdstring = request.getParameter("input-id");
@@ -168,6 +192,7 @@ public class ShopManagerProduct extends HttpServlet {
                 Shop shop = sd.getShop(user.getUserId());
                 request.setAttribute("shop", shop);
                 request.getRequestDispatcher("myShop.jsp").forward(request, response);
+                return;
             }
 
             int check = prd.checkProduct(productName, productDescript,
@@ -178,6 +203,11 @@ public class ShopManagerProduct extends HttpServlet {
                         productImg, user.getUserId(), productQuantity,0, productEntryPrice*productQuantity , productOldPrice, productBrand,
                         productOrigin, convertType(productType));
                 sd.updateQuantity(user.getUserId());
+                ud.updateBalance(user.getUserId(), -productEntryPrice*productQuantity);
+                HttpSession session = request.getSession();
+                session.removeAttribute("user");
+                User u = ud.getUserByUserId(user.getUserId());
+                session.setAttribute("user", u);
             } else {
                 Product product = prd.getProduct(check);
                 request.setAttribute("update", "update");
@@ -194,6 +224,7 @@ public class ShopManagerProduct extends HttpServlet {
                     product.getProductOldPrice(), productOldPrice, productBrand, productOrigin, convertType(productType));
             sd.updateQuantity(user.getUserId());
         }
+        
         Shop shop = sd.getShop(user.getUserId());
         ArrayList<Product> productlist = prd.getProductbyShopId(user.getUserId());
         ArrayList<Category> categorylist = ctd.getAllCategory();

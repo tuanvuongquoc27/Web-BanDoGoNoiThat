@@ -21,6 +21,30 @@ public class Customer {
     private String Date;
     private boolean Gender;
     private String DOB;
+    private boolean Active;
+
+    public Customer(int Id, String Name, String Address, String AddressShip, String Email, String Phone, String Date, boolean Gender, String DOB, boolean Active) {
+        this.Id = Id;
+        this.Name = Name;
+        this.Address = Address;
+        this.AddressShip = AddressShip;
+        this.Email = Email;
+        this.Phone = Phone;
+        this.Date = Date;
+        this.Gender = Gender;
+        this.DOB = DOB;
+        this.Active = Active;
+    }
+
+    public boolean isActive() {
+        return Active;
+    }
+
+    public void setActive(boolean Active) {
+        this.Active = Active;
+    }
+    
+    
 
     public Customer () {
     }

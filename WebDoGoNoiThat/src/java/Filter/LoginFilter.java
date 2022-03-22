@@ -56,6 +56,10 @@ public class LoginFilter implements Filter {
             request.setAttribute("error", "Tài khoản không tồn tại");
             request.getRequestDispatcher("Login.jsp").forward(request, response);
         }
+        if(!user.isActive()){
+            request.setAttribute("error", "Tài khoản của bạn đã bị khóa");
+            request.getRequestDispatcher("Login.jsp").forward(request, response);
+        }
         
 
         // Write code here to process the request and/or response before

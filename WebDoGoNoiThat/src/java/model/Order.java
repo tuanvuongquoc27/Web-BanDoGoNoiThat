@@ -18,6 +18,7 @@ public class Order {
     private int productQuantity;
     private int productTotal ;
     private boolean sold;
+    private int shopId;
 
     public Order() {
     }
@@ -32,6 +33,20 @@ public class Order {
         this.productTotal = productTotal;
         this.sold = sold;
     }
+
+    public Order(int orderId, int customerId, int billId, int productId, int productPrice, int productQuantity, int productTotal, boolean sold, int shopId) {
+        this.orderId = orderId;
+        this.customerId = customerId;
+        this.billId = billId;
+        this.productId = productId;
+        this.productPrice = productPrice;
+        this.productQuantity = productQuantity;
+        this.productTotal = productTotal;
+        this.sold = sold;
+        this.shopId = shopId;
+    }
+    
+    
 
     
 

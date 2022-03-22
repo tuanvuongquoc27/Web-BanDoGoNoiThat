@@ -39,7 +39,7 @@ public class BillDAO {
         DBContext db = new DBContext();
         try {
             conn = db.getConnection();
-            state = conn.prepareStatement("select * from bill where billId=" + userId);
+            state = conn.prepareStatement("select * from bill where customerId=" + userId);
             rs = state.executeQuery();
             while (rs.next()) {
                 return new Bill(
@@ -61,7 +61,7 @@ public class BillDAO {
         DBContext db = new DBContext();
         try {
             conn = db.getConnection();
-            state = conn.prepareStatement("select * from bill where billId=" + userId);
+            state = conn.prepareStatement("select * from bill where customerId=" + userId);
             rs = state.executeQuery();
             ArrayList<Bill> listbill = new ArrayList<>();
             while (rs.next()) {
@@ -119,6 +119,17 @@ public class BillDAO {
         try {
             conn = db.getConnection();
             state = conn.prepareStatement("delete bill where customerId="+userId+" and billPay is null " );
+            state.executeUpdate();
+        } catch (Exception ex) {
+            Logger.getLogger(CustomerDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void deleteBillById(int userId) {
+        DBContext db = new DBContext();
+        try {
+            conn = db.getConnection();
+            state = conn.prepareStatement("delete bill where customerId="+userId);
             state.executeUpdate();
         } catch (Exception ex) {
             Logger.getLogger(CustomerDAO.class.getName()).log(Level.SEVERE, null, ex);

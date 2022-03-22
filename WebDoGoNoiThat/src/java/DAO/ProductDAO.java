@@ -88,6 +88,38 @@ public class ProductDAO {
         return null;
     }
     
+    public ArrayList<Product> getAllProductSale(int start, int end) {
+        DBContext db = new DBContext();
+        try {
+            ArrayList<Product> listproduct = new ArrayList<>();
+            conn = db.getConnection();
+            state = conn.prepareStatement("WITH CTEResults AS  (SELECT * , ROW_NUMBER() OVER (ORDER BY productid) AS RowNum FROM product where productOldPrice not like productNewPrice  and productQuantity>0) "
+                    + "SELECT *  FROM CTEResults WHERE RowNum BETWEEN "+start+" AND "+end);
+            rs = state.executeQuery();
+            while (rs.next()) {
+                listproduct.add(new Product(
+                        rs.getInt(1),
+                        rs.getString(2),
+                        rs.getString(3),
+                        rs.getString(4),
+                        rs.getInt(5),
+                        rs.getInt(6),
+                        rs.getInt(7),
+                        rs.getInt(8),
+                        rs.getInt(9),
+                        rs.getString(10),
+                        rs.getString(11),
+                        rs.getInt(12)));
+            }
+            return listproduct;
+        } catch (SQLException ex) {
+            Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+    
     
     public ArrayList<Product> getAllCategoryType(int start, int end,String param,String query ) {
         DBContext db = new DBContext();
@@ -389,6 +421,23 @@ public class ProductDAO {
         return 0;
     }
     
+    public int countProductShop(int shopId) {
+        DBContext db = new DBContext();
+        try {
+            conn = db.getConnection();
+            state = conn.prepareStatement("select count(*) from product where shopId="+shopId);
+            rs = state.executeQuery();
+            while(rs.next()){
+                return rs.getInt(1);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return 0;
+    }
+    
     public int countCategory(int productType) {//dếm số sp của 1 loại category
         DBContext db = new DBContext();
         try {
@@ -404,6 +453,37 @@ public class ProductDAO {
             Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return 0;
+    }
+
+    public ArrayList<Product> getProductSales() {
+        DBContext db = new DBContext();
+        try {
+            ArrayList<Product> listproduct = new ArrayList<>();
+            conn = db.getConnection();
+            state = conn.prepareStatement("select * from product where productOldPrice=productNewPrice");
+            rs = state.executeQuery();
+            while (rs.next()) {
+                listproduct.add(new Product(
+                        rs.getInt(1),
+                        rs.getString(2),
+                        rs.getString(3),
+                        rs.getString(4),
+                        rs.getInt(5),
+                        rs.getInt(6),
+                        rs.getInt(7),
+                        rs.getInt(8),
+                        rs.getInt(9),
+                        rs.getString(10),
+                        rs.getString(11),
+                        rs.getInt(12)));
+            }
+            return listproduct;
+        } catch (SQLException ex) {
+            Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
     }
     
 }

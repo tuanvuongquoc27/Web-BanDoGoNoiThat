@@ -5,9 +5,11 @@
  */
 package Controller;
 
+import DAO.CategoryDAO;
 import DAO.CustomerDAO;
-import DAO.SellerDAO;
-import DAO.UserDAO;
+import DAO.OrderDAO;
+import DAO.ProductDAO;
+import DAO.RequestDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -15,15 +17,18 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import model.Category;
 import model.Customer;
-import model.Seller;
+import model.Order;
+import model.Product;
+import model.Request;
 import model.User;
 
 /**
  *
  * @author Admin
  */
-public class InforUserController extends HttpServlet {
+public class ProductSale extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -39,32 +44,51 @@ public class InforUserController extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
-            SellerDAO sld = new SellerDAO();
+            ProductDAO prd = new ProductDAO();
+            CategoryDAO ctd = new CategoryDAO();
+            RequestDAO rqd = new RequestDAO();
             CustomerDAO csd = new CustomerDAO();
-            UserDAO ud = new UserDAO();
             
-            
-            ArrayList<Customer> customerlist = csd.getAllCustomer();
-            ArrayList<Seller> sellerlist = sld.getAllSeller("select * from seller as a, shop as b where a.sellerId = b.shopId and b.shopActive=1");
-            ArrayList<User> userlist = ud.getAllUser();
-            String infor = request.getParameter("infor");
-            if(infor.equals("seller")){
-                request.setAttribute("list",sellerlist);
-                request.setAttribute("userlist", ud.getAllUser());
-                request.setAttribute("ship", "no");
-                request.setAttribute("infor", "infor-seller-customer");
-            }else if (infor.equals("account")){
-                request.setAttribute("account",userlist);
-                request.setAttribute("infor", "account");
-            }else{
-                request.setAttribute("userlist", ud.getAllUser());
-                request.setAttribute("list",customerlist);
-                request.setAttribute("ship", "yes");
-                request.setAttribute("infor", "infor-seller-customer");
+            User user = (User) request.getSession().getAttribute("user");
+            ArrayList<Order> orderlist = null;
+            //trường hợp có đã đăng nhập
+            if (user != null) {
+                OrderDAO od = new OrderDAO();
+                orderlist = od.getAllOrderOneUser(user.getUserId());// lấy ra all order của 1 khách nhưng sold=1 chưa thanh toán
+                if (orderlist.isEmpty()) {//kiểm tra xem user có mua đồ ko 
+                    orderlist = null;
+                }
+            } else {// trường hợp chưa đăng nhập -> chưa có order
+                orderlist = null;
             }
-            
-            
-            request.getRequestDispatcher("managerStore.jsp").forward(request, response);
+            ArrayList<Request> requestlist = rqd.getAllRequest();// lấy ra tất cả yêu cầu 
+            ArrayList<Customer> customerlist = csd.getAllCustomer();// lấy ra tất cả khách hàng
+            ArrayList<Category> categorylist = ctd.getAllCategory();// lấy ra category
+
+            int end = prd.count();
+            end = ((int) end / 12) + 1;
+            String start = request.getParameter("page");
+            int begin;
+            int last;
+            if (start == null) {
+                begin = 1;
+                last = 12;
+            } else {
+                begin = Integer.parseInt(start);
+                last = begin * 12;
+                begin = last - 11;
+            }
+            ArrayList<Product> list = prd.getAllProductSale(begin, last);
+            request.setAttribute("end", end);
+            request.setAttribute("pageing", "price");
+            request.setAttribute("page", Integer.parseInt(start));
+            request.setAttribute("customerlist", customerlist);
+            request.setAttribute("requestlist", requestlist);
+            request.setAttribute("categorylist", categorylist);
+            request.setAttribute("productlist", list);
+            request.setAttribute("orderlist", orderlist);
+
+            request.getRequestDispatcher("HomePage.jsp").forward(request, response);
         }
     }
 

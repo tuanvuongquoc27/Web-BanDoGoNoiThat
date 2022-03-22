@@ -41,7 +41,8 @@ public class CustomerDAO {
                         rs.getString(6),
                         rs.getString(7),
                         rs.getBoolean(8),
-                        rs.getString(9)));
+                        rs.getString(9),
+                        rs.getBoolean(10)));
             }
             return list;
         } catch (Exception ex) {
@@ -66,7 +67,8 @@ public class CustomerDAO {
                         rs.getString(6),
                         rs.getString(7),
                         rs.getBoolean(8),
-                        rs.getString(9));
+                        rs.getString(9),
+                        rs.getBoolean(10));
             }
         } catch (Exception ex) {
             Logger.getLogger(CustomerDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -90,7 +92,8 @@ public class CustomerDAO {
                         rs.getString(6),
                         rs.getString(7),
                         rs.getBoolean(8),
-                        rs.getString(9));
+                        rs.getString(9),
+                        rs.getBoolean(10));
             }
         } catch (Exception ex) {
             Logger.getLogger(CustomerDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -100,7 +103,7 @@ public class CustomerDAO {
 
     public void insertCustomer(int customerId, String customerName,
             String customerAddress,String customerAddressShip, String customerEmail, String customerPhone,
-            String customerDate, String customerGender, String customerDOB) {
+            String customerDate, String customerGender, String customerDOB, int active) {
         DBContext db = new DBContext();
         try {
             conn = db.getConnection();
@@ -113,7 +116,8 @@ public class CustomerDAO {
                     + customerPhone                 + ",'"
                     + customerDate                  + "',"
                     + customerGender +","
-                    + customerDOB +")");
+                    + customerDOB +","
+                    + active +")");
             state.executeUpdate();
         } catch (Exception ex) {
             Logger.getLogger(CustomerDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -123,7 +127,7 @@ public class CustomerDAO {
     
     public void updateCustomer(int customerId, String customerName,
             String customerAddress,String customerAddressShip, String customerEmail, String customerPhone,
-            String customerGender, String customerDOB) {
+            String customerGender, String customerDOB, int active) {
         DBContext db = new DBContext();
         try {
             conn = db.getConnection();
@@ -134,7 +138,8 @@ public class CustomerDAO {
                     + "customerEmail='"  + customerEmail + "',"
                     + "customerPhone='"  + customerPhone + "',"
                     + "customerGender="  + convertGender(customerGender) +","
-                    + "customerDOB='"    + customerDOB +"' where customerId=" + customerId);
+                    + "customerDOB='"    + customerDOB +"',"
+                    + "isActice = "+ active +" where customerId=" + customerId);
             state.executeUpdate();
         } catch (Exception ex) {
             Logger.getLogger(CustomerDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -165,6 +170,17 @@ public class CustomerDAO {
         try {
             conn = db.getConnection();
             state = conn.prepareStatement("update customer set customerAddressShip =N'"+addressship+"' where customerId=" + userId);
+            state.executeUpdate();
+        } catch (Exception ex) {
+            Logger.getLogger(CustomerDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void updateActive(int id, int i) {
+        DBContext db = new DBContext();
+        try {
+            conn = db.getConnection();
+            state = conn.prepareStatement("update customer set isActice ="+i+" where customerId=" + id);
             state.executeUpdate();
         } catch (Exception ex) {
             Logger.getLogger(CustomerDAO.class.getName()).log(Level.SEVERE, null, ex);

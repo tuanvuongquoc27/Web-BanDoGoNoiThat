@@ -39,19 +39,18 @@ public class CategoryServletController extends HttpServlet {
             /* TODO output your page here. You may use following sample code. */
             CategoryDAO ctd = new CategoryDAO();
             ProductDAO prd = new ProductDAO();
-            
+
             String cateID = request.getParameter("categoryId");
             int categoryId = Integer.parseInt(cateID);
             ArrayList<Category> categorylist = ctd.getAllCategory();
             request.setAttribute("categorylist", categorylist);
             int end = 0;
-            if(categoryId==0){
+            if (categoryId == 0) {
                 end = prd.count();
-            }else{
+            } else {
                 end = prd.countCategory(categoryId);
             }
-            
-            
+
             end = ((int) end / 12) + 1;
             String start = request.getParameter("page");
             int begin;
@@ -64,20 +63,20 @@ public class CategoryServletController extends HttpServlet {
                 last = begin * 12;
                 begin = last - 11;
             }
-            if(categoryId==0){
+            if (categoryId == 0) {
                 ArrayList<Product> list = prd.getAll(begin, last);
                 request.setAttribute("productlist", list);
                 request.setAttribute("end", end);
-            }else {
-                ArrayList<Product> list = prd.getAllCategoryType(begin,last,cateID, "productType");
+            } else {
+                ArrayList<Product> list = prd.getAllCategoryType(begin, last, cateID, "productType");
                 request.setAttribute("productlist", list);
-                request.setAttribute("endother", end);
-            }   
-            request.setAttribute("cateid",categoryId );
-                request.setAttribute("endother", end);
-            request.setAttribute("page", Integer.parseInt(start) );
-            
+                request.setAttribute("end", end);
+            }
+            request.setAttribute("cateid", categoryId);
+            request.setAttribute("pageing", "cate");
+            request.setAttribute("page", Integer.parseInt(start));
             request.getRequestDispatcher("HomePage.jsp").forward(request, response);
+
         }
     }
 

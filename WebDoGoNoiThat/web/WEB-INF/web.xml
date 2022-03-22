@@ -125,16 +125,20 @@
         <servlet-class>Controller.NewRequest</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>Paging</servlet-name>
-        <servlet-class>Controller.Paging</servlet-class>
-    </servlet>
-    <servlet>
         <servlet-name>UpdateInforShop</servlet-name>
         <servlet-class>Controller.UpdateInforShop</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>ManagerStoreRevenue</servlet-name>
         <servlet-class>Controller.ManagerStoreRevenue</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ProductSale</servlet-name>
+        <servlet-class>Controller.ProductSale</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>UpdateInforAccount</servlet-name>
+        <servlet-class>Controller.UpdateInforAccount</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
@@ -237,16 +241,20 @@
         <url-pattern>/NewRequest</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>Paging</servlet-name>
-        <url-pattern>/Paging</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
         <servlet-name>UpdateInforShop</servlet-name>
         <url-pattern>/UpdateInforShop</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>ManagerStoreRevenue</servlet-name>
         <url-pattern>/ManagerStoreRevenue</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ProductSale</servlet-name>
+        <url-pattern>/ProductSale</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UpdateInforAccount</servlet-name>
+        <url-pattern>/UpdateInforAccount</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

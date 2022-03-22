@@ -20,8 +20,21 @@ public class Seller {
     private String Date;
     private boolean Gender;
     private String DOB;
+    private boolean Active;
 
     public Seller() {
+    }
+
+    public Seller(int Id, String Name, String Address, String Email, String Phone, String Date, boolean Gender, String DOB, boolean Active) {
+        this.Id = Id;
+        this.Name = Name;
+        this.Address = Address;
+        this.Email = Email;
+        this.Phone = Phone;
+        this.Date = Date;
+        this.Gender = Gender;
+        this.DOB = DOB;
+        this.Active = Active;
     }
 
     public Seller(int Id, String Name, String Address, String Email, String Phone, String Date, boolean Gender, String DOB) {
@@ -33,6 +46,14 @@ public class Seller {
         this.Date = Date;
         this.Gender = Gender;
         this.DOB = DOB;
+    }
+
+    public boolean isActive() {
+        return Active;
+    }
+
+    public void setActive(boolean Active) {
+        this.Active = Active;
     }
 
     

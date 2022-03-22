@@ -145,15 +145,15 @@
                     <div class="account__infor">
                         <c:if test="${user.userImg==null}">
                             <img class="account-img"
-                             src="https://mpng.subpng.com/20180411/rzw/kisspng-user-profile-computer-icons-user-interface-mystique-5aceb0245aa097.2885333015234949483712.jpg"
-                             alt="">
+                                 src="https://mpng.subpng.com/20180411/rzw/kisspng-user-profile-computer-icons-user-interface-mystique-5aceb0245aa097.2885333015234949483712.jpg"
+                                 alt="">
                         </c:if>
                         <c:if test="${user.userImg!=null}">
                             <img class="account-img"
-                             src="${user.userImg}"
-                             alt="">
+                                 src="${user.userImg}"
+                                 alt="">
                         </c:if>
-                        
+
                         <div>
                             <span class="account-name">${user.userName}</span>
                             <span class="account-money">Số dư tài khoản:<fmt:formatNumber type="number" pattern="###,###,###đ" value="${user.userBanlance}" /></span>
@@ -167,7 +167,7 @@
                         <a href="AccountFileUpdate?role=${role}&userId=${user.userId}" class="account-file">Thay đổi thông tin</a>
                     </div>
                     <div class="account">
-                        <a href="AccountHistoryController?userId=${user.userId}" class="account-history">Lịch sử mua hàng</a>
+                        <a href="AccountHistoryController?userId=${user.userId}&rq=false" class="account-history">Lịch sử mua hàng</a>
                     </div>
                     <div class="account">
                         <a href="AccountPasswordController?userId=${user.userId}" class="account-change-pass">Thay đổi mật khẩu</a>
@@ -198,19 +198,19 @@
                             <tr><td>Địa chỉ</td>
                                 <td><c:choose>  
                                         <c:when test="${acc.getAddress()==null}">Chưa cập nhật</c:when> 
-                                        
+
                                         <c:otherwise>${acc.getAddress()}</c:otherwise>  
                                     </c:choose></td>
                             </tr>
                             <c:if test="${user.isCustomer()||user.isAdmin()}">
                                 <tr><td>Địa chỉ ship</td>
-                                <td><c:choose>  
-                                        <c:when test="${acc.getAddressShip()==null}">Chưa cập nhật</c:when> 
-                                        <c:otherwise>${acc.getAddressShip()}</c:otherwise>  
-                                    </c:choose></td>
+                                    <td><c:choose>  
+                                            <c:when test="${acc.getAddressShip()==null}">Chưa cập nhật</c:when> 
+                                            <c:otherwise>${acc.getAddressShip()}</c:otherwise>  
+                                        </c:choose></td>
                                 </tr>
                             </c:if>
-                            
+
                             <tr><td>Số điện thoại</td>
                                 <td><c:choose>  
                                         <c:when test="${acc.getAddress()==null}">Chưa cập nhật</c:when>
@@ -267,11 +267,11 @@
                                     <td><input placeholder="${acc.getAddress()}" name="input-address" type="text" required="true"></td>
                                 </tr>
                                 <c:if test="${user.isCustomer()||user.isAdmin()}">
-                                <tr><td>Địa chỉ ship</td>
-                                <td>
-                                    <input placeholder="${acc.getAddressShip()}" name="input-address-ship" type="text" required="true">
-                                </td>
-                                </tr>
+                                    <tr><td>Địa chỉ ship</td>
+                                        <td>
+                                            <input placeholder="${acc.getAddressShip()}" name="input-address-ship" type="text" required="true">
+                                        </td>
+                                    </tr>
                                 </c:if>
                                 <tr>
                                     <td>Ảnh đại diện</td>
@@ -331,43 +331,104 @@
                         </div>
                     </div> 
                 </c:if>
+                <!--lịch sử mua hàng-->
+                <c:if test="${account=='history'}">
+                    <div class="col-sm-9 dis-play ">
+                        <div class="row">
+                            <h2>Lịch sử mua hàng</h2>
+                            <div class="col-sm-1"><h2>Id</h2></div>
+                            <div class="col-sm-2"><h2>Tổng số tiền</h2></div>
+                            <div class="col-sm-4"><h2>Hình thức thanh toán</h2></div>
+                            <div class="col-sm-2"><h2>Ngày mua </h2></div>
+                            <div class="col-sm-3"><h2>Chi tiết</h2></div>
+                        </div>
+                        <c:forEach items="${blist}" var="bl">
+                            <c:if test="${bl.getBillTotal()>0}">
+                                <div class="row">
+                                    <div class="col-sm-1"><h2>${bl.getBillId()}</h2></div>
+                                    <div class="col-sm-2"><h2><fmt:formatNumber type="number" pattern="###,###,###đ" value="${bl.getBillTotal()}" /></h2></div>
+                                    <div class="col-sm-4">
+                                        <c:forEach items="${pm}" var="pl">
+                                            <c:if test="${pl.getPayId()==bl.getBillPay()}">
+                                                <h2>${pl.getPayType()}   </h2>   
+                                            </c:if>
+                                        </c:forEach>
+                                    </div>
+                                    <div class="col-sm-2"><h2>${bl.getBillDate()}</h2></div>
+                                    <div class="col-sm-3"><h2><a style="padding: 0!important;" href="AccountHistoryController?userId=${user.userId}&rq=true&bid=${bl.getBillId()}" class="nav-link">Xem chi tiết</a></h2></div>
+                                </div>
+                            </c:if>
+
+                        </c:forEach>
+                    </div> 
+                </c:if>
+
+                <!--chi tiết hóa đơn-->
+                <c:if test="${account=='detail'}">
+                    <div class="col-sm-9 dis-play">
+                        <h2>Chi tiết hóa đơn</h2>
+                        <div class="row" style="display: flex; ">
+                            <div class="col-sm-6 product__cart" style="padding-left: 25px;">Sản phẩm </div>
+                            <div class="col-sm-2 product__price">Giá sản phẩm</div>
+                            <div class="col-sm-2 product__quantity">Số lượng</div>
+                            <div class="col-sm-2 product__total">Thành tiền</div>
+                        
+                        <% ArrayList<Order> newordlist = (ArrayList<Order>) request.getAttribute("orderlist");
+                            for (int i = 0; i < newordlist.size(); i++) {
+                                ProductDAO prd = new ProductDAO();
+                                Product pro = new Product();
+                                pro = prd.getProduct(newordlist.get(i).getProductId());
+                            request.setAttribute("pro", pro);
+                            request.setAttribute("order", newordlist.get(i)); %>
+                            <div class="row" style="display: flex; ">
+                            <div class="col-sm-6 product__cart">
+                                <img src="${pro.getProductImg()}" alt="" class="header__cart-img img-fluid">
+                                ${pro.getProductName()}
+                            </div>
+                            <div class="col-sm-2 product__price"><fmt:formatNumber type="number" pattern="###,###,###đ" value="${order.getProductPrice()}" /></div>
+                            <div class="col-sm-2 product__quantity">${order.getProductQuantity()}</div>
+                            <div class="col-sm-2 product__total">
+                                <fmt:formatNumber type="number" pattern="###,###,###đ" value="${order.getProductTotal()}" />
+                            </div>
+                        </div>
+                        <%}%>
+                    </div>                
+                </c:if>
 
                 <!--nạp tiền-->
                 <c:if test="${account=='money'}">
                     <!-- Nạp tiền -->
                     <div class="col-sm-9 dis-play">
-                        <div class="">
-                            <h2>Nạp tiền vào tài khoản</h2>
-                            <form action="AccountMoneyController" method="post">
-                                <table>
-                                    <tr>
-                                        <td>Mệnh giá nạp tiền</td>
-                                        <td><select id="card-money" name="money">
-                                                <option value="20000">20.000đ</option>
-                                                <option value="50000">50.000đ</option>
-                                                <option value="100000">100.000đ</option>
-                                                <option value="200000">200.000d</option>
-                                                <option value="50000000">50.000.000đ</option>
-                                            </select>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                    <input type="hidden" name="userId" value="${user.userId}"/>
-                                    <td>Nhập mật khẩu để xác nhận</td>
-                                    <td><input name="input-password" type="password"></td>
-                                    </tr>
-                                    <tr>
-                                        <td>Nhập lại mật khẩu</td>
-                                        <td><input name ="input-password-again" type="password"></td>
-                                    </tr>
-                                    <tr>
-                                        <td><input class="submit-btn" type="Submit" value="Nạp tiền"></td>
-                                        <td>${mess}</td>
-                                    </tr>
+                        <h2>Nạp tiền vào tài khoản</h2>
+                        <form action="AccountMoneyController" method="post">
+                            <table>
+                                <tr>
+                                    <td>Mệnh giá nạp tiền</td>
+                                    <td><select id="card-money" name="money">
+                                            <option value="20000">20.000đ</option>
+                                            <option value="50000">50.000đ</option>
+                                            <option value="100000">100.000đ</option>
+                                            <option value="200000">200.000d</option>
+                                            <option value="50000000">50.000.000đ</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                <input type="hidden" name="userId" value="${user.userId}"/>
+                                <td>Nhập mật khẩu để xác nhận</td>
+                                <td><input name="input-password" type="password"></td>
+                                </tr>
+                                <tr>
+                                    <td>Nhập lại mật khẩu</td>
+                                    <td><input name ="input-password-again" type="password"></td>
+                                </tr>
+                                <tr>
+                                    <td><input class="submit-btn" type="Submit" value="Nạp tiền"></td>
+                                    <td>${mess}</td>
+                                </tr>
 
-                                </table>
-                            </form>
-                        </div>
+                            </table>
+                        </form>
                     </div>
                 </c:if>
 

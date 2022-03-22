@@ -203,9 +203,6 @@
                             <a href="ShopManagerProduct?update=getAll&userId=${user.userId}&page=1" class="nav-link product__list-item--link">Tất cả sản phẩm</a> 
                         </li>
                         <li class="product__list-item nav-item ">
-                            <a href="ShopManagerProduct?update=insert&userId=${user.userId}" class="nav-link product__list-item--link">Thêm sản phẩm</a> 
-                        </li>
-                        <li class="product__list-item nav-item ">
                             <a href="ShopManagerProduct?update=reveneu&userId=${user.userId}" class="nav-link product__list-item--link">Doanh thu</a> 
                         </li>
                         <li class="product__list-item nav-item ">
@@ -247,10 +244,12 @@
                                 <div class="col-sm-2 product__delete"> 
                                     <span><a onclick="if (!confirm('Are you sure?')) {
                                                     return false;
-                                                }" href="ShopManagerProduct?productIddelete=${pro.getProductId()}&userId=${sessionScope.user.userId}" class="nav-link">Xóa</a>
+                                                }" href="ShopManagerProduct?productIddelete=${pro.getProductId()}&userId=${sessionScope.user.userId}&page=1" class="nav-link">Xóa</a>
                                     </span><span><a href="ShopManagerProduct?productIdupdate=${pro.getProductId()}&userId=${sessionScope.user.userId}&update=update" class="nav-link">Sửa</a></span></div>
                             </div>
+                            
                         </c:forEach>
+                        <h2> <a type="button" class="btn btn-secondary" href="ShopManagerProduct?update=insert&userId=${user.userId}">Thêm sản phẩm</a>  </h2> 
                     </div>
                     <ul class="pagination">
                         <c:forEach begin="1" end="${end}" var="i">

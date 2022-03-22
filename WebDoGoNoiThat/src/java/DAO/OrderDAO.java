@@ -173,7 +173,7 @@ public class OrderDAO {
         
     }
     
-    public void insertOrder(int customerId, int billId, int productId, int productPrice, int productQuantity, int productTotal){
+    public void insertOrder(int customerId, int billId, int productId, int productPrice, int productQuantity, int productTotal, int shopId){
         DBContext db = new DBContext();
         try {   
             conn=db.getConnection();
@@ -183,7 +183,8 @@ public class OrderDAO {
                     +productId+","
                     +productPrice+","
                     +productQuantity+","
-                    +productTotal+",0)");
+                    +productTotal+",0,"
+                    + shopId +")");
             
            state.executeUpdate();
         } catch (SQLException ex) {
@@ -219,11 +220,11 @@ public class OrderDAO {
         }
     }
 
-    public void deleteOrder(int deleteId) {
+    public void deleteOrder(int deleteId , String query) {
         DBContext db = new DBContext();
         try {   
             conn=db.getConnection();
-            state=conn.prepareStatement("delete [order] where productId="+deleteId);
+            state=conn.prepareStatement("delete [order] where "+query+" = "+deleteId);
             state.execute();
         } catch (SQLException ex) {
             Logger.getLogger(OrderDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -334,6 +335,33 @@ public class OrderDAO {
         } catch (Exception ex) {
             Logger.getLogger(OrderDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+    
+    public ArrayList<Order> getAllOrderBill(int billId,int customerId) {
+        DBContext db = new DBContext();
+        try {   
+            ArrayList<Order> list = new ArrayList<>();
+            conn=db.getConnection();
+            state=conn.prepareStatement("select * from [order] as a where  a.billId = "+billId+" and a.sold=1 and customerId="+customerId);
+            rs = state.executeQuery();
+            while(rs.next()){
+                list.add(new Order(
+                        rs.getInt(1),
+                        rs.getInt(2),
+                        rs.getInt(3),
+                        rs.getInt(4),
+                        rs.getInt(5),
+                        rs.getInt(6),
+                        rs.getInt(7),
+                        rs.getBoolean(8)));
+            }
+            return list;
+        } catch (SQLException ex) {
+            Logger.getLogger(OrderDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(OrderDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
     }
     
 }

@@ -65,7 +65,7 @@ and open the template in the editor.
                                 <li class="header__navbar-item"><a class="header__navbar-item-link" href="SignupSeller">Đăng kí bán hàng</a></li>
                                 </c:if>  
                                 <c:if test="${!user.isAdmin()&&user!=null}">  <%--đã đăng nhập với tư cách khách hàng hoặc nhà bán hàng --%>
-                                <li class="header__navbar-item"><a class="header__navbar-item-link" href="NewRequest">Gửi yêu cầu</a></li>
+                                <li class="header__navbar-item"><a class="header__navbar-item-link" href="NewRequest">Đang cập nhật</a></li>
                                 </c:if>          
                         </ul>
                         <ul class="header__navbar-list">
@@ -270,7 +270,7 @@ and open the template in the editor.
                                 <!--nếu là admin có thể thêm mới-->    
                                 <c:if test="${user.isAdmin()}">
                                     <li class="dropdown-item category__list-item--child ">
-                                        <a href="#" class="category__list-item-link--child nav-link">Thêm mới</a>
+                                        <a href="#" class="category__list-item-link--child nav-link">Đang cập nhật</a>
                                     </li>
                                 </c:if>
                             </ul>
@@ -289,11 +289,9 @@ and open the template in the editor.
                             </h4>
                             <ul class="product__list nav flex-column">
                                 <li class="product__list-item nav-item">
-                                    <a class="product__list-item--link nav-link" href="#">Sản phẩm mua nhiều</a>
+                                    <a class="product__list-item--link nav-link" href="ProductSale?page=1">Sản phẩm giảm giá</a>
                                 </li>
-                                <li class="product__list-item nav-item">
-                                    <a class="product__list-item--link nav-link" href="#">Sản phẩm giảm giá</a>
-                                </li>
+
                                 <li class="product__list-item nav-item">
                                     <div class="dropdown product__list-item">
                                         <a href="#" data-bs-toggle="dropdown"
@@ -310,6 +308,9 @@ and open the template in the editor.
                                             </li>
                                         </ul>
                                     </div>
+                                </li>
+                                <li class="product__list-item nav-item">
+                                    <a class="product__list-item--link nav-link" href="#">Đang cập nhật</a>
                                 </li>
                             </ul>
 
@@ -390,9 +391,9 @@ and open the template in the editor.
                                 </div>
                             </div>
                         </c:if>
-                        <c:if test="${endother!=null}">
+                        <c:if test="${pageing=='cate'}">
                             <ul class="pagination">
-                                <c:forEach begin="1" end="${endother}" var="i">
+                                <c:forEach begin="1" end="${end}" var="i">
                                     <c:if test="${i==page}">
                                         <li class="pagination-item pagination-item--active">
                                             <a href="CategoryServletController?categoryId=${cateid}&page=${i}" class="pagination-item__link">${i}</a>
@@ -406,7 +407,7 @@ and open the template in the editor.
                                 </c:forEach>
                             </ul>
                         </c:if>
-                        <c:if test="${endother==null}">
+                        <c:if test="${pageing=='home'}">
                             <ul class="pagination">                              
                                 <c:forEach begin="1" end="${end}" var="i">
                                     <c:if test="${i==page}">
@@ -422,6 +423,22 @@ and open the template in the editor.
                                 </c:forEach>
                             </ul>
                         </c:if>
+                        <c:if test="${pageing=='price'}">
+                            <ul class="pagination">                              
+                                <c:forEach begin="1" end="${end}" var="i">
+                                    <c:if test="${i==page}">
+                                        <li class="pagination-item pagination-item--active">
+                                            <a href="ProductSale?page=${i}" class="pagination-item__link">${i}</a>
+                                        </li>
+                                    </c:if>
+                                    <c:if test="${i!=page}">
+                                        <li class="pagination-item">
+                                            <a href="ProductSale?page=${i}" class="pagination-item__link">${i}</a>
+                                        </li>
+                                    </c:if>    
+                                </c:forEach>
+                            </ul>
+                        </c:if> 
                     </div>
 
 
