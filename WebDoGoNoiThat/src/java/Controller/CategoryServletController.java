@@ -64,7 +64,7 @@ public class CategoryServletController extends HttpServlet {
                 begin = last - 11;
             }
             if (categoryId == 0) {
-                ArrayList<Product> list = prd.getAll(begin, last);
+                ArrayList<Product> list = prd.getAllProductQuanity(begin, last);
                 request.setAttribute("productlist", list);
                 request.setAttribute("end", end);
             } else {

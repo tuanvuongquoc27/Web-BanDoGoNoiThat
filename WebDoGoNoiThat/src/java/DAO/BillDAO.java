@@ -136,5 +136,16 @@ public class BillDAO {
         }
     }
     
+    public void updateShip(int billId , int status){
+        DBContext db = new DBContext();
+        try {
+            conn = db.getConnection();
+            state = conn.prepareStatement("update bill set ship = "+status+" where billId="+billId);
+            state.executeUpdate();
+        } catch (Exception ex) {
+            Logger.getLogger(CustomerDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
     
 }

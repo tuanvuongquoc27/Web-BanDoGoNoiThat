@@ -53,6 +53,9 @@ public class InforUserController extends HttpServlet {
                 request.setAttribute("userlist", ud.getAllUser());
                 request.setAttribute("ship", "no");
                 request.setAttribute("infor", "infor-seller-customer");
+            }
+            else if (infor.equals("signupaccount")){
+                request.setAttribute("infor", "signup");
             }else if (infor.equals("account")){
                 request.setAttribute("account",userlist);
                 request.setAttribute("infor", "account");

@@ -139,7 +139,7 @@ public class CustomerDAO {
                     + "customerPhone='"  + customerPhone + "',"
                     + "customerGender="  + convertGender(customerGender) +","
                     + "customerDOB='"    + customerDOB +"',"
-                    + "isActice = "+ active +" where customerId=" + customerId);
+                    + "isActive = "+ active +" where customerId=" + customerId);
             state.executeUpdate();
         } catch (Exception ex) {
             Logger.getLogger(CustomerDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -180,7 +180,7 @@ public class CustomerDAO {
         DBContext db = new DBContext();
         try {
             conn = db.getConnection();
-            state = conn.prepareStatement("update customer set isActice ="+i+" where customerId=" + id);
+            state = conn.prepareStatement("update customer set isActive ="+i+" where customerId=" + id);
             state.executeUpdate();
         } catch (Exception ex) {
             Logger.getLogger(CustomerDAO.class.getName()).log(Level.SEVERE, null, ex);

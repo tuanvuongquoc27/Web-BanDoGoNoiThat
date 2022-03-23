@@ -50,10 +50,14 @@ public class ShopManagerProduct extends HttpServlet {
             ShopDAO sd = new ShopDAO();
             String productIddelete = request.getParameter("productIddelete");
             String productIdupdate = request.getParameter("productIdupdate");
-
+            String userIdstring;
+            if(request.getParameter("mess")!=null){
+                userIdstring = request.getParameter("shopid");
+            }else{
+                userIdstring = request.getParameter("userId");
+            }
             String update = request.getParameter("update");
-            String shopId = request.getParameter("userId");
-            int userId = Integer.parseInt(shopId);
+            int userId = Integer.parseInt(userIdstring);
 
             if (productIddelete != null && !productIddelete.equals("null")) {
                 int productId = Integer.parseInt(productIddelete);
@@ -64,31 +68,15 @@ public class ShopManagerProduct extends HttpServlet {
                 sd.updateProductSold(userId);
                 request.setAttribute("update", "getAll");
                 
-               // ArrayList<Product> productlist = prd.getProductbyShopId(userId);
-               // ArrayList<Order> orderlist = od.getAllOrderOneUser(userId);
-                //ArrayList<Category> categorylist = ctd.getAllCategory();
-               // request.setAttribute("categorylist", categorylist);
-                //request.setAttribute("productlist", productlist);
-                //request.setAttribute("orderlist", orderlist);
-                int end = prd.countProductShop(userId);
-                end = ((int) end / 10) + 1;
-                String start = request.getParameter("page");
-                int begin;
-                int last;
-                if (start == null) {
-                    begin = 1;
-                    last = 10;
-                } else {
-                    begin = Integer.parseInt(start);
-                    last = begin * 10;
-                    begin = last - 9;
-                }
-                ArrayList<Product> list = prd.getAllCategory(begin, last, shopId);
-                request.setAttribute("end", end);
-                request.setAttribute("page", Integer.parseInt(start));
-//                request.setAttribute("categorylist", categorylist);
+                ArrayList<Order> orderlist = od.getAllOrderOneUser(userId);
+                ArrayList<Category> categorylist = ctd.getAllCategory();
+                request.setAttribute("categorylist", categorylist);
+                request.setAttribute("orderlist", orderlist);
+                
+                ArrayList<Product> list = prd.getProductbyShopId(userId);
+                request.setAttribute("categorylist", categorylist);
                 request.setAttribute("productlist", list);
-//                request.setAttribute("orderlist", orderlist);
+                request.setAttribute("orderlist", orderlist);
                 
                 
             } else if (productIdupdate != null) {
@@ -100,28 +88,14 @@ public class ShopManagerProduct extends HttpServlet {
                 request.setAttribute("update", "insert");
             } else if (update.equals("getAll")) {
                 request.setAttribute("update", update);
-//                ArrayList<Order> orderlist = od.getAllOrderOneUser(userId);
-//                ArrayList<Category> categorylist = ctd.getAllCategory();
+                ArrayList<Order> orderlist = od.getAllOrderOneUser(userId);
+                ArrayList<Category> categorylist = ctd.getAllCategory();
 
-                int end = prd.countProductShop(userId);
-                end = ((int) end / 10) + 1;
-                String start = request.getParameter("page");
-                int begin;
-                int last;
-                if (start == null) {
-                    begin = 1;
-                    last = 10;
-                } else {
-                    begin = Integer.parseInt(start);
-                    last = begin * 10;
-                    begin = last - 9;
-                }
-                ArrayList<Product> list = prd.getAllCategory(begin, last, shopId);
-                request.setAttribute("end", end);
-                request.setAttribute("page", Integer.parseInt(start));
-//                request.setAttribute("categorylist", categorylist);
+                
+                ArrayList<Product> list = prd.getProductbyShopId(userId);
+                request.setAttribute("categorylist", categorylist);
                 request.setAttribute("productlist", list);
-//                request.setAttribute("orderlist", orderlist);
+                request.setAttribute("orderlist", orderlist);
             } else if (update.equals("update")) {
 
             }
@@ -165,8 +139,9 @@ public class ShopManagerProduct extends HttpServlet {
         CategoryDAO ctd = new CategoryDAO();
         ProductDAO prd = new ProductDAO();
         UserDAO ud = new UserDAO();
-        User user = (User) request.getSession().getAttribute("user");
-
+        //User user = (User) request.getSession().getAttribute("user");
+        String shopid = request.getParameter("input-shopId");
+        User user = ud.getUserByUserId(Integer.parseInt(shopid));
         String productIdstring = request.getParameter("input-id");
         String productName = request.getParameter("input-name");
         String productDescript = request.getParameter("input-descript");
@@ -204,10 +179,15 @@ public class ShopManagerProduct extends HttpServlet {
                         productOrigin, convertType(productType));
                 sd.updateQuantity(user.getUserId());
                 ud.updateBalance(user.getUserId(), -productEntryPrice*productQuantity);
-                HttpSession session = request.getSession();
-                session.removeAttribute("user");
-                User u = ud.getUserByUserId(user.getUserId());
-                session.setAttribute("user", u);
+                if(request.getParameter("mess")!=null){
+                    
+                }else{
+                    HttpSession session = request.getSession();
+                    session.removeAttribute("user");
+                    User u = ud.getUserByUserId(user.getUserId());
+                    session.setAttribute("user", u);
+                }
+                
             } else {
                 Product product = prd.getProduct(check);
                 request.setAttribute("update", "update");

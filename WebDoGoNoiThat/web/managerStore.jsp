@@ -190,7 +190,7 @@
                                 <c:forEach items="${shoplist}" var="shoplist">
                                     <tr>
                                         <td><c:out value="${shoplist.getShopId()}"/></td>
-                                        <td><a href="ManagerStore?infor=shop&shopId=${shoplist.getShopId()}" class="nav-link store-manager"><c:out value="${shoplist.getShopName()}"/></a></td>
+                                        <td><a href="ShopServletController?mess=manaher&page=1&shopid=${shoplist.getShopId()}" class="nav-link store-manager"><c:out value="${shoplist.getShopName()}"/></a></td>
                                             <c:forEach items="${sellerlist}" var="sllist">
                                                 <c:if test="${shoplist.getShopId()==sllist.getId()}">
                                                 <td><c:out value="${sllist.getName()}"/></td>   
@@ -339,6 +339,7 @@
                                     </tr>
                                 </c:forEach>
                             </table>
+                            <h2> <a type="button" class="btn btn-secondary" href="InforUserController?infor=signupaccount">Thêm tài khoản</a>  </h2> 
                         </c:if>
 
                         <!--infor seller + customer-->
@@ -484,6 +485,29 @@
                                     </tr>
                                 </table>
                             </form>
+                        </c:if>
+                        <c:if test="${infor=='signup'}">
+                            <form action="SignUpServlet" method="post">
+                                <input type="hidden" value="admin" name="input-admin"/>
+                            <input type="text" placeholder="Tên đăng nhập" name="input-username" class="input-infor-acc" required/><br>
+                            <input type="password" placeholder="Mật khẩu" name="input-password" class="input-infor-acc" required/><br>
+                            <input type="password" placeholder="Nhập lại mật khẩu" name="input-password-2" class="input-infor-acc" required/><br>
+                            <input type="email" placeholder="Nhập email" name="input-email" class="input-infor-acc" required/>
+                            <input type="submit" value="Đăng kí" class="btn"><br> 
+                            </form>
+                        </c:if>
+                        <c:if test="${infor=='bill'}">
+                            <table>
+                                <tr>
+                                    <td>Id</td>
+                                    <td>Khach hang</td>
+                                    <td>Tong tien</td>
+                                    <td>Ngay mua</td>
+                                    <td>Ngay Ship</td>
+                                    <td>Trang thai</td>
+                                    
+                                </tr>
+                            </table>
                         </c:if>
 
                         <!--request-->

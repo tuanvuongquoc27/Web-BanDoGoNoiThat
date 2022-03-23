@@ -15,6 +15,8 @@ import DAO.ShopDAO;
 import DAO.UserDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -93,6 +95,7 @@ public class UpdateInforAccount extends HttpServlet {
                 ud.updateActice(id, 1);
                 if(user.isCustomer()&&!user.isSeller()){
                     csd.updateActive(id,1);
+//                    csd.insertCustomer(user.getUserId(), user.getUserName(), null , null, null, null, getDateNow(), null, null, 1);
                 }else if( user.isCustomer()&&user.isSeller()){
                     sld.updateActive(id, 1);
                     sd.updateActice(id, 1);
@@ -115,6 +118,13 @@ public class UpdateInforAccount extends HttpServlet {
             }
 
         }
+    }
+    
+    public String getDateNow() {
+        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
+        Date date = new Date();
+        return sdf.format(date);
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

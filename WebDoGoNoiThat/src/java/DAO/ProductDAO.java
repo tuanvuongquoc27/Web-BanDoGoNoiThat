@@ -24,12 +24,45 @@ public class ProductDAO {
     PreparedStatement state;
     ResultSet rs;
 
-    public ArrayList<Product> getAll(int start, int end ) {
+    public ArrayList<Product> getAllProductQuanity(int start, int end ) {
         DBContext db = new DBContext();
         try {
             ArrayList<Product> listproduct = new ArrayList<>();
             conn = db.getConnection();
             state = conn.prepareStatement("WITH CTEResults AS  (SELECT * , ROW_NUMBER() OVER (ORDER BY productid) AS RowNum FROM product where productQuantity>0) "
+                    + "SELECT *  FROM CTEResults WHERE RowNum BETWEEN "+start+" AND "+end);
+            rs = state.executeQuery();
+            while (rs.next()) {
+                listproduct.add(new Product(
+                        rs.getInt(1),
+                        rs.getString(2),
+                        rs.getString(3),
+                        rs.getString(4),
+                        rs.getInt(5),
+                        rs.getInt(6),
+                        rs.getInt(7),
+                        rs.getInt(8),
+                        rs.getInt(9),
+                        rs.getString(10),
+                        rs.getString(11),
+                        rs.getInt(12)));
+            }
+            return listproduct;
+        } catch (SQLException ex) {
+            Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+    
+    
+    public ArrayList<Product> getAllProduct(int start, int end ) {
+        DBContext db = new DBContext();
+        try {
+            ArrayList<Product> listproduct = new ArrayList<>();
+            conn = db.getConnection();
+            state = conn.prepareStatement("WITH CTEResults AS  (SELECT * , ROW_NUMBER() OVER (ORDER BY productid) AS RowNum FROM product) "
                     + "SELECT *  FROM CTEResults WHERE RowNum BETWEEN "+start+" AND "+end);
             rs = state.executeQuery();
             while (rs.next()) {
@@ -442,7 +475,7 @@ public class ProductDAO {
         DBContext db = new DBContext();
         try {
             conn = db.getConnection();
-            state = conn.prepareStatement("select count(*) from product productType= "+productType);
+            state = conn.prepareStatement("select count(*) from product where productType= "+productType);
             rs = state.executeQuery();
             while(rs.next()){
                 return rs.getInt(1);

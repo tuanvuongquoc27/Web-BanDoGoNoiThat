@@ -148,8 +148,16 @@
             <div class="col-sm-1"></div>
             <div class="col-sm-10 shop__infor">
                 <div class="shop__infor-name">
-                    <img class="shop-img" src="./image/login-img.jpg" alt="">
-                    <h3 class="shop-name">Cửa hàng của tôi</h3>
+                    <c:if test="${shop.getShopId()!=user.userId}">
+                        <img class="shop-img" src="./image/login-img.jpg" alt="">
+                        <h3>Quản lí cửa hàng</h3>
+                    </c:if>
+                    <c:if test="${shop.getShopId()==user.userId}">
+                        <img class="shop-img" src="./image/login-img.jpg" alt="">
+                        <h3 class="shop-name">Cửa hàng của tôi</h3>
+                    </c:if>    
+
+
 
                 </div>
                 <div class="shop__infor2">
@@ -199,15 +207,32 @@
                     <h4 class="product__header"><i class="product__header-icon fa-solid fa-list"></i>Shop của tôi
                     </h4>
                     <ul class="product__list nav flex-column">
-                        <li class="product__list-item nav-item ">
-                            <a href="ShopManagerProduct?update=getAll&userId=${user.userId}&page=1" class="nav-link product__list-item--link">Tất cả sản phẩm</a> 
-                        </li>
+                        <c:if test="${shop.getShopId()!=user.userId}">
+                            <li class="product__list-item nav-item ">
+                                <a href="ShopManagerProduct?update=getAll&shopid=${shop.getShopId()}&page=1&mess=manager" class="nav-link product__list-item--link">Tất cả sản phẩm</a> 
+                            </li>
+                        </c:if>
+                        <c:if test="${shop.getShopId()==user.userId}">
+                            <li class="product__list-item nav-item ">
+                                <a href="ShopManagerProduct?update=getAll&userId=${user.userId}&page=1" class="nav-link product__list-item--link">Tất cả sản phẩm</a> 
+                            </li>
+                        </c:if> 
+
                         <li class="product__list-item nav-item ">
                             <a href="ShopManagerProduct?update=reveneu&userId=${user.userId}" class="nav-link product__list-item--link">Doanh thu</a> 
                         </li>
-                        <li class="product__list-item nav-item ">
-                            <a href="UpdateInforShop?userId=${user.userId}" class="nav-link product__list-item--link">Cập nhật thông tin</a> 
-                        </li>
+
+                        <c:if test="${shop.getShopId()!=user.userId}">
+                            <li class="product__list-item nav-item ">
+                                <a href="UpdateInforShop?userId=${shop.getShopId()}" class="nav-link product__list-item--link">Cập nhật thông tin</a> 
+                            </li>
+                        </c:if>
+                        <c:if test="${shop.getShopId()==user.userId}">
+                            <li class="product__list-item nav-item ">
+                                <a href="UpdateInforShop?userId=${user.userId}" class="nav-link product__list-item--link">Cập nhật thông tin</a> 
+                            </li>
+                        </c:if> 
+
 
                     </ul>
 
@@ -242,40 +267,51 @@
                                 <div class="col-sm-1 product__quantity"><c:out value="${pro.getProductQuantity()}"/></div>
                                 <div class="col-sm-1 product__total"><c:out value="${pro.getProductQuantitySold()}"/></div>
                                 <div class="col-sm-2 product__delete"> 
-                                    <span><a onclick="if (!confirm('Are you sure?')) {
+                                    <c:if test="${shop.getShopId()!=user.userId}">
+                                        <span><a onclick="if (!confirm('Are you sure?')) {
+                                                    return false;
+                                                }" href="ShopManagerProduct?productIddelete=${pro.getProductId()}&userId=${shop.getShopId()}&page=1" class="nav-link">Xóa</a>
+                                        </span><span><a href="ShopManagerProduct?productIdupdate=${pro.getProductId()}&userId=${shop.getShopId()}&update=update" class="nav-link">Sửa</a></span>
+                                    </c:if>
+                                    <c:if test="${shop.getShopId()==user.userId}">
+                                        <span><a onclick="if (!confirm('Are you sure?')) {
                                                     return false;
                                                 }" href="ShopManagerProduct?productIddelete=${pro.getProductId()}&userId=${sessionScope.user.userId}&page=1" class="nav-link">Xóa</a>
-                                    </span><span><a href="ShopManagerProduct?productIdupdate=${pro.getProductId()}&userId=${sessionScope.user.userId}&update=update" class="nav-link">Sửa</a></span></div>
+                                        </span><span><a href="ShopManagerProduct?productIdupdate=${pro.getProductId()}&userId=${sessionScope.user.userId}&update=update" class="nav-link">Sửa</a></span>
+                                    </c:if>
+
+
+
+                                </div>
                             </div>
-                            
+
                         </c:forEach>
-                        <h2> <a type="button" class="btn btn-secondary" href="ShopManagerProduct?update=insert&userId=${user.userId}">Thêm sản phẩm</a>  </h2> 
+                        <c:if test="${shop.getShopId()!=user.userId}">
+                            <h2> <a type="button" class="btn btn-secondary" href="ShopManagerProduct?update=insert&userId=${shop.getShopId()}">Thêm sản phẩm</a>  </h2> 
+                        </c:if>
+                        <c:if test="${shop.getShopId()==user.userId}">
+                            <h2> <a type="button" class="btn btn-secondary" href="ShopManagerProduct?update=insert&userId=${user.userId}">Thêm sản phẩm</a>  </h2> 
+                        </c:if> 
+
                     </div>
-                    <ul class="pagination">
-                        <c:forEach begin="1" end="${end}" var="i">
-                            <c:if test="${i==page}">
-                                <li class="pagination-item pagination-item--active">
-                                    <a href="ShopManagerProduct?update=getAll&userId=${user.userId}&page=${i}" class="pagination-item__link">${i}</a>
-                                </li>
-                            </c:if>
-                            <c:if test="${i!=page}">
-                                <li class="pagination-item">
-                                    <a href="ShopManagerProduct?update=getAll&userId=${user.userId}&page=${i}" class="pagination-item__link">${i}</a>
-                                </li>
-                            </c:if>    
-                        </c:forEach>
-                    </ul>
+
 
 
                 </div>
             </c:if>
-            
+
             <!--sửa sản phẩm-->
             <c:if test="${update=='update'}">
                 <div class="col-sm-9">
 
                     <form action="ShopManagerProduct" method="post">
-                        <input type="hidden" value="${sessionScope.user.userId}" name="input-shopId"/>
+                        <c:if test="${shop.getShopId()!=user.userId}">
+                            <input type="hidden" value="${shop.getShopId()}" name="input-shopId"/>
+                        </c:if>
+                        <c:if test="${shop.getShopId()==user.userId}">
+                            <input type="hidden" value="${sessionScope.user.userId}" name="input-shopId"/>
+                        </c:if> 
+
                         <input type="hidden" value="setting" name="update"/>
                         <input name="input-id" type="hidden" value="${product.getProductId()}">
                         <span>
@@ -335,7 +371,13 @@
                     </c:if>
                     <form action="ShopManagerProduct" method="post">
                         <input type="hidden" value="insert-new" name="update"/>
-                        <input type="hidden" value="${user.userId}" name="input-shopId">
+                        <c:if test="${shop.getShopId()!=user.userId}">
+                            <input type="hidden" name="mess"/>
+                            <input type="hidden" value="${shop.getShopId()}" name="input-shopId"/>
+                        </c:if>
+                        <c:if test="${shop.getShopId()==user.userId}">
+                            <input type="hidden" value="${sessionScope.user.userId}" name="input-shopId"/>
+                        </c:if>
                         <span>
                             <h4 class="input-name">Tên sản phẩm</h4>
                             <input name="input-name" placeholder="${product.getProductName()}" type="text">
@@ -382,14 +424,21 @@
                     </form>
                 </div>
             </c:if>
-            
+
             <!--sửa thông tin shop-->
             <c:if test="${update=='updateshop'}">
                 <div class="col-sm-9">
 
                     <form action="UpdateInforShop" method="post">
-                        <input type="hidden" value="${sessionScope.user.userId}" name="input-shopId"/>
-                        
+
+                        <c:if test="${shop.getShopId()!=user.userId}">
+                            <input type="hidden" value="${shop.getShopId()}" name="input-shopId"/>
+                        </c:if>
+                        <c:if test="${shop.getShopId()==user.userId}">
+                            <input type="hidden" value="${sessionScope.user.userId}" name="input-shopId"/>
+                        </c:if> 
+
+
                         <span>
                             <h4 class="input-name">ID</h4>
                             <input disabled="true" type="text" value="${shop.getShopId()}">
@@ -415,7 +464,7 @@
 
                 </div>
             </c:if>
-            
+
         </div>
 
 

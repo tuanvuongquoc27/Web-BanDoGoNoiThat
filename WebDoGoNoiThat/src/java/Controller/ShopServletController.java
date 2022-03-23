@@ -20,6 +20,7 @@ import model.Category;
 import model.Order;
 import model.Product;
 import model.Shop;
+import model.User;
 
 /**
  *
@@ -45,10 +46,15 @@ public class ShopServletController extends HttpServlet {
             OrderDAO od = new OrderDAO();
             ProductDAO prd = new ProductDAO();
             CategoryDAO ctd = new CategoryDAO();
-            
+            User user = (User) request.getSession().getAttribute("user");
             
             String idstring = request.getParameter("shopId");
-            String userIdstring = request.getParameter("userId");
+            String userIdstring;
+            if(request.getParameter("mess")!=null){
+                userIdstring = request.getParameter("shopid");
+            }else{
+                userIdstring = request.getParameter("userId");
+            }
             if (idstring != null) {
                 int shopId = Integer.parseInt(idstring);
                 ArrayList<Product> productlist = prd.getProductbyShopId(shopId);
@@ -69,23 +75,9 @@ public class ShopServletController extends HttpServlet {
                 request.setAttribute("orderlistall", orderall);
                 request.setAttribute("update", "getAll");
                 
-                int end = prd.countProductShop(userId);
-                end = ((int) end / 10) + 1;
-                String start = request.getParameter("page");
-                int begin;
-                int last;
-                if (start == null) {
-                    begin = 1;
-                    last = 10;
-                } else {
-                    begin = Integer.parseInt(start);
-                    last = begin * 10;
-                    begin = last - 9;
-                }
-                ArrayList<Product> list = prd.getAllCategory(begin, last, userIdstring);
+                ArrayList<Product> list = prd.getProductbyShopId(userId);
+                
                 request.setAttribute("productlist", list);
-                request.setAttribute("end", end);
-                request.setAttribute("page", Integer.parseInt(start));
                 request.getRequestDispatcher("myShop.jsp").forward(request, response);
             }   
             

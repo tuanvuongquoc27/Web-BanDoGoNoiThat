@@ -78,9 +78,9 @@ public class HomeServletController extends HttpServlet {
                 last = begin * 12;
                 begin = last - 11;
             }
-                ArrayList<Product> list = prd.getAll(begin, last);
+                ArrayList<Product> list = prd.getAllProductQuanity(begin, last);
                 request.setAttribute("end", end);
-                request.setAttribute("paging", "home");
+                request.setAttribute("pageing", "home");
                 request.setAttribute("page", Integer.parseInt(start) );
                 request.setAttribute("customerlist", customerlist);
                 request.setAttribute("requestlist", requestlist);

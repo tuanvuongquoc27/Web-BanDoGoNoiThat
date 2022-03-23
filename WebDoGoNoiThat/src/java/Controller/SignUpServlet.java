@@ -67,7 +67,13 @@ public class SignUpServlet extends HttpServlet {
                 User newuser = ud.getUserByNameAndPass(username, password);
                 ctd.insertCustomer(newuser.getUserId(), username, null, null, email, null, getDateNow(), null, null,1);
                 request.setAttribute("success", "Tạo tài khoản thành công");
-                request.getRequestDispatcher("Login.jsp").forward(request, response);
+                if(request.getParameter("input-admin")!=null){
+                    request.getRequestDispatcher("ManagerStoreServlet?infor=all&page=1").forward(request, response);
+                    
+                }else{
+                    request.getRequestDispatcher("Login.jsp").forward(request, response);
+                }
+                
             }
 
             //thêm mới user với isCustomer = 1

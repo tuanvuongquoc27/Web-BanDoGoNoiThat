@@ -18,7 +18,18 @@ public class Bill {
     private int billTotal;
     private Date billDate;
     private Date billDateShip;
+    private boolean ship;
 
+    public Bill(int billId, int customerId, int billPay, int billTotal, Date billDate, Date billDateShip, boolean ship) {
+        this.billId = billId;
+        this.customerId = customerId;
+        this.billPay = billPay;
+        this.billTotal = billTotal;
+        this.billDate = billDate;
+        this.billDateShip = billDateShip;
+        this.ship = ship;
+    }
+    
     public Bill() {
     }
 
@@ -30,6 +41,15 @@ public class Bill {
         this.billDate = billDate;
         this.billDateShip = billDateShip;
     }
+
+    public boolean isShip() {
+        return ship;
+    }
+
+    public void setShip(boolean ship) {
+        this.ship = ship;
+    }
+    
 
     public int getBillId() {
         return billId;

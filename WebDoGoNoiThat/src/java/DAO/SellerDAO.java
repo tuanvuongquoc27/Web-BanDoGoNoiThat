@@ -161,7 +161,7 @@ public class SellerDAO {
                     + "sellerPhone='"  + sellerPhone + "',"
                     + "sellerGender="  + convertGender(sellerGender) +","
                     + "sellerDOB='"    + sellerDOB +"', "
-                    + "isActice = "+active+" where sellerId=" + sellerId);
+                    + "isActive = "+active+" where sellerId=" + sellerId);
             state.executeUpdate();
         } catch (Exception ex) {
             Logger.getLogger(SellerDAO.class.getName()).log(Level.SEVERE, null, ex);
